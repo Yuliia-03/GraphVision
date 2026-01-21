@@ -1,0 +1,36 @@
+
+.card {
+  border: 1px solid rgb(62, 66, 140);
+  padding: 2rem;
+  margin: 0rem auto;
+  border-radius: 0.75rem;
+
+  width: 100%;
+
+  max-width: 320px;
+  min-height: 240px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 3rem;
+  background-color: rgb(132, 104, 164);
+  border-radius: 0.5rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+
+.algo {
+  margin-top: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.description {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+}
