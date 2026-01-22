@@ -1,4 +1,5 @@
 import CytoscapeComponent from "react-cytoscapejs";
+import SandboxToolbar from './SandboxToolbar'
 import { useRef, useEffect, useState } from "react";
 
 export default function GraphSandbox({ elements, setElements }) {
@@ -9,64 +10,58 @@ export default function GraphSandbox({ elements, setElements }) {
     const nodeCount = useRef(0);
     const selectedNode = useRef(null);
 
+    const [showLoad, setShowLoad] = useState(false);
+
+    const clearSelection = () => {
+        if (selectedNode.current) {
+            cyRef.current.getElementById(selectedNode.current).style("backgroundColor", "#4a90e2");
+            selectedNode.current = null;
+        }
+    };
+
+    useEffect(() => {
+        if (!cyRef.current) return;
+        clearSelection();
+    }, [mode]);
+
     useEffect(() => {
         if (!cyRef.current) return;
         const cy = cyRef.current;
 
         const onCanvasTap = (event) => {
+            if (event.target !== cy) return;
+            
+            clearSelection();
             if (mode !== "add") return;
-            if (event.target === cy) {
             const id = `N${nodeCount.current++}`;
             setElements((els) => [
                 ...els,
                 { data: { id, label: id }, position: event.position }
             ]);
-            }
         };
 
         const onNodeTap = (event) => {
+            
             const nodeId = event.target.id();
-
-            if (mode === "delete") {
-                setElements((els) =>
-                    els.filter(
-                    (el) =>
-                        el.data?.id !== nodeId &&
-                        el.data?.source !== nodeId &&
-                        el.data?.target !== nodeId
-                    )
-                );
+            
+            if (event.originalEvent?.detail === 2) {
+                onNodeRename(event, nodeId);
+                clearSelection();
                 return;
             }
 
-            if (mode === "add") {
-                if (!selectedNode.current) {
-                    selectedNode.current = nodeId;
-                    event.target.style("backgroundColor", "orange");
-                } else {
-                    const source = selectedNode.current;
-                    const target = nodeId;
-
-                    if (source !== target) {
-                        setElements((els) => [
-                            ...els,
-                            {
-                                data: {
-                                    id: `${source}-${target}`,
-                                    source,
-                                    target
-                                }
-                            }
-                        ]);
-                    }
-
-                    cy.getElementById(source).style("backgroundColor", "#4a90e2");
-                    selectedNode.current = null;
-                }
+            if (mode === "delete") {
+                onNodeDelete(nodeId);
             }
+
+            if (mode === "add") {
+                onNodeCreateEdge(event, nodeId);
+            }
+
         };
 
         const onEdgeTap = (event) => {
+            clearSelection();
             if (mode !== "delete") return;
 
             const edgeId = event.target.id();
@@ -75,40 +70,78 @@ export default function GraphSandbox({ elements, setElements }) {
             );
         };
 
-        const onNodeRename = (event) => {
+        const onNodeRename = (event, nodeId) => {
+            
             if (mode !== "add") return;
 
-            const node = event.target;
-            const newLabel = prompt("Rename node:", node.data("label"));
+                const newLabel = prompt(
+                    "Rename node:",
+                    event.target.data("label")
+                );
 
-            if (!newLabel || !newLabel.trim()) return;
+                if (!newLabel || !newLabel.trim()) return;
+
+                setElements((els) =>
+                    els.map((el) =>
+                        el.data?.id === nodeId
+                        ? { ...el, data: { ...el.data, label: newLabel } }
+                        : el
+                    )
+                );
+                return;
+        };
+
+        const onNodeDelete = (nodeId) => {
 
             setElements((els) =>
-                els.map((el) =>
-                    el.data?.id === node.id()
-                    ? { ...el, data: { ...el.data, label: newLabel } }
-                    : el
+                els.filter(
+                    (el) =>
+                        el.data?.id !== nodeId &&
+                        el.data?.source !== nodeId &&
+                        el.data?.target !== nodeId
                 )
             );
+            return;
         };
+
+        const onNodeCreateEdge = (event, nodeId) => {
+            if (!selectedNode.current) {
+                selectedNode.current = nodeId;
+                event.target.style("backgroundColor", "orange");
+            } else {
+                const source = selectedNode.current;
+                const target = nodeId;
+
+                if (source !== target) {
+                    setElements((els) => [
+                        ...els,
+                        {
+                            data: { id: `${source}-${target}`, source, target }
+                        }
+                    ]);
+                }
+            
+
+                cyRef.current.getElementById(source).style("backgroundColor", "#4a90e2");
+
+                selectedNode.current = null;
+
+            }
+        };
+
 
         cy.on("tap", onCanvasTap);
         cy.on("tap", "node", onNodeTap);
         cy.on("tap", "edge", onEdgeTap);
-        cy.on("dbltap", "node", onNodeRename);
 
         return () => cy.removeAllListeners();
     }, [mode, setElements]);
 
+
     return (
         <div style={{ height: "100%" }}>
 
-            <div style={{ marginBottom: 8 }}>
-                <button onClick={() => setMode("add")}>Add</button>
-                <button onClick={() => setMode("delete")}>Delete</button>
-                <button onClick={() => setMode("none")}>Select</button>
-                <span style={{ marginLeft: 10 }}>Mode: {mode}</span>
-            </div>
+            <SandboxToolbar setMode = {setMode} onClear={() => setElements([])} onLoad={() => setShowLoad(true)}/>
     
             <CytoscapeComponent
                 cy={(cy) => (cyRef.current = cy)}
@@ -135,6 +168,10 @@ export default function GraphSandbox({ elements, setElements }) {
                     }
                 ]}
             />
+
+            {/* {showLoad && (
+                <LoadGraphModal onClose={() => setShowLoad(false)} onLoad={(els) => {setElements(els);setShowLoad(false);}}/>
+            )} */}
         </div>
     );
 }
