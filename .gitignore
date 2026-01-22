@@ -305,6 +305,8 @@ logs
 **/*.back.*
 
 node_modules
+package-lock.json
+package.json
 bower_components
 
 *.sublime*

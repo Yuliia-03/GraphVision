@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import GraphCanvas from "../components/GraphCanvas";
+import GraphCanvas from "../components/graph/GraphCanvas";
 import { fetchGraph } from "../services/api";
 import AlgoCard from '../components/AlgoCard'
 import '../styles/Home.css'
