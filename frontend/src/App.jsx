@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import BFSPage from "./pages/BFSPage";
 import DFSPage from "./pages/DFSPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 import GraphSandbox from './components/graph/Sandbox';
 const elements = [
   { data: { id: "A" }, position: { x: 100, y: 100 } },

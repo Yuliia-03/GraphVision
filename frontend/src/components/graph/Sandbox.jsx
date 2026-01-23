@@ -1,5 +1,6 @@
 import CytoscapeComponent from "react-cytoscapejs";
 import SandboxToolbar from './SandboxToolbar'
+import LoadGraphMenue from './load_graph/LoadGraphMenue'
 import { useRef, useEffect, useState } from "react";
 
 export default function GraphSandbox({ elements, setElements }) {
@@ -169,9 +170,9 @@ export default function GraphSandbox({ elements, setElements }) {
                 ]}
             />
 
-            {/* {showLoad && (
-                <LoadGraphModal onClose={() => setShowLoad(false)} onLoad={(els) => {setElements(els);setShowLoad(false);}}/>
-            )} */}
+            {showLoad && (
+                <LoadGraphMenue onClose={() => setShowLoad(false)} onLoad={(els) => {setElements(els);setShowLoad(false);}}/>
+            )}
         </div>
     );
 }
