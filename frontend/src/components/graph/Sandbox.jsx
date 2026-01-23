@@ -6,6 +6,8 @@ import { useRef, useEffect, useState } from "react";
 export default function GraphSandbox({ elements, setElements }) {
   
     const [mode, setMode] = useState("add"); 
+    const [directed, setDirected] = useState(false);
+
 
     const cyRef = useRef(null);
     const nodeCount = useRef(0);
@@ -113,15 +115,29 @@ export default function GraphSandbox({ elements, setElements }) {
                 const source = selectedNode.current;
                 const target = nodeId;
 
-                if (source !== target) {
-                    setElements((els) => [
-                        ...els,
-                        {
-                            data: { id: `${source}-${target}`, source, target }
-                        }
-                    ]);
-                }
-            
+                const newEdge = { data: { id: `${source}-${target}`, source, target }};
+
+                // if (!directed) {
+                //     const reverseEdge = {
+                //         data: { id: `${target}-${source}`, source: target, target: source }
+                //     };
+                //     setElements((els) => [...els, newEdge, reverseEdge]);
+                // } else {
+                    //setElements((els) => [...els, newEdge]);
+                // }
+
+                setElements((els) => {
+        
+                    const exists = els.some(
+                        (el) =>
+                            el.data?.source === source && el.data?.target === target ||
+                            (!directed && el.data?.source === target && el.data?.target === source)
+                    );
+
+                    if (exists) return els;
+
+                    return [...els, newEdge];
+                });
 
                 cyRef.current.getElementById(source).style("backgroundColor", "#4a90e2");
 
@@ -142,7 +158,7 @@ export default function GraphSandbox({ elements, setElements }) {
     return (
         <div style={{ height: "100%" }}>
 
-            <SandboxToolbar setMode = {setMode} onClear={() => setElements([])} onLoad={() => setShowLoad(true)}/>
+            <SandboxToolbar setMode = {setMode} onClear={() => setElements([])} onLoad={() => setShowLoad(true)} setDirected={setDirected} directed={directed}/>
     
             <CytoscapeComponent
                 cy={(cy) => (cyRef.current = cy)}
@@ -155,15 +171,19 @@ export default function GraphSandbox({ elements, setElements }) {
                         style: {
                             label: "data(label)",
                             backgroundColor: "#4a90e2",
-                            width: 40,
-                            height: 40
+                            width: 60,
+                            height: 60,
+                            fontSize: 16,
+                            textValign: "center",
+                            textHalign: "center",
+                            textWrap: "wrap",     
                         }
                     },
                     {
                         selector: "edge",
                         style: {
                             width: 2,
-                            targetArrowShape: "triangle",
+                            targetArrowShape: directed ? "triangle" : "none",
                             curveStyle: "bezier"
                         }
                     }
@@ -171,7 +191,8 @@ export default function GraphSandbox({ elements, setElements }) {
             />
 
             {showLoad && (
-                <LoadGraphMenue onClose={() => setShowLoad(false)} onLoad={(els) => {setElements(els);setShowLoad(false);}}/>
+                <LoadGraphMenue onClose={() => setShowLoad(false)} onLoad={(els) => {setElements(els);setShowLoad(false);} } setDirected={setDirected}
+        directed={directed}/>
             )}
         </div>
     );

@@ -2,7 +2,7 @@ import { useState } from "react";
 import '../../../styles/LoadGraphMenue.css'
 import LoadMatrix from './LoadMatrix'
 
-export default function LoadGraph ({onClose, onLoad}) {
+export default function LoadGraph ({onClose, onLoad, setDirected, directed}) {
 
     const [mode, setMode] = useState("");
     const [text, setText] = useState("");
