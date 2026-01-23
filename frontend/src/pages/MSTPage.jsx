@@ -8,7 +8,7 @@ import GraphSandbox from "../components/graph/Sandbox";
 import BFSControls from '../components/controls/BFSControls';
 
 
-export default function BFSPage() {
+export default function MSTPage() {
     const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState([]);
 

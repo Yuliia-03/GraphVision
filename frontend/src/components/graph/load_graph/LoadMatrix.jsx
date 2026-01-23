@@ -1,7 +1,7 @@
 import { useState } from "react";
 import '../../../styles/LoadMatrix.css'
 
-export default function LoadMatrix({onLoad}) {
+export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
 
     const [size, setSize] = useState(3);
     const [directed, setDirected] = useState(false);
@@ -19,29 +19,31 @@ export default function LoadMatrix({onLoad}) {
     };
 
     const loadGraph = () => {
-        const elements = [];
+        const nodes = [];
 
         for (let i = 0; i < size; i++) {
-        elements.push({
-            data: { id: `N${i}`, label: `N${i}` },
+        nodes.push({
+            data: { id: i, label: i },
             position: { x: 100 + i * 60, y: 200 }
-        });
+            });
         }
+        onLoadNodes(nodes);
 
+        const edges = [];
         for (let i = 0; i < size; i++) {
             for (let j = 0; j < size; j++) {
                 if (matrix[i][j] === 1) {
-                    const exists = elements.some(
+                    const exists = edges.some(
                         (el) =>
-                        el.data?.source === `N${i}` && el.data?.target === `N${j}` ||
-                        (!directed && el.data?.source === `N${j}` && el.data?.target === `N${i}`)
+                        el.data?.source === i && el.data?.target === j ||
+                        (!directed && el.data?.source === j && el.data?.target === i)
                     );
                     if (!exists) {
-                        elements.push({
+                        edges.push({
                             data: {
                             id: `${i}-${j}`,
-                            source: `N${i}`,
-                            target: `N${j}`
+                            source: i,
+                            target: j
                             }
                         });
                     }
@@ -49,7 +51,8 @@ export default function LoadMatrix({onLoad}) {
             }
         }
 
-        onLoad(elements);
+        onLoadEdges(edges);
+        onClose();
     };
 
     

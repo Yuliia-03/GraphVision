@@ -1,3 +1,6 @@
+
+import { useRef, useEffect, useState } from "react";
+
 export default function SandboxToolbar({setMode, onClear, onLoad, setDirected, directed }) {
   return (
     <div style={{ padding: 8, borderBottom: "1px solid #ccc" }}>

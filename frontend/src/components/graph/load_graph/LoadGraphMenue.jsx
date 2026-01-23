@@ -2,10 +2,9 @@ import { useState } from "react";
 import '../../../styles/LoadGraphMenue.css'
 import LoadMatrix from './LoadMatrix'
 
-export default function LoadGraph ({onClose, onLoad, setDirected, directed}) {
+export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges, setDirected, directed}) {
 
     const [mode, setMode] = useState("");
-    const [text, setText] = useState("");
 
 
     return(
@@ -32,7 +31,9 @@ export default function LoadGraph ({onClose, onLoad, setDirected, directed}) {
                         </button>
 
                         <LoadMatrix
-                            onLoad={onLoad}
+                            onLoadEdges={onLoadEdges}
+                            onLoadNodes={onLoadNodes}
+                            onClose={onClose}
                         />
                     </div>
                 )}
