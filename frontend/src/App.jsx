@@ -5,6 +5,7 @@ import BFSPage from "./pages/BFSPage";
 import DFSPage from "./pages/DFSPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Toolbar from "./components/layout/Toolbar";
 
 import GraphSandbox from './components/graph/Sandbox';
 const elements = [
@@ -15,6 +16,7 @@ const elements = [
 function App() {
   return (
     <Router>
+      <Toolbar />
       <Routes>
         { <Route path="/" element={<Home />} />  }
         { <Route path="/bfs" element={<BFSPage />} />
