@@ -21,7 +21,7 @@ from api.views import SignUpView, LogInView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/signup/', SignUpView.as_view()),
-    path('api/login/', LogInView.as_view()),
+    path('signup/', SignUpView.as_view()),
+    path('login/', LogInView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
