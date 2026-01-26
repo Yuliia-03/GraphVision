@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import '../styles/BFSpage.css'
 
 import GraphSandbox from "../components/graph/Sandbox";
-import MSTControls from '../components/controls/MSTControls';
+import SCC_Controls from '../components/controls/SCC_Controls';
 
 
-export default function MSTPage() {
+export default function SCCPage() {
     const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState([]);
 
@@ -26,7 +26,7 @@ export default function MSTPage() {
                 </div>
 
                 <div className="col-md-6 border p-3">
-                    <MSTControls
+                    <SCC_Controls
                         nodes={nodes}
                         task={task}
                         setTask={setTask}

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import GraphCanvas from "../components/graph/GraphCanvas";
+
 import AlgoCard from '../components/AlgoCard'
 import '../styles/Home.css'
 import Toolbar from "../components/layout/Toolbar";
@@ -46,14 +45,14 @@ return (
                     description="A topological sort is a linear ordering of the nodes of a directed graph, 
                     such that for every directed edge from node a to node b, a appears before b in the ordering."
                     headerColor="#1dc400ff" 
-                    link="/dfs"/>
+                    link="/top"/>
                 </div>
                 <div className="col d-flex justify-content-center">
                 <AlgoCard 
                     algoName="DAG Checking" 
                     description="A directed acyclic graph (DAG) is a directed graph that contains no directed cycles."
                     headerColor="#ffba0cff" 
-                    link="/bfs"/>
+                    link="/dag"/>
                 </div>
                 <div className="col d-flex justify-content-center">
                     <AlgoCard 
@@ -61,7 +60,7 @@ return (
                         description="A strongly connected component (SCC) of a directed graph is a maximal set of nodes in which
                         every node is reachable from any other node in the same set."
                         headerColor="#2891faff" 
-                        link="/mst"/>
+                        link="/scc"/>
                 </div>
 
             </div>

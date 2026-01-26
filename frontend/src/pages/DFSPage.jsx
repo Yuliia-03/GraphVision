@@ -1,25 +1,45 @@
 import React, { useEffect, useState } from "react";
-import GraphCanvas from "../components/graph/GraphCanvas";
-import '../styles/Home.css'
+import '../styles/BFSpage.css'
 
-import AlgorithmLayout from "../components/layout/AlgorithmLayout";
 import GraphSandbox from "../components/graph/Sandbox";
-import BFSControls from '../components/controls/BFSControls';
+import DFSControls from '../components/controls/DFSControls';
 
 
 export default function DFSPage() {
     const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState([]);
 
+    const [task, setTask] = useState("");
+    const [startNode, setStartNode] = useState("");
+    const [targetNode, setTargetNode] = useState("");
+
     return (
-        <div style={{ width: "40vw", height: "50vh", border: "1px solid #ccc"}}>
-            <GraphSandbox
-                nodes={nodes}
-                setNodes={setNodes}
-                edges={edges}
-                setEdges={setEdges}
-            />
+        <div className="container-fluid mt-3">
+            <div className="row bfs-layout">
+                <div className="col-md-5 border graph-col">
+                    <GraphSandbox
+                        nodes={nodes}
+                        setNodes={setNodes}
+                        edges={edges}
+                        setEdges={setEdges}
+                    />
+                </div>
+
+                <div className="col-md-6 border p-3">
+                    <DFSControls
+                        nodes={nodes}
+                        task={task}
+                        setTask={setTask}
+                        startNode={startNode}
+                        setStartNode={setStartNode}
+                        targetNode={targetNode}
+                        setTargetNode={setTargetNode}
+                    />
+                </div>
+            </div>
         </div>
     );
+
+
 }
 
