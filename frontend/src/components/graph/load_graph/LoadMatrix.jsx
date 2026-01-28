@@ -5,6 +5,7 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
 
     const [size, setSize] = useState(3);
     const [directed, setDirected] = useState(false);
+    const [weighted, setWeighted] = useState(false);
     const [matrix, setMatrix] = useState(Array.from({ length: 3 }, () => Array(3).fill(0)));
     const [labels, setLabels] = useState(Array.from({ length: size }, (_, i) => i));
 
@@ -23,7 +24,7 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
 
         for (let i = 0; i < size; i++) {
         nodes.push({
-            data: { id: i, label: i },
+            data: { id: i, label: labels[i] },
             position: { x: 100 + i * 60, y: 200 }
             });
         }
@@ -35,14 +36,14 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
                 if (matrix[i][j] === 1) {
                     const exists = edges.some(
                         (el) =>
-                        el.data?.source === i && el.data?.target === j ||
-                        (!directed && el.data?.source === j && el.data?.target === i)
+                        el.data?.source === labels[i] && el.data?.target === labels[j] ||
+                        (!directed && el.data?.source === labels[j] && el.data?.target === labels[i])
                     );
                     if (!exists) {
                         edges.push({
                             data: {
                             id: `${i}-${j}`,
-                            source: i,
+                            source: labels[i],
                             target: j
                             }
                         });
@@ -67,7 +68,7 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
                         const n = Number(e.target.value);
                         setSize(n);
                         setMatrix(Array.from({ length: n }, () => Array(n).fill(0)));
-                        setLabels(Array.from({ length: n }, (_, i) => `N${i}`));
+                        setLabels(Array.from({ length: n }, (_, i) => i));
                     }}
                 />
             </label>
@@ -79,6 +80,15 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
                 onChange={(e) => setDirected(e.target.checked)}
                 />
                 Directed
+            </label>
+
+            <label>
+                <input
+                type="checkbox"
+                checked={weighted}
+                onChange={(e) => setWeighted(e.target.checked)}
+                />
+                Weighted
             </label>
             <table border="1">
                 <thead>

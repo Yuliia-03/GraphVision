@@ -1,6 +1,7 @@
 import { useState } from "react";
 import '../../../styles/LoadGraphMenue.css'
 import LoadMatrix from './LoadMatrix'
+import LoadAdjacencyList from "./LoadAdjacencyList";
 
 export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges, setDirected, directed}) {
 
@@ -18,7 +19,7 @@ export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges, setDirect
                         <h3>Load Graph</h3>
                         <button disabled onClick={() => setMode("samples")}>Samples</button>
                         <button onClick={() => setMode("matrix")}>Adjacency Matrix</button>
-                        <button disabled onClick={() => setMode("list")}>Adjacency List</button>
+                        <button onClick={() => setMode("list")}>Adjacency List</button>
                         <button disabled onClick={() => setMode("edges")}>Edge List</button>
                         <button disabled>From Account</button>
                     </div>
@@ -31,6 +32,20 @@ export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges, setDirect
                         </button>
 
                         <LoadMatrix
+                            onLoadEdges={onLoadEdges}
+                            onLoadNodes={onLoadNodes}
+                            onClose={onClose}
+                        />
+                    </div>
+                )}
+
+                {mode === "list" && (
+                    <div>
+                        <button type="button" className="btn btn-link p-0 back-button" onClick={() => setMode(null)} aria-label="Back">
+                            <i className="bi bi-arrow-left"></i>
+                        </button>
+
+                        <LoadAdjacencyList
                             onLoadEdges={onLoadEdges}
                             onLoadNodes={onLoadNodes}
                             onClose={onClose}
