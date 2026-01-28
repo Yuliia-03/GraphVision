@@ -118,7 +118,7 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
                             value={labels[i]}
                             onChange={(e) => {
                             const copy = [...labels];
-                            copy[i] = e.target.value;
+                            copy[i] = Number(e.target.value);
                             setLabels(copy);
                             }}
                             style={{ width: 40 }}

@@ -28,6 +28,19 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges })
     }, [mode]);
 
     useEffect(() => {
+        if (nodes.length === 0) {
+            nodeCount.current = 0;
+            return;
+        }
+
+        const maxId = Math.max(
+            ...nodes.map(n => Number(n.data.id))
+        );
+
+        nodeCount.current = maxId + 1;
+    }, [nodes]);
+
+    useEffect(() => {
 
         if (directed) return;
 

@@ -21,16 +21,22 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
 
         const newNeighbors = vals
             .map((v) => labels.indexOf(Number(v)))
-            .filter((x) => x !== -1);
+            .filter((x) => labels.includes(x));
+        
 
-        if (newNeighbors.length === 0 && vals.length > 0) {
-            return; 
-        }
+        // if (newNeighbors.length === 0 && vals.length > 0) {
+        //     return; 
+        // }
+
+        // const cleanedValue = newNeighbors.join(",");
+
 
         const copy = adjList.map((row) => [...row]);
         copy[i] = newNeighbors;
 
         setAdjList(copy);
+
+        return newNeighbors.join(",");
     
     };
 
@@ -53,8 +59,8 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
    
                     const exists = edges.some(
                         (edge) =>
-                        edge.data?.source === labels[i] && edge.data?.target === el ||
-                        (!directed && edge.data?.source === el && edge.data?.target === labels[i])
+                        edge.data?.source === i && edge.data?.target === el ||
+                        (!directed && edge.data?.source === el && edge.data?.target === i)
                     );
                     if (!exists) {
                         edges.push({
@@ -103,6 +109,7 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
                 <thead>
                     <tr>
                     <th>Node</th>
+                    <th></th>
                     <th>Neighbors (comma-separated)</th>
                     </tr>
                 </thead>
@@ -121,6 +128,8 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
                             style={{ width: 40 }}
                         />
                         </td>
+
+                        <td><p>{"->"}</p></td>
 
                         <td>
 
