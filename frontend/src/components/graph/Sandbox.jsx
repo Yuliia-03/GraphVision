@@ -1,13 +1,14 @@
 import CytoscapeComponent from "react-cytoscapejs";
 import SandboxToolbar from './SandboxToolbar'
-import LoadGraphMenue from './load_graph/LoadGraphMenue'
+import LoadGraph from './load_graph/LoadGraphMenue'
 import { useRef, useEffect, useState } from "react";
 
-export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges }) {
+export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges, isWeighted = false }) {
 
   
     const [mode, setMode] = useState("add"); 
     const [directed, setDirected] = useState(false);
+    const [weighted, setWeighted] = useState(isWeighted)
 
     const cyRef = useRef(null);
     const nodeCount = useRef(0);
@@ -114,12 +115,27 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges })
 
         const onEdgeTap = (event) => {
             clearSelection();
-            if (mode !== "delete") return;
 
-            const edgeId = event.target.id();
-            setEdges((els) =>
-                els.filter((el) => el.data?.id !== edgeId)
-            );
+            if (mode === "delete") {
+                const edgeId = event.target.id();
+                setEdges((els) =>
+                    els.filter((el) => el.data?.id !== edgeId)
+                );
+            }
+            else if (mode === "add" && weighted) {
+
+                const edgeId = event.target.id();
+                const newWeight = prompt("Enter edge weight:", "1");
+                if (!newWeight) return;
+                setEdges((els) =>
+                    els.map((el)=>
+                        el.data.id === edgeId ?
+                        { ...el, data: { ...el.data, weight: Number(newWeight) } }:
+                        el
+                    )
+                );
+            }
+            else return;
         };
 
         const onNodeRename = (event, nodeId) => {
@@ -169,7 +185,7 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges })
                 const source = selectedNode.current;
                 const target = nodeId;
 
-                const newEdge = { data: { id: `${source}-${target}-${Date.now()}`, source, target }};
+                const newEdge = { data: { id: `${source}-${target}-${Date.now()}`, source, target, ...(weighted ? { weight: 1 } : {}) }};
                 setEdges((els) => {
         
                     const exists = els.some(
@@ -201,7 +217,7 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges })
     return (
         <div style={{ height: "100%" }}>
 
-            <SandboxToolbar setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)} setDirected={setDirected} directed={directed}/>
+            <SandboxToolbar setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)} setDirected={setDirected} directed={directed} weighted = {weighted}/>
     
             <CytoscapeComponent
                 cy={(cy) => (cyRef.current = cy)}
@@ -229,13 +245,23 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges })
                             targetArrowShape: directed ? "triangle" : "none",
                             curveStyle: "bezier"
                         }
+                    },
+                    {
+                        selector: "edge[weight]",
+                        style: {
+                            label: "data(weight)",
+                            fontSize: 14,
+                            textBackgroundColor: "#fff",
+                            textBackgroundOpacity: 0.8
+                        }
                     }
                 ]}
             />
 
             {showLoad && (
-                <LoadGraphMenue onClose={() => setShowLoad(false)} onLoadEdges={setEdges} onLoadNodes={setNodes} setDirected={setDirected}
-        directed={directed}/>
+                <LoadGraph onClose={() => setShowLoad(false)} onLoadEdges={setEdges} onLoadNodes={setNodes} 
+                                setDirected={setDirected}
+                                directed={directed}/>
             )}
         </div>
     );

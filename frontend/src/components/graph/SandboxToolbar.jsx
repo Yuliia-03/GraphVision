@@ -1,6 +1,6 @@
 
 
-export default function SandboxToolbar({setMode, onClear, onLoad, setDirected, directed }) {
+export default function SandboxToolbar({setMode, onClear, onLoad, setDirected, directed, weighted }) {
   return (
     <div style={{ padding: 8, borderBottom: "1px solid #ccc" }}>
         <button onClick={() => setMode("add")}>Add</button>
@@ -13,6 +13,11 @@ export default function SandboxToolbar({setMode, onClear, onLoad, setDirected, d
         <input type="checkbox" checked={directed} onChange={(e) => setDirected(e.target.checked)}/>
             Directed
         </label>
+        { weighted && 
+          <label style={{ marginLeft: 10 }}>
+            <input type="checkbox" checked={true} onClick={() => alert("MST is possible only on weighted graphs")} readOnly/>
+            Weighted
+          </label>}
     </div>
   );
 }

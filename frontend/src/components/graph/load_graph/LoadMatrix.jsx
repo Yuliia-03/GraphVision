@@ -1,10 +1,10 @@
 import { useState } from "react";
 import '../../../styles/LoadMatrix.css'
 
-export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
+export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirected, directed}) {
 
     const [size, setSize] = useState(3);
-    const [directed, setDirected] = useState(false);
+    //const [directed, setDirected] = useState(directed);
     const [weighted, setWeighted] = useState(false);
     const [matrix, setMatrix] = useState(Array.from({ length: 3 }, () => Array(3).fill(0)));
     const [labels, setLabels] = useState(Array.from({ length: size }, (_, i) => i));
@@ -44,7 +44,7 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose}) {
                             data: {
                             id: `${i}-${j}`,
                             source: labels[i],
-                            target: j
+                            target: labels[j]
                             }
                         });
                     }

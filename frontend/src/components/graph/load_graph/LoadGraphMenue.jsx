@@ -36,6 +36,8 @@ export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges, setDirect
                             onLoadEdges={onLoadEdges}
                             onLoadNodes={onLoadNodes}
                             onClose={onClose}
+                            setDirected={setDirected}
+                            directed={directed}
                         />
                     </div>
                 )}

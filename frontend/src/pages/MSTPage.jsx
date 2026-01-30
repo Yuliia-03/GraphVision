@@ -22,6 +22,7 @@ export default function MSTPage() {
                         setNodes={setNodes}
                         edges={edges}
                         setEdges={setEdges}
+                        isWeighted={true}
                     />
                 </div>
 
