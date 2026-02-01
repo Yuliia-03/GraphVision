@@ -16,23 +16,23 @@ export default function SCCPage() {
     const [targetNode, setTargetNode] = useState("");
 
     return (
-        <GraphProvider algorithm="SCC">
-            <div className="container-fluid mt-3">
-                <div className="row bfs-layout">
-                    <div className="col-md-5 border graph-col">
-                        
-                         <GraphSandbox />
-                    </div>
+    
+        <div className="container-fluid mt-3">
+            <div className="row bfs-layout">
+                <div className="col-md-5 border graph-col">
+                    <GraphProvider algorithm="SCC">
+                        <GraphSandbox />
+                    </GraphProvider>
+                </div>
 
-                    <div className="col-md-6 border p-3">
-                        <SCC_Controls
-                            task={task}
-                            setTask={setTask}
-                        />
-                    </div>
+                <div className="col-md-6 border p-3">
+                    <SCC_Controls
+                        task={task}
+                        setTask={setTask}
+                    />
                 </div>
             </div>
-        </GraphProvider>
+        </div>
     );
 
 

@@ -14,18 +14,19 @@ export default function TOPPage() {
     const [targetNode, setTargetNode] = useState("");
 
     return (
-        <GraphProvider algorithm="Top_sort">
-            <div className="container-fluid mt-3">
-                <div className="row bfs-layout">
-                    <div className="col-md-5 border graph-col">
+        
+        <div className="container-fluid mt-3">
+            <div className="row bfs-layout">
+                <div className="col-md-5 border graph-col">
+                    <GraphProvider algorithm="Top_sort">
                         <GraphSandbox />
-                    </div>
+                    </GraphProvider>
+                </div>
 
-                    <div className="col-md-6 border p-3">
-                    </div>
+                <div className="col-md-6 border p-3">
                 </div>
             </div>
-        </GraphProvider>
+        </div>
     );
 
 

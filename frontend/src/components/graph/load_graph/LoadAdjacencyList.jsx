@@ -110,7 +110,16 @@ export default function LoadAdjacencyList({onClose}) {
                 <input
                 type="checkbox"
                 checked={directed}
-                onChange={(e) => setDirected(e.target.checked)}
+                onChange={(e) => {
+                        if (!directed && !rules.allowsDirected){
+                            alert(`${rules.name} is possible only on undirected graphs`)
+                        } else if (directed && !rules.allowsUndirected){
+                            alert(`${rules.name} is possible only on directed graphs`)
+                        } else{
+                            setDirected(e.target.checked)
+                        }
+                    }
+                }
                 />
                 Directed
             </label>
