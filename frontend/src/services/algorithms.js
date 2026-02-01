@@ -3,6 +3,7 @@ export const Algorithms = {
 
   MST: {
     name: "Minimum Spanning Tree",
+    allowSelfLoops: false,
     allowsDirected: false,
     allowsUndirected: true,
     requiresWeighted: true
@@ -11,6 +12,7 @@ export const Algorithms = {
 
   BFS: {
     name: "Breadth-First Search",
+    allowSelfLoops: true,
     allowsDirected: true,
     allowsUndirected: true,
     requiresWeighted: false
@@ -18,6 +20,7 @@ export const Algorithms = {
 
   DFS: {
     name: "Depth-First Search",  
+    allowSelfLoops: true,
     allowsDirected: true,
     allowsUndirected: true,
     requiresWeighted: false
@@ -25,6 +28,7 @@ export const Algorithms = {
 
   DAG: {
     name: "Direct Acyclic Graph",
+    allowSelfLoops: false,
     allowsDirected: true,
     allowsUndirected: false,
     requiresWeighted: false
@@ -32,6 +36,7 @@ export const Algorithms = {
 
   Top_sort: {
     name: "Topological Sort",
+    allowSelfLoops: false,
     allowsDirected: true,
     allowsUndirected: false,
     requiresWeighted: false
@@ -39,6 +44,7 @@ export const Algorithms = {
   
   SCC: {
     name: "Strongly Connected Components",
+    allowSelfLoops: true,
     allowsDirected: true,
     allowsUndirected: false,
     requiresWeighted: false

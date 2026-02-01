@@ -171,7 +171,7 @@ export default function GraphSandbox() {
                             ...(weighted ? { weight: 1 } : {})
                         }
                         },
-                        directed
+                        directed, rules.allowSelfLoops
                     )
                 );
 
@@ -236,7 +236,7 @@ export default function GraphSandbox() {
             />
 
             {showLoad && (
-                <LoadGraph onClose={() => setShowLoad(false)} onLoadEdges={setEdges} onLoadNodes={setNodes} />
+                <LoadGraph onClose={() => setShowLoad(false)} />
             )}
         </div>
     );

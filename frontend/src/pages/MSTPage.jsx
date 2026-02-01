@@ -14,27 +14,24 @@ export default function MSTPage() {
     const [targetNode, setTargetNode] = useState("");
 
     return (
-        <div className="container-fluid mt-3">
-            <div className="row bfs-layout">
-                <div className="col-md-5 border graph-col">
-                    <GraphProvider algorithm="MST">
+        <GraphProvider algorithm="MST">
+            <div className="container-fluid mt-3">
+                <div className="row bfs-layout">
+                    <div className="col-md-5 border graph-col">
+                        
                         <GraphSandbox />
-                    </GraphProvider>
-                </div>
+                        
+                    </div>
 
-                <div className="col-md-6 border p-3">
-                    <MSTControls
-                        nodes={nodes}
-                        task={task}
-                        setTask={setTask}
-                        startNode={startNode}
-                        setStartNode={setStartNode}
-                        targetNode={targetNode}
-                        setTargetNode={setTargetNode}
-                    />
+                    <div className="col-md-6 border p-3">
+                        <MSTControls
+                            task={task}
+                            setTask={setTask}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
+        </GraphProvider>
     );
 
 

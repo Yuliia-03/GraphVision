@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 
 
 
-export default function NeighborsInput({ i, neighbours, labels, onCommit }) {
-  const [text, setText] = useState(
-    neighbours.map((n) => labels[n]).join(", ")
+export default function NeighborsInput({ i, neighbours, labels, onCommit, weighted }) {
+const [text, setText] = useState(
+    neighbours.map(n => weighted ? `${labels[n.node]}:${n.weight}` : labels[n.node]).join(", ")
   );
 
-  useEffect(() => {
-      setText(neighbours.map((n) => labels[n]).join(", "));
-    }, [neighbours, labels]);
+useEffect(() => {
+    setText(neighbours.map(n => weighted ? `${labels[n.node]}:${n.weight}` : labels[n.node]).join(", "));
+  }, [neighbours, labels, weighted]);
 
-  return (
-    <input
-      value={text}
-      onChange={(e) => setText(e.target.value)}
-      onBlur={() => onCommit(i, text)}
-      style={{ width: 150 }}
-    />
-  );
+
+    return (
+        <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onBlur={() => onCommit(i, text)}
+        style={{ width: 150 }}
+        />
+    );
 }

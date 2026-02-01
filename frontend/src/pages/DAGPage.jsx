@@ -4,6 +4,7 @@ import '../styles/BFSpage.css'
 import GraphSandbox from "../components/graph/Sandbox";
 import BFSControls from '../components/controls/BFSControls';
 
+import { GraphProvider } from "../contexts/GraphContext";
 
 export default function DAGPage() {
     const [nodes, setNodes] = useState([]);
@@ -17,12 +18,9 @@ export default function DAGPage() {
         <div className="container-fluid mt-3">
             <div className="row bfs-layout">
                 <div className="col-md-5 border graph-col">
-                    <GraphSandbox
-                        nodes={nodes}
-                        setNodes={setNodes}
-                        edges={edges}
-                        setEdges={setEdges}
-                    />
+                    <GraphProvider algorithm="DAG">
+                        <GraphSandbox />
+                    </GraphProvider>
                 </div>
 
                 <div className="col-md-6 border p-3">

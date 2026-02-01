@@ -1,7 +1,7 @@
 import '../../styles/Control.css'
+import { useGraph } from '../../contexts/GraphContext';
 
-export default function BFSControls({
-  nodes,
+export default function DFSControls({
   task,
   setTask,
   startNode,
@@ -9,7 +9,9 @@ export default function BFSControls({
   targetNode,
   setTargetNode,
 }) {
-  return (
+
+    const { nodes } = useGraph();
+    return (
     <div>
         <label>Choose subtask:</label>
         <select value={task} onChange={(e) => setTask(e.target.value)} className='option'>

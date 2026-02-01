@@ -1,6 +1,10 @@
 
-export function addEdge(edges, newEdge, directed) {
+export function addEdge(edges, newEdge, directed, loopAllowed) {
     let { source, target } = newEdge.data;
+
+    if (!loopAllowed && source === target) {
+        return edges;
+    }
 
     if (!directed) {
         [source, target] = [source, target].sort();

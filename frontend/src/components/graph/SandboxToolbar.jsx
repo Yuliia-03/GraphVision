@@ -26,7 +26,7 @@ export default function SandboxToolbar({setMode, onClear, onLoad}) {
                   if (!nextDirected) {
                     setEdges((edges) =>
                       edges.reduce(
-                        (acc, edge) => addEdge(acc, edge, false),
+                        (acc, edge) => addEdge(acc, edge, false, rules.allowSelfLoops),
                         []
                       )
                     );

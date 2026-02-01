@@ -1,13 +1,7 @@
 import '../../styles/Control.css'
-
 export default function BFSControls({
-  nodes,
   task,
-  setTask,
-  startNode,
-  setStartNode,
-  targetNode,
-  setTargetNode,
+  setTask
 }) {
   return (
     <div>

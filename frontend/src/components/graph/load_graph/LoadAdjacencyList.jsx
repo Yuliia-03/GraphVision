@@ -1,12 +1,19 @@
 import { useState } from "react";
 import '../../../styles/LoadMatrix.css'
+import { useGraph } from "../../../contexts/GraphContext";
 
 import NeighborsInput from '../load_graph/NeighborsInput.jsx'
 
-export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
+export default function LoadAdjacencyList({onClose}) {
 
     const [size, setSize] = useState(3);
-    const [directed, setDirected] = useState(false);
+    const { rules, graphConfig, setNodes, setEdges, setGraphConfig  } = useGraph();
+
+    const directed = graphConfig.directed;
+    const weighted = rules.requiresWeighted;
+
+    const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
+
     const [adjList, setAdjList] = useState(Array.from({ length: size }, () =>[]));
     const [labels, setLabels] = useState(Array.from({ length: size }, (_, i) => i));
 
@@ -20,23 +27,24 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
             .filter((s) => s.length > 0);
 
         const newNeighbors = vals
-            .map((v) => labels.indexOf(Number(v)))
-            .filter((x) => labels.includes(x));
-        
+            .map((v) => {
+                const [nodeStr, weightStr] = v.split(":").map(s => s.trim());
+                const nodeIndex = labels.indexOf(Number(nodeStr));
+                if (nodeIndex === -1) return null;
 
-        // if (newNeighbors.length === 0 && vals.length > 0) {
-        //     return; 
-        // }
-
-        // const cleanedValue = newNeighbors.join(",");
-
+                return {
+                    node: nodeIndex,
+                    weight: weighted ? Number(weightStr) || 1 : undefined
+                };
+            })
+            .filter((x) => x !== null);
 
         const copy = adjList.map((row) => [...row]);
         copy[i] = newNeighbors;
 
         setAdjList(copy);
 
-        return newNeighbors.join(",");
+        return newNeighbors.map(n => weighted ? `${labels[n.node]}:${n.weight}` : labels[n.node]).join(", ");
     
     };
 
@@ -51,23 +59,24 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
             position: { x: 100 + i * 60, y: 200 }
             });
         }
-        onLoadNodes(nodes);
+        setNodes(nodes);
 
         const edges = [];
         for (let i = 0; i < size; i++) {
-            for (const el of adjList[i]) {
+            for (const { node: target, weight } of adjList[i]) {
    
                     const exists = edges.some(
                         (edge) =>
-                        edge.data?.source === i && edge.data?.target === el ||
-                        (!directed && edge.data?.source === el && edge.data?.target === i)
+                        edge.data?.source === i && edge.data?.target === labels[target] ||
+                        (!directed && edge.data?.source === labels[target] && edge.data?.target === i)
                     );
                     if (!exists) {
                         edges.push({
                             data: {
-                            id: `${i}-${el}`,
+                            id: `${labels[i]}-${labels[target]}`,
                             source: labels[i],
-                            target: el
+                            target: labels[target],
+                            ...(weighted ? { weight } : {})
                             }
                         });
                     }
@@ -75,7 +84,7 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
             }
         }
 
-        onLoadEdges(edges);
+        setEdges(edges);
         onClose();
     };
 
@@ -105,6 +114,16 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
                 />
                 Directed
             </label>
+            {weighted && 
+                <label>
+                    
+                    <input
+                    type="checkbox"
+                    checked={true} onClick={() => alert("MST is possible only on weighted graphs")} readOnly
+                    />
+                    Weighted
+                </label>
+            }
             <table border="1">
                 <thead>
                     <tr>
@@ -138,7 +157,7 @@ export default function LoadAdjacencyList({onLoadNodes, onLoadEdges, onClose}) {
                             neighbours = {neighbours}
                             labels={labels}
                             onCommit={handleNeighborsChange}
-
+                            weighted={weighted}
                             />
                         </td>
                     </tr>

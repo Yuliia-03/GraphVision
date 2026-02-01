@@ -1,13 +1,8 @@
 import '../../styles/Control.css'
 
 export default function SCC_Controls({
-  nodes,
   task,
-  setTask,
-  startNode,
-  setStartNode,
-  targetNode,
-  setTargetNode,
+  setTask
 }) {
   return (
     <div>

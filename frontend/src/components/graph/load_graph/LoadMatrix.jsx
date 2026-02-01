@@ -1,60 +1,71 @@
 import { useState } from "react";
 import '../../../styles/LoadMatrix.css'
+import { addEdge } from "../load_graph/graph_saving";
+import { useGraph } from "../../../contexts/GraphContext";
 
-export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirected, directed, weighted, setWeighted}) {
 
+export default function LoadMatrix({onClose,}) {
+
+    const { rules, graphConfig, setNodes, setEdges, setGraphConfig  } = useGraph();
+
+    const directed = graphConfig.directed;
+    const weighted = rules.requiresWeighted;
+    const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
     const [size, setSize] = useState(3);
-    //const [directed, setDirected] = useState(directed);
-    //const [weighted, setWeighted] = useState(false);
     const [matrix, setMatrix] = useState(Array.from({ length: 3 }, () => Array(3).fill(0)));
-    const [labels, setLabels] = useState(Array.from({ length: size }, (_, i) => i));
+    const [labels, setLabels] = useState(Array.from({ length: 3 }, (_, i) => i));
 
 
     const updateCell = (i, j, val) => {
         const copy = matrix.map((row) => [...row]);
-        copy[i][j] = val ? 1 : 0;
 
-        if (!directed) copy[j][i] = copy[i][j];
+        copy[i][j] = weighted ? val : val ? 1 : 0;
+
+        if (!directed) {
+            copy[j][i] = copy[i][j];
+        }
 
         setMatrix(copy);
     };
+
 
     const loadGraph = () => {
         const nodes = [];
 
         for (let i = 0; i < size; i++) {
-        nodes.push({
-            data: { id: i, label: labels[i] },
-            position: { x: 100 + i * 60, y: 200 }
+            nodes.push({
+                data: { id: labels[i], label: labels[i] },
+                position: { x: 100 + i * 60, y: 200 }
             });
         }
-        onLoadNodes(nodes);
 
-        const edges = [];
+        setNodes(nodes);
+
+        let edges = [];
+
         for (let i = 0; i < size; i++) {
             for (let j = 0; j < size; j++) {
-                if (matrix[i][j] === 1) {
-                    const exists = edges.some(
-                        (el) =>
-                        el.data?.source === labels[i] && el.data?.target === labels[j] ||
-                        (!directed && el.data?.source === labels[j] && el.data?.target === labels[i])
-                    );
-                    if (!exists) {
-                        edges.push({
+
+                if (matrix[i][j] !== 0) {
+                    edges = addEdge(
+                        edges,
+                        {
                             data: {
-                            id: `${i}-${j}`,
-                            source: labels[i],
-                            target: labels[j]
+                                source: labels[i],
+                                target: labels[j],
+                                ...(weighted ? { weight: matrix[i][j] } : {})
                             }
-                        });
-                    }
+                        },
+                        directed, rules.allowSelfLoops
+                    );
                 }
             }
         }
 
-        onLoadEdges(edges);
+        setEdges(edges);
         onClose();
     };
+
 
     
     return(
@@ -77,7 +88,16 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirect
                 <input
                 type="checkbox"
                 checked={directed}
-                onChange={(e) => setDirected(e.target.checked)}
+                onChange={(e) => {
+                        if (!directed && !rules.allowsDirected){
+                            alert(`${rules.name} is possible only on undirected graphs`)
+                        } else if (directed && !rules.allowsUndirected){
+                            alert(`${rules.name} is possible only on directed graphs`)
+                        } else{
+                            setDirected(e.target.checked)
+                        }
+                    }
+                }
                 />
                 Directed
             </label>
@@ -137,7 +157,8 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirect
                                         updateCell(i, j, Number(e.target.value))
                                     }
                                     style={{ width: 50 }}
-                                />
+                                    readOnly={!rules.allowSelfLoops && i === j}
+                                    />
                             ) : (
                                 <input
                                     type="checkbox"
@@ -145,6 +166,7 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirect
                                     onChange={(e) =>
                                         updateCell(i, j, e.target.checked ? 1 : 0)
                                     }
+                                    disabled={!rules.allowSelfLoops && i === j}
                                 />
                             )}
 
