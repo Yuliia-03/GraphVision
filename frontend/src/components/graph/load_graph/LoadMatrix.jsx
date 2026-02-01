@@ -3,6 +3,7 @@ import '../../../styles/LoadMatrix.css'
 import { addEdge } from "../load_graph/graph_saving";
 import { useGraph } from "../../../contexts/GraphContext";
 
+import GraphConfig from "../GraphConfig";
 
 export default function LoadMatrix({onClose,}) {
 
@@ -84,33 +85,8 @@ export default function LoadMatrix({onClose,}) {
                 />
             </label>
 
-            <label>
-                <input
-                type="checkbox"
-                checked={directed}
-                onChange={(e) => {
-                        if (!directed && !rules.allowsDirected){
-                            alert(`${rules.name} is possible only on undirected graphs`)
-                        } else if (directed && !rules.allowsUndirected){
-                            alert(`${rules.name} is possible only on directed graphs`)
-                        } else{
-                            setDirected(e.target.checked)
-                        }
-                    }
-                }
-                />
-                Directed
-            </label>
-            {weighted && 
-                <label>
-                    
-                    <input
-                    type="checkbox"
-                    checked={true} onClick={() => alert("MST is possible only on weighted graphs")} readOnly
-                    />
-                    Weighted
-                </label>
-            }
+            <GraphConfig />
+
             <table border="1">
                 <thead>
                     <tr>

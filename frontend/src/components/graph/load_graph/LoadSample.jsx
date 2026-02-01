@@ -4,14 +4,31 @@ import { useGraph } from "../../../contexts/GraphContext";
 
 export default function LoadSample({onClose}) {
 
-    const {setNodes, setEdges} = useGraph();
+    const {setNodes, setEdges, rules} = useGraph();
+
+
+    const removeWeights = (edges, rules) => {
+        if (rules.requiresWeighted) return edges;
+
+        return edges.map((edge) => ({
+            ...edge,
+            data: {
+            id: edge.data.id,
+            source: edge.data.source,
+            target: edge.data.target,
+            },
+        }));
+    };
+
 
     const loadSampleGraph = (name) => {
         const graph = Samples[name];
         if (!graph) return;
 
+        const edges = removeWeights(graph.edges, rules);
+
         setNodes(graph.nodes);
-        setEdges(graph.edges);
+        setEdges(edges);
         onClose();
     };
 

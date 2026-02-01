@@ -2,6 +2,8 @@ import { useState } from "react";
 import '../../../styles/LoadMatrix.css'
 import { useGraph } from "../../../contexts/GraphContext.jsx";
 
+import GraphConfig from "../GraphConfig";
+
 export default function LoadAdjacencyList({onClose}) {
 
     const { rules, graphConfig, setNodes, setEdges, setGraphConfig  } = useGraph();
@@ -79,33 +81,8 @@ export default function LoadAdjacencyList({onClose}) {
                 />
             </label>
 
-            <label>
-                <input
-                type="checkbox"
-                checked={directed}
-                onChange={(e) => {
-                        if (!directed && !rules.allowsDirected){
-                            alert(`${rules.name} is possible only on undirected graphs`)
-                        } else if (directed && !rules.allowsUndirected){
-                            alert(`${rules.name} is possible only on directed graphs`)
-                        } else{
-                            setDirected(e.target.checked)
-                        }
-                    }
-                }
-                />
-                Directed
-            </label>
-            {weighted && 
-                <label>
-                    
-                    <input
-                    type="checkbox"
-                    checked={true} onClick={() => alert("MST is possible only on weighted graphs")} readOnly
-                    />
-                    Weighted
-                </label>
-            }
+            
+            <GraphConfig />
 
             <p>{'s = {'}</p>
 
