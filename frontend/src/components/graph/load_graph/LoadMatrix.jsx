@@ -1,11 +1,11 @@
 import { useState } from "react";
 import '../../../styles/LoadMatrix.css'
 
-export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirected, directed}) {
+export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirected, directed, weighted, setWeighted}) {
 
     const [size, setSize] = useState(3);
     //const [directed, setDirected] = useState(directed);
-    const [weighted, setWeighted] = useState(false);
+    //const [weighted, setWeighted] = useState(false);
     const [matrix, setMatrix] = useState(Array.from({ length: 3 }, () => Array(3).fill(0)));
     const [labels, setLabels] = useState(Array.from({ length: size }, (_, i) => i));
 
@@ -81,15 +81,16 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirect
                 />
                 Directed
             </label>
-
-            <label>
-                <input
-                type="checkbox"
-                checked={weighted}
-                onChange={(e) => setWeighted(e.target.checked)}
-                />
-                Weighted
-            </label>
+            {weighted && 
+                <label>
+                    
+                    <input
+                    type="checkbox"
+                    checked={true} onClick={() => alert("MST is possible only on weighted graphs")} readOnly
+                    />
+                    Weighted
+                </label>
+            }
             <table border="1">
                 <thead>
                     <tr>
@@ -127,13 +128,26 @@ export default function LoadMatrix({onLoadNodes, onLoadEdges, onClose, setDirect
 
                         {row.map((val, j) => (
                         <td key={j}>
-                            <input
-                            type="checkbox"
-                            checked={val === 1}
-                            onChange={(e) =>
-                                updateCell(i, j, e.target.checked)
-                            }
-                            />
+                            {weighted ? (
+                                <input
+                                    type="number"
+                                    min="0"
+                                    value={val}
+                                    onChange={(e) =>
+                                        updateCell(i, j, Number(e.target.value))
+                                    }
+                                    style={{ width: 50 }}
+                                />
+                            ) : (
+                                <input
+                                    type="checkbox"
+                                    checked={val !== 0}
+                                    onChange={(e) =>
+                                        updateCell(i, j, e.target.checked ? 1 : 0)
+                                    }
+                                />
+                            )}
+
                         </td>
                         ))}
                     </tr>

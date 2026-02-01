@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../styles/BFSpage.css'
-
+import { GraphProvider } from "../contexts/GraphContext";
 import GraphSandbox from "../components/graph/Sandbox";
 import MSTControls from '../components/controls/MSTControls';
 
@@ -17,13 +17,9 @@ export default function MSTPage() {
         <div className="container-fluid mt-3">
             <div className="row bfs-layout">
                 <div className="col-md-5 border graph-col">
-                    <GraphSandbox
-                        nodes={nodes}
-                        setNodes={setNodes}
-                        edges={edges}
-                        setEdges={setEdges}
-                        isWeighted={true}
-                    />
+                    <GraphProvider algorithm="MST">
+                        <GraphSandbox />
+                    </GraphProvider>
                 </div>
 
                 <div className="col-md-6 border p-3">

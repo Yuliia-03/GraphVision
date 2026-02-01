@@ -1,38 +1,38 @@
 .toolbar {
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  margin: 0;
-  background-color: #0f172a;
-  color: white;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    margin: 0;
+    background-color: #0f172a;
+    color: white;
 }
 
 .logo {
-  font-size: 1.4rem;
-  font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 600;
 
-  color: white;
-  text-decoration: none;
+    color: white;
+    text-decoration: none;
 
 }
 .logo:hover {
-  text-decoration: none;
-  color: white;
+    text-decoration: none;
+    color: white;
 
 }
 
 .login-btn {
-  background: #6366f1;
-  border: none;
-  padding: 8px 14px;
-  margin-right: 1rem;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
+    background: #6366f1;
+    border: none;
+    padding: 8px 14px;
+    margin-right: 1rem;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
 }
 
 .login-btn:hover {
-  background: #4f46e5;
+    background: #4f46e5;
 }

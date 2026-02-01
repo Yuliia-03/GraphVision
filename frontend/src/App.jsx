@@ -10,13 +10,14 @@ import SCCPage from "./pages/SCCPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Toolbar from "./components/layout/Toolbar";
-
 import GraphSandbox from './components/graph/Sandbox';
+
 const elements = [
-  { data: { id: "A" }, position: { x: 100, y: 100 } },
-  { data: { id: "B" }, position: { x: 300, y: 100 } },
-  { data: { source: "A", target: "B" } }
+    { data: { id: "A" }, position: { x: 100, y: 100 } },
+    { data: { id: "B" }, position: { x: 300, y: 100 } },
+    { data: { source: "A", target: "B" } }
 ];
+
 function App() {
   return (
     <Router>

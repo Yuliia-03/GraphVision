@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import '../styles/BFSpage.css'
 
-import GraphSandbox from "../components/graph/Sandbox";
 import BFSControls from '../components/controls/BFSControls';
+import { GraphProvider } from "../contexts/GraphContext";
+import GraphSandbox from "../components/graph/Sandbox";
 
 
 export default function BFSPage() {
@@ -17,12 +18,9 @@ export default function BFSPage() {
         <div className="container-fluid mt-3">
             <div className="row bfs-layout">
                 <div className="col-md-5 border graph-col">
-                    <GraphSandbox
-                        nodes={nodes}
-                        setNodes={setNodes}
-                        edges={edges}
-                        setEdges={setEdges}
-                    />
+                    <GraphProvider algorithm="BFS">
+                        <GraphSandbox />
+                    </GraphProvider>
                 </div>
 
                 <div className="col-md-6 border p-3">

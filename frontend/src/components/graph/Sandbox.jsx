@@ -1,14 +1,18 @@
 import CytoscapeComponent from "react-cytoscapejs";
+import { addEdge } from "./load_graph/graph_saving";
+import { useGraph } from "../../contexts/GraphContext";
 import SandboxToolbar from './SandboxToolbar'
 import LoadGraph from './load_graph/LoadGraphMenue'
 import { useRef, useEffect, useState } from "react";
 
-export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges, isWeighted = false }) {
+export default function GraphSandbox() {
 
+    const { nodes, edges, setNodes, setEdges, rules, graphConfig } = useGraph();
+
+    const directed = graphConfig.directed;
+    const weighted = rules.requiresWeighted;
   
     const [mode, setMode] = useState("add"); 
-    const [directed, setDirected] = useState(false);
-    const [weighted, setWeighted] = useState(isWeighted)
 
     const cyRef = useRef(null);
     const nodeCount = useRef(0);
@@ -41,34 +45,6 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges, i
         nodeCount.current = maxId + 1;
     }, [nodes]);
 
-    useEffect(() => {
-
-        if (directed) return;
-
-
-        setEdges((els) => {
-
-            const seen = new Set();
-            const result = [];
-
-            for (const el of els) {
-
-                const a = el.data.source;
-                const b = el.data.target;
-
-                const key = [a, b].sort().join("--");
-
-                if (!seen.has(key)) {
-                    seen.add(key);
-                    result.push(el);
-                }
-            }
-
-
-            return result;
-
-        }); 
-    }, [directed, setEdges]);
 
     useEffect(() => {
         if (!cyRef.current) return;
@@ -185,19 +161,20 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges, i
                 const source = selectedNode.current;
                 const target = nodeId;
 
-                const newEdge = { data: { id: `${source}-${target}-${Date.now()}`, source, target, ...(weighted ? { weight: 1 } : {}) }};
-                setEdges((els) => {
-        
-                    const exists = els.some(
-                        (el) =>
-                            el.data.source === source && el.data.target === target ||
-                            (!directed && el.data.source === target && el.data.target === source)
-                    );
+                setEdges((els) =>
+                    addEdge(
+                        els,
+                        {
+                        data: {
+                            source,
+                            target,
+                            ...(weighted ? { weight: 1 } : {})
+                        }
+                        },
+                        directed
+                    )
+                );
 
-                    if (exists) return els;
-
-                    return [...els, newEdge];
-                });
                 clearSelection();
 
                 selectedNode.current = null;
@@ -211,13 +188,13 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges, i
         cy.on("tap", "edge", onEdgeTap);
 
         return () => cy.removeAllListeners();
-    }, [mode, directed, nodes.length]);
+    }, [mode, directed, weighted, nodes.length, setNodes, setEdges]);
 
 
     return (
         <div style={{ height: "100%" }}>
 
-            <SandboxToolbar setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)} setDirected={setDirected} directed={directed} weighted = {weighted}/>
+            <SandboxToolbar setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)}/>
     
             <CytoscapeComponent
                 cy={(cy) => (cyRef.current = cy)}
@@ -259,9 +236,7 @@ export default function GraphSandbox({ nodes=[], setNodes, edges=[], setEdges, i
             />
 
             {showLoad && (
-                <LoadGraph onClose={() => setShowLoad(false)} onLoadEdges={setEdges} onLoadNodes={setNodes} 
-                                setDirected={setDirected}
-                                directed={directed}/>
+                <LoadGraph onClose={() => setShowLoad(false)} onLoadEdges={setEdges} onLoadNodes={setNodes} />
             )}
         </div>
     );

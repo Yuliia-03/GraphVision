@@ -4,10 +4,10 @@ import LoadMatrix from './LoadMatrix'
 import LoadAdjacencyList from "./LoadAdjacencyList";
 import LoadEdgeList from './LoadEdgeList';
 
-export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges, setDirected, directed}) {
+export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges,}) {
 
     const [mode, setMode] = useState("");
-
+    const { rules, graphConfig, setNodes, setEdges  } = useGraph();
 
     return(
         <div className="popup">
@@ -38,6 +38,8 @@ export default function LoadGraph ({onClose, onLoadNodes, onLoadEdges, setDirect
                             onClose={onClose}
                             setDirected={setDirected}
                             directed={directed}
+                            weighted = {weighted}
+                            setWeighted={setWeighted}
                         />
                     </div>
                 )}
