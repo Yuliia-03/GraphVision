@@ -1,64 +1,39 @@
 import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
+import  {SelectTask}  from "./SelectTask";
+import {SelectNode} from './SelectNode';
 
-export default function BFSControls({
-    task,
-    setTask,
-    startNode,
-    setStartNode,
-    targetNode,
-    setTargetNode,
-}) {
+export default function BFSControls({ params, setParams }) {
+    
     const { nodes } = useGraph();
+    const update = (patch) => setParams(p => ({ ...p, ...patch }));
+    
     return (
         <div>
-            <label>Choose subtask:</label>
-            <select value={task} onChange={(e) => setTask(e.target.value)} className='option'>
-                <option value="">-- Select --</option>
-                <option value="traversal">Basic Traversal</option>
-                <option value="shortest">Shortest path from A to B</option>
-                <option value="distances">All distances from A</option>
-            </select>
+            <SelectTask
+                value={params.task}
+                onChange={task => update({ task })}
+                options={[
+                { value: "traversal", label: "Basic Traversal" },
+                { value: "shortest", label: "Shortest path from A to B" },
+                { value: "distances", label: "All distances from A" }
+                ]}
+            />
 
-            <label>Starting node:</label>
-                <select
-                value={startNode}
-                onChange={(e) => setStartNode(e.target.value)}
-                className='option'
-            >
-                <option value="">-- Select --</option>
-                {nodes.map((node) => (
-                <option key={node.data.id} value={String(node.data.id)}>
-                    {node.data.label}
-                </option>
-                ))}
-            </select>
+            <SelectNode
+                label="Starting node"
+                value={params.startNode}
+                onChange={startNode => update({ startNode })}
+            />
 
-            {
-                task === "shortest" && (
-                    <>
-                        <label>Target node:</label>
-                        <select
-                            value={targetNode}
-                            onChange={(e) => setTargetNode(e.target.value)}
-                            className='option'
-                        >
-                            <option value="">-- Select --</option>
-                            {nodes
-                            .filter((node) => String(node.data.id) !== String(startNode))
-                            .map((node) => (
-                                <option key={node.data.id} value={String(node.data.id)}>
-                                    {node.data.label}
-                                </option>
-                            ))}
-                        </select>
-                    
-                    </>
-
-
-                )
-                
-            }
+            {params.task === "shortest" && (
+                <SelectNode
+                label="Target node"
+                value={params.targetNode}
+                exclude={params.startNode}
+                onChange={targetNode => update({ targetNode })}
+                />
+            )}
         </div>
     );
 }

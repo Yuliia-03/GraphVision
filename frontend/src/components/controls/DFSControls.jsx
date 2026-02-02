@@ -1,20 +1,15 @@
 import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 
-export default function DFSControls({
-  task,
-  setTask,
-  startNode,
-  setStartNode,
-  targetNode,
-  setTargetNode,
-}) {
+export default function DFSControls({ params, setParams }) {
 
     const { nodes } = useGraph();
+    const update = (patch) => setParams(p => ({ ...p, ...patch }));
+
     return (
     <div>
         <label>Choose subtask:</label>
-        <select value={task} onChange={(e) => setTask(e.target.value)} className='option'>
+        <select value={params.task || ""} onChange={(e) => update({ task: e.target.value })} className='option'>
             <option value="">-- Select --</option>
             <option value="traversal">Basic Traversal</option>
             <option value="path">Check path from A to B</option>
@@ -23,10 +18,10 @@ export default function DFSControls({
 
         <label>Starting node:</label>
             <select
-            value={startNode}
-            onChange={(e) => setStartNode(e.target.value)}
-            className='option'
-        >
+                value={params.startNode || ""}
+                onChange={(e) => update({ startNode: e.target.value })}
+                className='option'
+            >
             <option value="">-- Select --</option>
             {nodes.map((node) => (
             <option key={node.data.id} value={String(node.data.id)}>
@@ -36,17 +31,17 @@ export default function DFSControls({
         </select>
 
         {
-            task === "path" && (
+            params.task === "path" && (
                 <>
                     <label>Target node:</label>
                     <select
-                        value={targetNode}
-                        onChange={(e) => setTargetNode(e.target.value)}
+                        value={params.targetNode || ""}
+                        onChange={(e) => update({ targetNode: e.target.value })}
                         className='option'
                     >
                         <option value="">-- Select --</option>
                         {nodes
-                        .filter((node) => String(node.data.id) !== String(startNode))
+                        .filter((node) => String(node.data.id) !== String(params.startNode))
                         .map((node) => (
                             <option key={node.data.id} value={String(node.data.id)}>
                                 {node.data.label}

@@ -1,40 +1,10 @@
-import React, { useEffect, useState } from "react";
-import '../styles/BFSpage.css'
-
-
-import { GraphProvider } from "../contexts/GraphContext";
-import GraphSandbox from "../components/graph/Sandbox";
-import SCC_Controls from '../components/controls/SCC_Controls';
-
-
+import SCC_Controls from "../components/controls/SCC_Controls";
+import AlgoPage from "./AlgoPage"
 export default function SCCPage() {
-    const [nodes, setNodes] = useState([]);
-    const [edges, setEdges] = useState([]);
-
-    const [task, setTask] = useState("");
-    const [startNode, setStartNode] = useState("");
-    const [targetNode, setTargetNode] = useState("");
-
-    return (
-    
-        <div className="container-fluid mt-3">
-            <div className="row bfs-layout">
-                <div className="col-md-5 border graph-col">
-                    <GraphProvider algorithm="SCC">
-                        <GraphSandbox />
-                    </GraphProvider>
-                </div>
-
-                <div className="col-md-6 border p-3">
-                    <SCC_Controls
-                        task={task}
-                        setTask={setTask}
-                    />
-                </div>
-            </div>
-        </div>
-    );
-
-
+  return (
+    <AlgoPage
+      algorithm="SCC"
+      Controls={SCC_Controls}
+    />
+  );
 }
-

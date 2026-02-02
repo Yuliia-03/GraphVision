@@ -7,12 +7,6 @@ import BFSControls from '../components/controls/BFSControls';
 import { GraphProvider } from "../contexts/GraphContext";
 
 export default function DAGPage() {
-    const [nodes, setNodes] = useState([]);
-    const [edges, setEdges] = useState([]);
-
-    const [task, setTask] = useState("");
-    const [startNode, setStartNode] = useState("");
-    const [targetNode, setTargetNode] = useState("");
 
     return (
         <div className="container-fluid mt-3">
