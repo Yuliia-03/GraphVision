@@ -2,6 +2,7 @@ import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 import  {SelectTask}  from "./SelectTask";
 import {SelectNode} from './SelectNode';
+import { ButtonPanel } from './ButtonPanels';
 
 export default function BFSControls({ params, setParams }) {
     
@@ -34,6 +35,8 @@ export default function BFSControls({ params, setParams }) {
                 onChange={targetNode => update({ targetNode })}
                 />
             )}
+
+            <ButtonPanel/>
         </div>
     );
 }

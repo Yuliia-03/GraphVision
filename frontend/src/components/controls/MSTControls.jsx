@@ -1,4 +1,6 @@
 import '../../styles/Control.css'
+import { ButtonPanel } from './ButtonPanels';
+
 export default function BFSControls({ params, setParams }) {
 
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
@@ -10,6 +12,9 @@ export default function BFSControls({ params, setParams }) {
                 <option value="traversal">Prim's Algorithm</option>
                 <option value="shortest">Kruskal's Algorithm</option>
             </select>
+
+            
+            <ButtonPanel/>
         </div>
     );
 }

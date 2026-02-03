@@ -1,4 +1,5 @@
 import '../../styles/Control.css'
+import { ButtonPanel } from './ButtonPanels';
 
 export default function SCC_Controls({ params, setParams }) {
 
@@ -12,6 +13,9 @@ export default function SCC_Controls({ params, setParams }) {
                 <option value="shortest">Kosaraju's Algorithm</option>
             </select>
 
+
+            
+            <ButtonPanel/>
         </div>
     );
 }

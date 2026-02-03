@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+
 import '../styles/BFSpage.css'
 
 import GraphSandbox from "../components/graph/Sandbox";
-import BFSControls from '../components/controls/BFSControls';
 
 import { GraphProvider } from "../contexts/GraphContext";
 

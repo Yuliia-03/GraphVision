@@ -1,6 +1,8 @@
 import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 
+import { ButtonPanel } from './ButtonPanels';
+
 export default function DFSControls({ params, setParams }) {
 
     const { nodes } = useGraph();
@@ -55,6 +57,8 @@ export default function DFSControls({ params, setParams }) {
             )
             
         }
+        
+        <ButtonPanel/>
     </div>
   );
 }
