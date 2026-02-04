@@ -2,7 +2,7 @@ import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 
 import { ButtonPanel } from './ButtonPanels';
-
+import DFS from "../../algorithms/DFS"
 export default function DFSControls({ params, setParams }) {
 
     const { nodes } = useGraph();
@@ -57,8 +57,7 @@ export default function DFSControls({ params, setParams }) {
             )
             
         }
-        
-        <ButtonPanel/>
+        <ButtonPanel source={params.startNode} algorithm={DFS} />        
     </div>
   );
 }

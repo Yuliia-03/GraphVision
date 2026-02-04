@@ -1,7 +1,8 @@
 import '../../styles/Control.css'
 import { ButtonPanel } from './ButtonPanels';
+import MSTAlgorithm from "../../algorithms/MST";
 
-export default function BFSControls({ params, setParams }) {
+export default function MSTControls({ params, setParams }) {
 
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     return (
@@ -9,12 +10,12 @@ export default function BFSControls({ params, setParams }) {
             <label>Choose subtask:</label>
             <select value={params.task || ""} onChange={(e) => update({ task: e.target.value })}  className='option'>
                 <option value="">-- Select --</option>
-                <option value="traversal">Prim's Algorithm</option>
-                <option value="shortest">Kruskal's Algorithm</option>
+                <option value="prims">Prim's Algorithm</option>
+                <option value="kruskals">Kruskal's Algorithm</option>
             </select>
 
             
-            <ButtonPanel/>
+            <ButtonPanel params={params} algorithm={MSTAlgorithm}/>
         </div>
     );
 }

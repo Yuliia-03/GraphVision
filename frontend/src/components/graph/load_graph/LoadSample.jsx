@@ -4,7 +4,7 @@ import { useGraph } from "../../../contexts/GraphContext";
 
 export default function LoadSample({onClose}) {
 
-    const {setNodes, setEdges, rules} = useGraph();
+    const {setNodes, setEdges, rules, setGraphConfig} = useGraph();
 
 
     const removeWeights = (edges, rules) => {

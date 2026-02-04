@@ -7,8 +7,8 @@ import { useRef, useEffect, useState } from "react";
 
 export default function GraphSandbox() {
 
-    const { nodes, edges, setNodes, setEdges, rules, graphConfig } = useGraph();
-
+    const { nodes, edges, setNodes, setEdges, rules, graphConfig, setGraphConfig } = useGraph();
+    const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
     const directed = graphConfig.directed;
     const weighted = rules.requiresWeighted;
   
@@ -47,6 +47,7 @@ export default function GraphSandbox() {
 
 
     useEffect(() => {
+        setDirected(directed);
         if (!cyRef.current) return;
         const cy = cyRef.current;
 

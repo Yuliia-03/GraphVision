@@ -4,9 +4,10 @@ import  {SelectTask}  from "./SelectTask";
 import {SelectNode} from './SelectNode';
 import { ButtonPanel } from './ButtonPanels';
 
+import BFS from "../../algorithms/BFS"
+
 export default function BFSControls({ params, setParams }) {
     
-    const { nodes } = useGraph();
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     
     return (
@@ -36,7 +37,7 @@ export default function BFSControls({ params, setParams }) {
                 />
             )}
 
-            <ButtonPanel/>
+            <ButtonPanel params={params} algorithm={BFS} />
         </div>
     );
 }
