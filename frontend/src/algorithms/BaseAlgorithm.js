@@ -5,7 +5,6 @@ export default class BaseAlgorithm {
         this.graphConfig = graphConfig;
 
         this.steps = [];
-        this.currentWeight = 0;
     }
 
     addStep(message, extra = {}) {
