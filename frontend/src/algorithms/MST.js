@@ -45,8 +45,6 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         super(nodes, edges)
 
         this.currentWeight = 0;
-        this.steps = [];
-
         this.visitedEdges = new Set();
     }
 
@@ -94,6 +92,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
     }
 
     run(task) {
+        
         switch(task) {
             case "kruskals":
                 return this.kruskals();

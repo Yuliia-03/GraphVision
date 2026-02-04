@@ -9,14 +9,16 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
         this.queue = [];
         this.visited = new Set();
+        this.directed = this.graphConfig.directed;
 
     }
 
-    bfsTraversal(nodes, edges, source, directed) {
+    bfsTraversal(source) {
 
-        const graph = buildAdjacencyList(nodes, edges, directed);
+        const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
 
         this.queue.push(source);
+        this.visited.add(source)
 
         this.addStep(`Initialize queue with ${source}`, {
             inQueue: [...this.queue],
@@ -48,35 +50,32 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             for (const { to } of neighbors) {
                 if (!this.visited.has(to)) {
                     this.queue.push(to);
-
+                    this.visited.add(to);
                     this.addStep(`Add ${to} to queue`, {
-                    current: current,
-                    visited: [...this.visited],
-                    neighbors: neighborIds,
-                    inQueue: [...this.queue]
+                        current: current,
+                        visited: [...this.visited],
+                        neighbors: neighborIds,
+                        inQueue: [...this.queue]
                     });
                 }
             }
         }
         
-        console.log(this.steps)
 
         return this.steps
     }
 
     run(task, params) {
         const { startNode, targetNode } = params;
-        console.log(this.graphConfig.directed)
-        const directed = this.graphConfig.directed;
         switch (task) {
             case "shortest":
-                return bfsShortest(this.nodes, this.edges, startNode, targetNode, directed);
+                return bfsShortest(startNode, targetNode);
 
             case "distances":
-                return bfsDistances(this.nodes, this.edges, startNode, directed);
+                return bfsDistances(startNode);
 
             default:
-                return this.bfsTraversal(this.nodes, this.edges, startNode, directed);
+                return this.bfsTraversal(startNode);
         }
     }
 
