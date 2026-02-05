@@ -1,6 +1,6 @@
 import {buildAdjacencyList} from "./adjacencyList"
 import BaseAlgorithm from "./BaseAlgorithm";
-
+import DAGAlgorithm from "./DAG";
 
 
 export default class DFSAlgorithm extends BaseAlgorithm{
@@ -19,9 +19,54 @@ export default class DFSAlgorithm extends BaseAlgorithm{
             case "traversal":
                 return this.dfsTraversal(startNode)
             case "path":return
-            case "cycle_undirected":return
+            case "cycle_undirected":
+                // if(this.directed) {
+                //     const graph = buildAdjacencyList(this.nodes, this.edges, true);
+                //     return DAGAlgorithm.recDFSCycle(graph, startNode)
+                // } else {
+                    const res =  this.cycleDetection();
+                    console.log(res);
+                    return res;
+                // }
         }
     }
+
+    cycleDetection(){
+
+        let parent = []
+        this.stack = []
+
+        const graph = buildAdjacencyList(this.nodes, this.edges, false);
+
+        // this.addStep(`Initialize stack with ${source}`, {
+        //     inStack: [...this.stack]
+        // });
+
+        for (const node of this.nodes) {
+            const start = node.data.id;
+            if (this.visited.has(start)) continue;
+
+            this.stack.push({ node: start, parent: null });
+            this.visited.add(start);
+
+            while (this.stack.length > 0) {
+                const { node: current, parent } = this.stack.pop();
+
+                for (const { to } of graph[current] || []) {
+                    if (!this.visited.has(to)) {
+                        this.visited.add(to);
+                        this.stack.push({ node: to, parent: current });
+                    } else if (to !== parent) {
+                        return true;
+                    }
+                }
+
+            }
+        }
+
+        return false;
+    }
+
     dfsTraversal(source){
 
         const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
@@ -41,8 +86,6 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                 visited: [...this.visited],
                 inStack: [...this.stack]
             });
-
-            this.visited.add(current);
 
             const neighbors = graph[current] || [];
             const neighborIds = neighbors.map(e => e.to);
