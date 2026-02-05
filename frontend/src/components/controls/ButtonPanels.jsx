@@ -7,7 +7,7 @@ export function ButtonPanel({params, algorithm}){
 
     const run = () => {
         const algo = new algorithm(nodes, edges, graphConfig); // graphConfig optional
-        const steps = algo.run(params?.task, params);   
+        const steps = algo.run(params);   
         console.log("Steps:", steps);
     }
     return(

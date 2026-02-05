@@ -6,7 +6,12 @@ import DAGAlgorithm from '../algorithms/DAG';
 
 export default function DAGPage() {
 
-    const Controls = () => <ButtonPanel algorithm={DAGAlgorithm} />;
+    const Controls = ({ params, setParams }) => (
+        <ButtonPanel
+            algorithm={DAGAlgorithm}
+            params={{ ...params, returnTopo: false }}
+            setParams={setParams}
+        />);
 
     return (
         <AlgoPage algorithm="DAG" Controls={Controls}/>

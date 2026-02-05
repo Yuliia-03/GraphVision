@@ -9,22 +9,28 @@ export default class DAGAlgorithm extends BaseAlgorithm{
         super(nodes, edges);
         this.recStack = [];
         this.visited = new Set();
+        this.topoOrder = []
     }
 
-    run() {
-        return this.isDAG();
-    }
+    
+    run(params) {
 
-    isDAG(){
-
-
+        console.log(params)
+        const { returnTopo } = params;
+        console.log(returnTopo)
         const graph = buildAdjacencyList(this.nodes, this.edges, true);
         console.log(graph)
 
         for (const node of this.nodes) {
             if(!this.visited.has(node.data.id)) {
-                if (this.recDFSCycle(graph, node.data.id)) {return false;}
+                if (this.recDFSCycle(graph, node.data.id)) {
+                    this.addStep(`Cycle detected, cannot perform topological sort`);
+                    return false;
+                }
             }
+        }
+        if (returnTopo) {
+            return this.topoOrder.reverse();
         }
         return true;
     }
@@ -44,7 +50,6 @@ export default class DAGAlgorithm extends BaseAlgorithm{
         });
         
         const neighbors = graph[source] || [];
-        const neighborIds = neighbors.map(e => e.to);
         console.log(neighbors)
 
         for (const { to } of neighbors) {
@@ -61,6 +66,10 @@ export default class DAGAlgorithm extends BaseAlgorithm{
         }
 
         this.recStack.pop();
+        this.topoOrder.push(source)
+        this.addStep(`Finished exploring ${source}`, {
+            topoOrder: [...this.topoOrder],
+        });
 
         return false;
     }

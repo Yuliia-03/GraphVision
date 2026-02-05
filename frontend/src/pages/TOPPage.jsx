@@ -1,10 +1,23 @@
-import MSTControls from "../components/controls/MSTControls";
+
+import '../styles/BFSpage.css'
 import AlgoPage from "./AlgoPage"
-export default function TOPPage() {
-  return (
-    <AlgoPage
-      algorithm="Top_sort"
-      Controls={null}
-    />
-  );
+import { ButtonPanel } from '../components/controls/ButtonPanels';
+import DAGAlgorithm from '../algorithms/DAG';
+
+export default function DAGPage() {
+
+    const Controls = ({ params, setParams }) => (
+        <ButtonPanel
+            algorithm={DAGAlgorithm}
+            params={{ ...params, returnTopo: true }}
+            setParams={setParams}
+        />
+    );
+
+    return (
+        <AlgoPage algorithm="Top_sort" Controls={Controls}/>
+    );
+
+
 }
+

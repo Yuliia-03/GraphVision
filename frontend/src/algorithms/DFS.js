@@ -12,8 +12,8 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         this.directed = this.graphConfig.directed;
     }
 
-    run(task, params) {
-        const { startNode, targetNode } = params;
+    run(params) {
+        const { startNode, targetNode, task } = params;
 
         switch(task) {
             case "traversal":

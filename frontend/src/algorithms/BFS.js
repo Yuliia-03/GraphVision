@@ -65,8 +65,8 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         return this.steps
     }
 
-    run(task, params) {
-        const { startNode, targetNode } = params;
+    run(params) {
+        const { startNode, targetNode, task } = params;
         switch (task) {
             case "shortest":
                 return bfsShortest(startNode, targetNode);
