@@ -42,13 +42,16 @@ class DisjointSet {
 export default class MSTAlgorithm extends BaseAlgorithm{
     
     constructor(nodes, edges) {
+
         super(nodes, edges)
 
+        console.log("constructor")
         this.currentWeight = 0;
         this.visitedEdges = new Set();
     }
 
     kruskals() {
+        console.log("kruskals")
         const uf = new DisjointSet(this.nodes.map(n => n.data.id)) 
         this.edges.sort((a, b) => a.data.weight - b.data.weight);
 
@@ -91,7 +94,9 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         // implement Prim's algorithm
     }
 
-    run(task) {
+    run(params) {
+
+        const { task } = params;
         
         switch(task) {
             case "kruskals":
