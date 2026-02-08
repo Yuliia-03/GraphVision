@@ -1,5 +1,5 @@
 
-export const Rules = {
+export const nodeRules = {
 
     isCurrent: (stateName = "current") => ({
         state: stateName,
@@ -8,7 +8,19 @@ export const Rules = {
 
     inList: (listName, stateName) => ({
         state: stateName,
-        matches: (nodeId, step) => Array.isArray(step[listName] && step[listName].includes(nodeId)),
+        matches: (nodeId, step) => {
+            return step[listName] && (step[listName].includes(String(nodeId)))},
     })
+
+}
+
+export const edgeRules = {
+
+    activeEdge: ( stateName = "edges") => ({
+        state: stateName,
+        matches: (edgeId, step) => {
+            return step["edges"] && step["edges"].includes(String(edgeId))
+        }
+    }),
 
 }

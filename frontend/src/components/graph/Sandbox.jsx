@@ -7,14 +7,13 @@ import { useRef, useEffect, useState } from "react";
 
 export default function GraphSandbox() {
 
-    const { nodes, edges, setNodes, setEdges, rules, graphConfig, setGraphConfig } = useGraph();
+    const { nodes, edges, setNodes, setEdges, rules, graphConfig, setGraphConfig, cyRef } = useGraph();
     const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
     const directed = graphConfig.directed;
     const weighted = rules.requiresWeighted;
   
     const [mode, setMode] = useState("add"); 
 
-    const cyRef = useRef(null);
     const nodeCount = useRef(0);
     const selectedNode = useRef(null);
 

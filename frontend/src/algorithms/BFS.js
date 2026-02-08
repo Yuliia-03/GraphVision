@@ -11,6 +11,9 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         this.visited = new Set();
         this.directed = this.graphConfig.directed;
 
+        this.current_edges = []
+        this.current_neighbours = []
+
     }
 
     _runBFS(source, {
@@ -18,6 +21,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         onPop = () => {},
         onInspect = () => {},
         onDiscover = () => {},
+        onEdges = () => {},
     } = {}) {
         const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
 
@@ -36,19 +40,26 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
             this.visited.add(current);
 
-            const neighbors = graph[current] || [];
-            const neighborIds = neighbors.map(e => e.to);
+            const neighbours = graph[current] || [];
+            const neighborIds = neighbours.map(e => e.to);
 
-            onInspect({ current, neighbors, neighborIds });
+            onInspect({ current, neighbours, neighborIds });
 
-            for (const { to } of neighbors) {
+            for (const { to } of neighbours) {
+                const newEdge = `${current}-${to}`
+                this.current_edges.push(newEdge);
+                this.current_neighbours.push(to)
+                onEdges({current, newEdge});
+
                 if (!this.visited.has(to)) {
                     this.queue.push(to);
                     this.visited.add(to);
 
-                    onDiscover({current, to, neighborIds });
+                    onDiscover({current, to });
                 }
             }
+            this.current_neighbours = []
+            this.current_edges = []
         }
     }
 
@@ -67,24 +78,35 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                     current,
                     visited: [...this.visited],
                     inQueue: [...this.queue],
-                    message: `Pop ${current} from queue`,
+                    neighbours: [],
                 });
             },
 
             onInspect: ({ current, neighborIds }) => {
-                this.addStep(`Inspect neighbors of ${current}`, {
+                this.addStep(`Inspect neighbours of ${current}`, {
                     current,
                     visited: [...this.visited],
-                    neighbors: neighborIds,
+                    neighbours: [],
                     inQueue: [...this.queue],
                 });
             },
 
-            onDiscover: ({ current, neighborIds, to }) => {
+            onDiscover: ({ current, to }) => {
                 this.addStep(`Add ${to} to queue`, {
                     current,
                     visited: [...this.visited],
-                    neighbors: neighborIds,
+                    edges: [... this.current_edges],
+                    neighbours: [...this.current_neighbours],
+                    inQueue: [...this.queue],
+                });
+            },
+
+            onEdges: ({current, newEdge}) => {
+                this.addStep(`Inspect edge ${newEdge}`, {
+                    current,
+                    visited: [...this.visited],
+                    edges: [... this.current_edges],
+                    neighbours: [...this.current_neighbours],
                     inQueue: [...this.queue],
                 });
             },
@@ -184,6 +206,10 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             default:
                 return this.bfsTraversal(startNode);
         }
+    }
+
+    getLastStep(){
+        return this.steps.at(-1);
     }
 
 

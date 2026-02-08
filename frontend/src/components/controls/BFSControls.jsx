@@ -4,6 +4,8 @@ import  {SelectTask}  from "./SelectTask";
 import {SelectNode} from './SelectNode';
 import { ButtonPanel } from './ButtonPanels';
 
+import BFSAdapter from '../visualization/adaptors/BFSAdapter';
+
 import BFSAlgorithm from '../../algorithms/BFS';
 
 export default function BFSControls({ params, setParams }) {
@@ -37,7 +39,7 @@ export default function BFSControls({ params, setParams }) {
                 />
             )}
 
-            <ButtonPanel params={params} algorithm={BFSAlgorithm} />
+            <ButtonPanel params={params} algorithm={BFSAlgorithm} adapter={BFSAdapter}/>
         </div>
     );
 }

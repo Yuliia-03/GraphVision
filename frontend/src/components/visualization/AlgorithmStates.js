@@ -1,3 +1,4 @@
+//import
 
 export const AlgorithmStates = {
 
@@ -10,8 +11,8 @@ export const AlgorithmStates = {
             unseen: "bfs-node-unseen",
         },
         edges: {
-            edge: "bfs-edge",
-            tree_edge: "bfs-tree_edge",
+            unactive: "bfs-edge",
+            neighbours: "bfs-tree_edge",
         }
     },
 

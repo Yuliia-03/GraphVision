@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo, useRef } from "react";
 import { Algorithms } from "../services/algorithms";
 
 const GraphContext = createContext(null);
@@ -8,6 +8,8 @@ export const GraphProvider = ({ algorithm, children }) => {
 
     const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState([]);
+
+    const cyRef = useRef(null);
     
     const [graphConfig, setGraphConfig] = useState(() => ({
         directed: rules.allowsDirected && !rules.allowsUndirected
@@ -25,6 +27,7 @@ export const GraphProvider = ({ algorithm, children }) => {
         setNodes,
         setEdges,
         setGraphConfig,
+        cyRef
       }}>
       {children}
     </GraphContext.Provider>
