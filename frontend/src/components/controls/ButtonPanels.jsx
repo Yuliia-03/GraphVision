@@ -2,6 +2,7 @@ import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 import AlgorithmVisualizer from '../visualization/AlgorithmVisualizer';
 import {bfsStyle} from "../../visualizationStyle/bfsStyle"
+import BFSDataVisualization from './data_containers/BFSData';
 
 import { useEffect, useState } from "react";
 
@@ -60,6 +61,7 @@ export function ButtonPanel({params, algorithm, adapter}){
             <button onClick={() => next()}>Next Step</button>
             <button onClick={() => prev()}>Previous Step</button>
 
+            { steps.length > 0  && <BFSDataVisualization step={steps[stepIndex]}/>}
         
         </>
     );

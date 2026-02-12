@@ -1,0 +1,27 @@
+.bfs-data-panel {
+    max-width: 600px;
+    margin: 20px auto;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.block {
+    background: #eaeaea;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 4px;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: 500;
+    word-break: break-word;
+}

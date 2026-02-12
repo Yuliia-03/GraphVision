@@ -14,6 +14,8 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         this.current_edges = []
         this.current_neighbours = []
 
+        this.bfs = ""
+
     }
 
     _runBFS(source, {
@@ -35,6 +37,14 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
         while (this.queue.length > 0) {
             const current = this.queue.shift();
+
+            if (this.bfs.length == 0) {
+                this.bfs += current
+            }
+            else {
+                this.bfs += " -> "
+                this.bfs += current
+            }
 
             onPop({ current });
 
@@ -208,8 +218,8 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         }
     }
 
-    getLastStep(){
-        return this.steps.at(-1);
+    getResult(){
+        return this.bfs;
     }
 
 
