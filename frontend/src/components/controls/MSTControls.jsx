@@ -1,9 +1,11 @@
 import '../../styles/Control.css'
 import { ButtonPanel } from './ButtonPanels';
-import MSTAlgorithm from "../../algorithms/MST";
 
-export default function MSTControls({ params, setParams }) {
+import  { useState } from "react";
 
+export default function MSTControls() {
+
+    const [params, setParams] = useState({});
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     return (
         <div>
@@ -15,7 +17,7 @@ export default function MSTControls({ params, setParams }) {
             </select>
 
             
-            <ButtonPanel params={params} algorithm={MSTAlgorithm}/>
+            <ButtonPanel params={params}/>
         </div>
     );
 }

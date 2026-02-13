@@ -48,6 +48,9 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         console.log("constructor")
         this.currentWeight = 0;
         this.visitedEdges = new Set();
+        this.mstTree = new Set();
+
+        this.connectedNodes = new Set()
     }
 
     kruskals() {
@@ -55,14 +58,24 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         const uf = new DisjointSet(this.nodes.map(n => n.data.id)) 
         this.edges.sort((a, b) => a.data.weight - b.data.weight);
 
-        this.addStep(`Choose first edge ${this.edges[0].id}`, {
-            currentEdge: this.edges[0]
-        });
+        // this.addStep(`Choose first edge ${this.edges[0].data.id}`, {
+        //     currentEdge: this.edges[0],
+        //     weight: this.currentWeight,
+        //     mstTree: [...this.mstTree]
+        // });
 
-        while (this.visitedEdges.size < this.nodes.length - 1) {
+        while (this.mstTree.size < this.nodes.length - 1) {
             const currentEdge = this.edges.shift();
             console.log(currentEdge)
             const { source, target, weight, id } = currentEdge.data;
+
+            this.addStep(`Choose edge ${currentEdge.data.id}`, {
+                currentEdge: currentEdge.data.id,
+                weight: this.currentWeight,
+                visitedEdges: [...this.visitedEdges],
+                mstTree: [...this.mstTree],
+                mstNodes: [...this.connectedNodes]
+            });
             
 
             if(!uf.connected(source, target)) {
@@ -71,15 +84,27 @@ export default class MSTAlgorithm extends BaseAlgorithm{
 
                 this.currentWeight += weight;
                 this.visitedEdges.add(id);
+                this.mstTree.add(id);
+                this.connectedNodes.add(currentEdge.data.source);
+                this.connectedNodes.add(currentEdge.data.target);
 
                 this.addStep(`Add edge ${id}`, {
-                    currentEdge: currentEdge,
-                    visitedEdges: [...this.visitedEdges]
+                    currentEdge: currentEdge.data.id,
+                    weight: this.currentWeight,
+                    visitedEdges: [...this.visitedEdges],
+                    mstTree: [...this.mstTree],
+                    mstNodes: [...this.connectedNodes]
                 });
             } else{
                 console.log(`edge ${id} form a cycle` )
+
+                this.visitedEdges.add(id);
                 this.addStep(`Skip edge ${id} (cycle)`, {
-                    currentEdge: currentEdge
+                    currentEdge: currentEdge.data.id,
+                    weight: this.currentWeight,
+                    visitedEdges: [...this.visitedEdges],
+                    mstNodes: [...this.connectedNodes],
+                    mstTree: [...this.mstTree]
                 });
             }
             

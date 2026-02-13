@@ -1,6 +1,6 @@
 import '../../../styles/data_container/bfs.css'
 
-export default function BFSDataVisualization({step}) {
+export default function DFSDataVisualization({step}) {
 
     if (!step) return null;
 
@@ -15,8 +15,8 @@ export default function BFSDataVisualization({step}) {
             </div>
 
             <div className="block">
-                <p>Queue </p>
-                <p>{step.inQueue}</p>
+                <p>Stack </p>
+                <p>{step.inStack}</p>
             </div>
             <div className="block">
                 <p>Visited </p>

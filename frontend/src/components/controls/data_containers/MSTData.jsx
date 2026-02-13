@@ -11,16 +11,22 @@ export default function BFSDataVisualization({step}) {
             <div className="block"> 
                 <p>Action: {step.message || ""}</p>
 
-                <p>Current: {step.current || ""}</p>
+                <p>Current edge: {step.currentEdge || ""}</p>
             </div>
 
             <div className="block">
-                <p>Queue </p>
-                <p>{step.inQueue}</p>
+                <p> Weight </p>
+                <p>{step.weight}</p>
             </div>
+
+            <div className="block">
+                <p>MST Tree </p>
+                <p>{step.mstTree}</p>
+            </div>
+
             <div className="block">
                 <p>Visited </p>
-                <p>{step.visited}</p>
+                <p>{step.visitedEdges}</p>
             </div>
         
         </div>

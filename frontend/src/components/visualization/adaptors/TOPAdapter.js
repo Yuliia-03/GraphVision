@@ -1,22 +1,22 @@
 import {nodeRules, edgeRules} from "./AlgorithmAdapters";
 
-export default class BFSAdapter {
+export default class TOPAdapter {
 
     constructor(){
-        this.bfsNodeRules = [
+        this.dfsNodeRules = [
             nodeRules.isCurrent(),
             nodeRules.inList("neighbours", "neighbours"),
-            nodeRules.inList("inQueue", "inQueue"),
+            nodeRules.inList("inStack", "inStack"),
             nodeRules.inList("visited", "visited"),
         ]
 
-        this.bfsEdgeRules = [
-            edgeRules.activeEdge("neighbours", "neighbours"),
+        this.dfsEdgeRules = [
+            edgeRules.activeEdge("neighbours"),
         ]
     }
 
     getNodeState(nodeId, step) {
-        for (const rule of this.bfsNodeRules) {
+        for (const rule of this.dfsNodeRules) {
             if(rule.matches(nodeId, step)){
                 return rule.state;
             }
@@ -25,7 +25,7 @@ export default class BFSAdapter {
 
     }
     getEdgeState(edgeId, step) {
-        for (const rule of this.bfsEdgeRules) {
+        for (const rule of this.dfsEdgeRules) {
             if(rule.matches(edgeId, step)){
                 return rule.state;
             }

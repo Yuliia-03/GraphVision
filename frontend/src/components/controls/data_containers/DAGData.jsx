@@ -1,5 +1,4 @@
 import '../../../styles/data_container/bfs.css'
-
 export default function BFSDataVisualization({step}) {
 
     if (!step) return null;

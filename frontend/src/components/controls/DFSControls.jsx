@@ -1,10 +1,12 @@
 import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 
+import  { useState } from "react";
 import { ButtonPanel } from './ButtonPanels';
-import DFSAlgorithm from '../../algorithms/DFS';
-export default function DFSControls({ params, setParams }) {
 
+export default function DFSControls() {
+
+    const [params, setParams] = useState({});
     const { nodes } = useGraph();
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
 
@@ -57,7 +59,7 @@ export default function DFSControls({ params, setParams }) {
             )
             
         }
-        <ButtonPanel params={params} algorithm={DFSAlgorithm} />        
+        <ButtonPanel params={params}/>        
     </div>
   );
 }

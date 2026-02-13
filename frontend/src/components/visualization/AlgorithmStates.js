@@ -25,8 +25,21 @@ export const AlgorithmStates = {
             unseen: "bfs-node-unseen",
         },
         edges: {
-            edge: "bfs-edge",
-            tree_edge: "bfs-tree_edge",
+            unactive: "bfs-edge",
+            neighbours: "bfs-tree_edge",
+        }
+    },
+
+    MST: {
+        nodes: {
+            connected: "mst-node-visited",
+            unseen: "mst-node-unseen"
+        },
+        edges: {
+            unseen: "mst-initial-edge",
+            current_edge: "mst-current-edge",
+            mst_tree: "mst-edge",
+            cycle_edge: "mst-unpicked-edge",
         }
     },
 }

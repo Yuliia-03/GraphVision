@@ -1,13 +1,12 @@
 import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 import AlgorithmVisualizer from '../visualization/AlgorithmVisualizer';
-import {bfsStyle} from "../../visualizationStyle/bfsStyle"
-import BFSDataVisualization from './data_containers/BFSData';
-
+import { AlgorithmDefinition } from '../../algorithms/definitions';
 import { useEffect, useState } from "react";
 
-export function ButtonPanel({params, algorithm, adapter}){
-    const { nodes, edges, graphConfig, cyRef } = useGraph();
+export function ButtonPanel({params= {}}){
+    const { nodes, edges, graphConfig, cyRef, algorithm } = useGraph();
+    const algoDef = AlgorithmDefinition[algorithm];
 
     const [steps, setSteps] = useState([]);
     const [stepIndex, setStepIndex] = useState(0);
@@ -17,18 +16,24 @@ export function ButtonPanel({params, algorithm, adapter}){
 
         const visualizer = new AlgorithmVisualizer(
             cyRef.current,
-            new adapter(),
-            "BFS"
+            new algoDef.AdapterClass(),
+            algoDef.id
         );
 
         visualizer.renderStep(steps[stepIndex]);
     }, [stepIndex, steps]);
 
     const run = () => {
-        const algo = new algorithm(nodes, edges, graphConfig); 
+
+
+        if (!algoDef) {
+            throw new Error(`Algorithm "${algorithm}" not registered`);
+        }
+
+        const algo = new algoDef.AlgorithmClass(nodes, edges, graphConfig); 
         const steps = algo.run(params);
         console.log(steps)
-        cyRef.current.style(bfsStyle(graphConfig.directed)).update();
+        cyRef.current.style(algoDef.style(graphConfig.directed)).update();
 
         setSteps(steps);
         setStepIndex(0);
@@ -61,7 +66,7 @@ export function ButtonPanel({params, algorithm, adapter}){
             <button onClick={() => next()}>Next Step</button>
             <button onClick={() => prev()}>Previous Step</button>
 
-            { steps.length > 0  && <BFSDataVisualization step={steps[stepIndex]}/>}
+            { steps.length > 0  && <algoDef.DataPanel step={steps[stepIndex]}/>}
         
         </>
     );

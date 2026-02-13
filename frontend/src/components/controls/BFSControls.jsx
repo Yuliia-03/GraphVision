@@ -1,15 +1,11 @@
 import '../../styles/Control.css'
-import { useGraph } from '../../contexts/GraphContext';
 import  {SelectTask}  from "./SelectTask";
 import {SelectNode} from './SelectNode';
 import { ButtonPanel } from './ButtonPanels';
+import  { useState } from "react";
 
-import BFSAdapter from '../visualization/adaptors/BFSAdapter';
-
-import BFSAlgorithm from '../../algorithms/BFS';
-
-export default function BFSControls({ params, setParams }) {
-    
+export default function BFSControls() {
+    const [params, setParams] = useState({});
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     
     return (
@@ -39,7 +35,7 @@ export default function BFSControls({ params, setParams }) {
                 />
             )}
 
-            <ButtonPanel params={params} algorithm={BFSAlgorithm} adapter={BFSAdapter}/>
+            <ButtonPanel params={params}/>
         </div>
     );
 }

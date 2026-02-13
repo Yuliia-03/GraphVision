@@ -16,10 +16,11 @@ export const nodeRules = {
 
 export const edgeRules = {
 
-    activeEdge: ( stateName = "edges") => ({
+    activeEdge: (listName, stateName = "edges") => ({
         state: stateName,
         matches: (edgeId, step) => {
-            return step["edges"] && step["edges"].includes(String(edgeId))
+            //console.log(listName)
+            return step[listName] && (step[listName].includes(String(edgeId)))
         }
     }),
 
