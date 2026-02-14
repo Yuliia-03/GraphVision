@@ -38,9 +38,6 @@ export default class DFSAlgorithm extends BaseAlgorithm{
 
         const graph = buildAdjacencyList(this.nodes, this.edges, false);
 
-        // this.addStep(`Initialize stack with ${source}`, {
-        //     inStack: [...this.stack]
-        // });
 
         for (const node of this.nodes) {
             const start = node.data.id;
@@ -87,24 +84,24 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                 inStack: [...this.stack]
             });
 
-            const neighbors = graph[current] || [];
-            const neighborIds = neighbors.map(e => e.to);
+            const neighbours = graph[current] || [];
+            const neighborIds = neighbours.map(e => e.to);
 
-            this.addStep(`Inspect neighbors of ${current}`, {
+            this.addStep(`Inspect neighbours of ${current}`, {
                 current: current,
                 visited: [...this.visited],
-                neighbors: neighborIds,
+                neighbours: neighborIds,
                 inStack: [...this.stack]
             });
 
-            for (const { to } of neighbors) {
+            for (const { to } of neighbours) {
                 if (!this.visited.has(to)) {
                     this.stack.push(to);
                     this.visited.add(to);
                     this.addStep(`Add ${to} to stack`, {
                     current: current,
                     visited: [...this.visited],
-                    neighbors: neighborIds,
+                    neighbours: neighborIds,
                     inStack: [...this.stack]
                     });
                 }

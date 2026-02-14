@@ -4,8 +4,8 @@ export default class DFSAdapter {
 
     constructor(){
         this.dfsNodeRules = [
-            nodeRules.isCurrent(),
             nodeRules.inList("neighbours", "neighbours"),
+            //nodeRules.inList("visited", "visited"),
             nodeRules.inList("inStack", "inStack"),
             nodeRules.inList("visited", "visited"),
         ]
@@ -16,12 +16,23 @@ export default class DFSAdapter {
     }
 
     getNodeState(nodeId, step) {
+        const states = []
+
+        if (nodeRules.isCurrent().matches(nodeId, step)) {
+            return ["current"];
+        }
+
         for (const rule of this.dfsNodeRules) {
             if(rule.matches(nodeId, step)){
-                return rule.state;
+                states.push(rule.state);
             }
         }
-        return "unseen";
+        
+        if (states.length === 0) {
+            states.push("unseen");
+        }
+
+        return states;
 
     }
     getEdgeState(edgeId, step) {

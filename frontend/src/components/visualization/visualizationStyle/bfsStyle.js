@@ -3,7 +3,10 @@ export const bfsStyle = (directed = false) => [
         selector: "node",
         style: {
             label: "data(label)",
-            'background-color': "#ea0000",
+            'background-color': "#ffffff",
+            'border-width': 2,
+            'border-color': '#626262',
+            'border-style': 'solid',
             width: 60,
             height: 60,
             fontSize: 16,
@@ -18,7 +21,7 @@ export const bfsStyle = (directed = false) => [
         selector: ".bfs-node-current",
         style: {
             label: "data(label)",
-            'background-color': '#4a90e2',
+            'background-color': '#ff0000',
             width: 60,
             height: 60,
             fontSize: 16,
@@ -28,48 +31,39 @@ export const bfsStyle = (directed = false) => [
         }
 
     },
-
+    {
+        selector: ".bfs-node-unseen",
+        style: {
+            'background-color': "#ffffff",
+            'border-width': 2,
+            'border-color': '#626262'
+        }
+    },
     {
         selector: ".bfs-node-visited",
         style: {
-            label: "data(label)",
-            'background-color': '#919191',
-            width: 60,
-            height: 60,
-            fontSize: 16,
-            textValign: "center",
-            textHalign: "center",
-            textWrap: "wrap",     
+            'background-color': '#919191',  
         }
     },
+    {
+        selector: ".bfs-node-inQueue",
+        style: {
+            'background-color': '#ff9100',
+        }
+    },{
+        selector: ".bfs-node-inStack",
+        style: {
+            'background-color': '#7f17cf',
+        }
+    },
+
 
     {
         selector: ".bfs-node-neighbours",
         style: {
-            label: "data(label)",
             'border-width': 4,
-            'border-color': '#ff7a7a',
-            'border-style': 'solid',
-            width: 60,
-            height: 60,
-            fontSize: 16,
-            textValign: "center",
-            textHalign: "center",
-            textWrap: "wrap",     
-        }
-    },
-
-    {
-        selector: ".bfs-node-inQueue",
-        style: {
-            label: "data(label)",
-            'background-color': '#f5a623',
-            width: 60,
-            height: 60,
-            fontSize: 16,
-            textValign: "center",
-            textHalign: "center",
-            textWrap: "wrap",     
+            'border-color': '#ff0000',
+            'border-style': 'solid'
         }
     },
 

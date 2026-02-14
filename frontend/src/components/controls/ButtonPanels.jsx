@@ -2,25 +2,30 @@ import '../../styles/Control.css'
 import { useGraph } from '../../contexts/GraphContext';
 import AlgorithmVisualizer from '../visualization/AlgorithmVisualizer';
 import { AlgorithmDefinition } from '../../algorithms/definitions';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export function ButtonPanel({params= {}}){
+
     const { nodes, edges, graphConfig, cyRef, algorithm } = useGraph();
     const algoDef = AlgorithmDefinition[algorithm];
 
     const [steps, setSteps] = useState([]);
     const [stepIndex, setStepIndex] = useState(0);
+    const visualizer = useRef(null);
 
     useEffect(() => {
         if (!steps.length) return;
 
-        const visualizer = new AlgorithmVisualizer(
-            cyRef.current,
-            new algoDef.AdapterClass(),
-            algoDef.id
-        );
+        if (!visualizer.current) {
+            visualizer.current = new AlgorithmVisualizer(
+                cyRef.current,
+                new algoDef.AdapterClass(),
+                algoDef.id
+            );
+        }
 
-        visualizer.renderStep(steps[stepIndex]);
+        visualizer.current.renderStep(steps[stepIndex]);
+
     }, [stepIndex, steps]);
 
     const run = () => {
@@ -35,6 +40,7 @@ export function ButtonPanel({params= {}}){
         console.log(steps)
         cyRef.current.style(algoDef.style(graphConfig.directed)).update();
 
+        visualizer.current = null;
         setSteps(steps);
         setStepIndex(0);
 

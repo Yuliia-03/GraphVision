@@ -24,6 +24,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         onInspect = () => {},
         onDiscover = () => {},
         onEdges = () => {},
+        onReturn = () => {}
     } = {}) {
         const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
 
@@ -71,6 +72,8 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             this.current_neighbours = []
             this.current_edges = []
         }
+
+        onReturn()
     }
 
     bfsTraversal(source) {
@@ -79,6 +82,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         this._runBFS(source, {
             onInit: ({ source }) => {
                 this.addStep(`Initialize queue with ${source}`, {
+                    current: undefined,
                     inQueue: [...this.queue],
                 });
             },
@@ -120,7 +124,16 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                     inQueue: [...this.queue],
                 });
             },
+
+            onReturn: () => {
+            this.addStep(`All reachable nodes found`, {
+                    visited: [...this.visited],
+                    inQueue: [...this.queue],
+                });
+            },
+
         });
+
 
         return this.steps;
     }

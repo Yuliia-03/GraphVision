@@ -4,10 +4,10 @@ export default class BFSAdapter {
 
     constructor(){
         this.bfsNodeRules = [
-            nodeRules.isCurrent(),
             nodeRules.inList("neighbours", "neighbours"),
-            nodeRules.inList("inQueue", "inQueue"),
             nodeRules.inList("visited", "visited"),
+            nodeRules.inList("inQueue", "inQueue"),
+            //nodeRules.isCurrent(),
         ]
 
         this.bfsEdgeRules = [
@@ -16,12 +16,23 @@ export default class BFSAdapter {
     }
 
     getNodeState(nodeId, step) {
+
+        const states = []
+
+        if (nodeRules.isCurrent().matches(nodeId, step)) {
+            return ["current"];
+        }
+        
         for (const rule of this.bfsNodeRules) {
             if(rule.matches(nodeId, step)){
-                return rule.state;
+                states.push(rule.state);
             }
         }
-        return "unseen";
+        if (states.length === 0) {
+            states.push("unseen");
+        }
+
+        return states;
 
     }
     getEdgeState(edgeId, step) {

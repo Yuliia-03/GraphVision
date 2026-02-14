@@ -6,7 +6,7 @@ export default function DAGControls({ }) {
 
     return (
         <div>
-            <ButtonPanel/>
+            <ButtonPanel params={{ returnTopo: true}}/>
         </div>
     );
 }
