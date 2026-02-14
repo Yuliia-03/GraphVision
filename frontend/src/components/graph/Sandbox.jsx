@@ -21,10 +21,18 @@ export default function GraphSandbox() {
 
     const clearSelection = () => {
         if (selectedNode.current) {
-            cyRef.current.getElementById(selectedNode.current).style("backgroundColor", "#4a90e2");
+            //cyRef.current.getElementById(selectedNode.current).style("backgroundColor", "#4a90e2");
+            cyRef.current
+                .getElementById(selectedNode.current)
+                .removeClass("sandbox-node-selected");
             selectedNode.current = null;
         }
     };
+
+    useEffect(() => {
+        if (!cyRef.current) return;
+        cyRef.current.nodes().style("backgroundColor", null);
+    }, []);
 
     useEffect(() => {
         if (!cyRef.current) return;
@@ -65,7 +73,7 @@ export default function GraphSandbox() {
 
             setNodes((els) => [
                 ...els,
-                { data: { id, label: id }, position: event.position }
+                { data: { id, label: id }, position: event.position, classes: "sandbox-node" }
             ]);
         };
 
@@ -156,7 +164,8 @@ export default function GraphSandbox() {
         const onNodeCreateEdge = (event, nodeId) => {
             if (!selectedNode.current) {
                 selectedNode.current = nodeId;
-                event.target.style("backgroundColor", "orange");
+                //event.target.style("backgroundColor", "orange");
+                event.target.addClass("sandbox-node-selected");
             } else {
                 const source = selectedNode.current;
                 const target = nodeId;
@@ -165,11 +174,11 @@ export default function GraphSandbox() {
                     addEdge(
                         els,
                         {
-                        data: {
-                            source,
-                            target,
-                            ...(weighted ? { weight: 1 } : {})
-                        }
+                            data: {
+                                source,
+                                target,
+                                ...(weighted ? { weight: 1 } : {})
+                            }
                         },
                         directed, rules.allowSelfLoops
                     )
@@ -205,34 +214,46 @@ export default function GraphSandbox() {
                     {
                         selector: "node",
                         style: {
-                            label: "data(label)",
-                            backgroundColor: "#4a90e2",
-                            width: 60,
-                            height: 60,
-                            fontSize: 16,
-                            textValign: "center",
-                            textHalign: "center",
-                            textWrap: "wrap",     
+                        label: "data(label)",
+                        width: 60,
+                        height: 60,
+                        fontSize: 16,
+                        textValign: "center",
+                        textHalign: "center",
+                        textWrap: "wrap"
+                        }
+                    },
+                    {
+                        selector: ".sandbox-node",
+                        style: {
+                        backgroundColor: "#4a90e2"
+                        }
+                    },
+                    {
+                        selector: ".sandbox-node-selected",
+                        style: {
+                        backgroundColor: "orange"
                         }
                     },
                     {
                         selector: "edge",
                         style: {
-                            width: 2,
-                            targetArrowShape: directed ? "triangle" : "none",
-                            curveStyle: "bezier"
+                        width: 2,
+                        targetArrowShape: directed ? "triangle" : "none",
+                        curveStyle: "bezier"
                         }
                     },
                     {
                         selector: "edge[weight]",
                         style: {
-                            label: "data(weight)",
-                            fontSize: 14,
-                            textBackgroundColor: "#fff",
-                            textBackgroundOpacity: 0.8
+                        label: "data(weight)",
+                        fontSize: 14,
+                        textBackgroundColor: "#fff",
+                        textBackgroundOpacity: 0.8
                         }
                     }
                 ]}
+
             />
 
             {showLoad && (
