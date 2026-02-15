@@ -1,16 +1,17 @@
+
 import {nodeRules, edgeRules} from "./AlgorithmAdapters";
 
-export default class dagAdapter {
+export default class SCCAdapter {
 
     constructor(){
-        this.dagNodeRules = [
+        this.sccNodeRules = [
             nodeRules.inList("neighbours", "neighbours"),
             nodeRules.inList("topoOrder", "visited"),
             nodeRules.inList("inStack", "inStack"),
             //nodeRules.isCurrent(),
         ]
 
-        this.dagEdgeRules = [
+        this.sccEdgeRules = [
             edgeRules.activeEdge("neighbours", "neighbours"),
         ]
     }
@@ -23,7 +24,7 @@ export default class dagAdapter {
             return ["current"];
         }
 
-        for (const rule of this.dagNodeRules) {
+        for (const rule of this.sccNodeRules) {
             if(rule.matches(nodeId, step)){
                 states.push(rule.state);
             }
@@ -37,7 +38,7 @@ export default class dagAdapter {
     }
     
     getEdgeState(edgeId, step) {
-        for (const rule of this.dagEdgeRules) {
+        for (const rule of this.sccEdgeRules) {
             if(rule.matches(edgeId, step)){
                 return rule.state;
             }

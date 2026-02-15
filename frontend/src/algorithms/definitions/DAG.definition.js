@@ -2,7 +2,7 @@ import DAGAdapter from "../../components/visualization/adaptors/DAGAdapter"
 import DAGAlgorithm from '../DAG'
 import DAGDataVisualization from "../../components/controls/data_containers/DAGData"
 import DAGControls from "../../components/controls/DAGControls"
-import { dagStyle } from "../../components/visualization/visualizationStyle/dagStyle"
+import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
 
 export const DAGDefinition = {
 
@@ -11,6 +11,6 @@ export const DAGDefinition = {
     AlgorithmClass: DAGAlgorithm,
     DataPanel: DAGDataVisualization,
     AlgorithmControl: DAGControls,
-    style: dagStyle
+    style: bfsStyle
 
 }

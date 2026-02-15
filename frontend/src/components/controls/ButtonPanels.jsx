@@ -44,14 +44,6 @@ export function ButtonPanel({params= {}}){
         setSteps(steps);
         setStepIndex(0);
 
-        // const visualizer = new AlgorithmVisualizer(
-        //     cyRef.current,
-        //     new adapter(),
-        //     "BFS"
-        // );
-        // visualizer.renderStep(steps[9]);
-
-        // console.log("Steps:", steps);
     }
 
     const next = () => {

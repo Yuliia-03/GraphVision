@@ -2,6 +2,7 @@ import { BFSDefinition } from "./BFS.definition";
 import { DAGDefinition } from "./DAG.definition";
 import { DFSDefinition } from "./DFS.definition";
 import { MSTDefinition } from "./MST.definition";
+import { SCCDefinition } from "./SCC.definition";
 import { TOPDefinition } from "./TOP.definition";
 
 export const AlgorithmDefinition = {
@@ -9,5 +10,6 @@ export const AlgorithmDefinition = {
     DFS: DFSDefinition,
     MST: MSTDefinition,
     DAG: DAGDefinition,
-    Top_sort: TOPDefinition
+    Top_sort: TOPDefinition,
+    SCC: SCCDefinition
 }

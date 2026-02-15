@@ -28,6 +28,7 @@ export default class AlgorithmVisualizer{
     renderStep(step) {
 
         this.cy.nodes().forEach(node => {
+            //console.log(step, node.id(), className)
             Object.values(this.algorithmStates.nodes).forEach(cls => {
 
                 //console.log("remove style")

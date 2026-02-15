@@ -1,31 +1,43 @@
 import {nodeRules, edgeRules} from "./AlgorithmAdapters";
 
-export default class BFSAdapter {
+export default class DAGAdapter {
 
     constructor(){
-        this.bfsNodeRules = [
-            nodeRules.isCurrent(),
+        this.dagNodeRules = [
             nodeRules.inList("neighbours", "neighbours"),
-            nodeRules.inList("inQueue", "inQueue"),
-            nodeRules.inList("visited", "visited"),
+            nodeRules.inList("topoOrder", "visited"),
+            nodeRules.inList("inStack", "inStack"),
+            //nodeRules.isCurrent(),
         ]
 
-        this.bfsEdgeRules = [
+        this.dagEdgeRules = [
             edgeRules.activeEdge("neighbours", "neighbours"),
         ]
     }
 
     getNodeState(nodeId, step) {
-        for (const rule of this.bfsNodeRules) {
+
+        const states = []
+
+        if (nodeRules.isCurrent().matches(nodeId, step)) {
+            return ["current"];
+        }
+
+        for (const rule of this.dagNodeRules) {
             if(rule.matches(nodeId, step)){
-                return rule.state;
+                states.push(rule.state);
             }
         }
-        return "unseen";
+        if (states.length === 0) {
+            states.push("unseen");
+        }
+
+        return states;
 
     }
+    
     getEdgeState(edgeId, step) {
-        for (const rule of this.bfsEdgeRules) {
+        for (const rule of this.dagEdgeRules) {
             if(rule.matches(edgeId, step)){
                 return rule.state;
             }

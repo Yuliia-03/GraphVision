@@ -1,9 +1,12 @@
 import '../../styles/Control.css'
 import { ButtonPanel } from './ButtonPanels';
 
-export default function SCC_Controls({ params, setParams }) {
-
+import  { useState } from "react";
+export default function SCC_Controls({ }) {
+    
+    const [params, setParams] = useState({});
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
+    
     return (
         <div>
             <label>Choose subtask:</label>

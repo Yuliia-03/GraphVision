@@ -15,12 +15,14 @@ export default class MSTAdaptor {
     }
 
     getNodeState(nodeId, step) {
+
+
         for (const rule of this.mstNodeRules) {
             if(rule.matches(nodeId, step)){
-                return rule.state;
+                return [rule.state];
             }
         }
-        return "unseen";
+        return ["unseen"];
 
     }
 

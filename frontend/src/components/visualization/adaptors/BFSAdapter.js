@@ -22,7 +22,7 @@ export default class BFSAdapter {
         if (nodeRules.isCurrent().matches(nodeId, step)) {
             return ["current"];
         }
-        
+
         for (const rule of this.bfsNodeRules) {
             if(rule.matches(nodeId, step)){
                 states.push(rule.state);
@@ -35,6 +35,7 @@ export default class BFSAdapter {
         return states;
 
     }
+    
     getEdgeState(edgeId, step) {
         for (const rule of this.bfsEdgeRules) {
             if(rule.matches(edgeId, step)){

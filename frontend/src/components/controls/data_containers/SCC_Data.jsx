@@ -1,6 +1,6 @@
 import '../../../styles/data_container/bfs.css'
 
-export default function TOPDataVisualization({step}) {
+export default function SCC_DataVisualization({step}) {
 
     if (!step) return null;
 

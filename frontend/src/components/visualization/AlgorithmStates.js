@@ -43,4 +43,45 @@ export const AlgorithmStates = {
             cycle_edge: "mst-unpicked-edge",
         }
     },
+
+    DAG: {
+        nodes: {
+            current: "bfs-node-current",
+            visited: "bfs-node-visited",
+            neighbours: "bfs-node-neighbours",
+            inStack: "bfs-node-inStack",
+            unseen: "bfs-node-unseen",
+        },
+        edges: {
+            unactive: "bfs-edge",
+            neighbours: "bfs-tree-edge",
+        }
+    },
+    TOP: {
+        nodes: {
+            current: "bfs-node-current",
+            visited: "bfs-node-visited",
+            neighbours: "bfs-node-neighbours",
+            inStack: "bfs-node-inStack",
+            unseen: "bfs-node-unseen",
+        },
+        edges: {
+            unactive: "bfs-edge",
+            neighbours: "bfs-tree-edge",
+        }
+    },
+    SCC: {
+        nodes: {
+            current: "bfs-node-current",
+            visited: "bfs-node-visited",
+            neighbours: "bfs-node-neighbours",
+            inStack: "bfs-node-inStack",
+            unseen: "bfs-node-unseen",
+        },
+        edges: {
+            unactive: "bfs-edge",
+            neighbours: "bfs-tree-edge",
+        }
+    },
+
 }
