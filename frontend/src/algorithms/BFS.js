@@ -15,6 +15,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         this.current_neighbours = []
 
         this.bfs = ""
+        this.paths = {};
 
     }
 
@@ -34,18 +35,16 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         this.queue.push(source);
         this.visited.add(source);
 
+        let shouldStop = false;
+        const stop = () => { shouldStop = true; };
+
+
         onInit({ source });
 
-        while (this.queue.length > 0) {
+        while (this.queue.length > 0 && !shouldStop) {
             const current = this.queue.shift();
 
-            if (this.bfs.length == 0) {
-                this.bfs += current
-            }
-            else {
-                this.bfs += " -> "
-                this.bfs += current
-            }
+            this.bfs += this.bfs.length ? ` -> ${current}` : `${current}`;
 
             onPop({ current });
 
@@ -57,16 +56,20 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             onInspect({ current, neighbours, neighborIds });
 
             for (const { to } of neighbours) {
+
+                if(shouldStop) break;
+
                 const newEdge = `${current}-${to}`
                 this.current_edges.push(newEdge);
                 this.current_neighbours.push(to)
+
                 onEdges({current, newEdge});
 
-                if (!this.visited.has(to)) {
+                if (!this.visited.has(to) && !shouldStop) {
                     this.queue.push(to);
                     this.visited.add(to);
 
-                    onDiscover({current, to });
+                    onDiscover({current, to, stop });
                 }
             }
             this.current_neighbours = []
@@ -126,32 +129,91 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             },
 
             onReturn: () => {
-            this.addStep(`All reachable nodes found`, {
-                    visited: [...this.visited],
-                    inQueue: [...this.queue],
-                });
-            },
+            this.addStep("DFS finished", {
+                visited: [...this.visited],
+                inQueue: [],
+                result: this.bfs,
+                isFinal: true
+            });
 
-        });
+        }});
 
 
         return this.steps;
     }
 
     bfsDistances(source) {
+
         const distances = {};
+        const parent = {};
         this.steps = [];
 
         this._runBFS(source, {
             onInit: ({ source }) => {
                 distances[source] = 0;
+                parent[source] = source;
+                this.addStep(`Initialize queue with ${source}`, {
+                    current: undefined,
+                    inQueue: [...this.queue],
+                });
+            },
+
+            onPop: ({ current }) => {
+                this.addStep(`Pop ${current} from queue`, {
+                    current,
+                    visited: [...this.visited],
+                    inQueue: [...this.queue],
+                    neighbours: [],
+                });
             },
 
             onDiscover: ({ current, neighborIds, to }) => {
                 distances[to] = distances[current] + 1;
+                parent[to] = current;
+
+                this.addStep(`Add ${to} to queue`, {
+                    current,
+                    visited: [...this.visited],
+                    edges: [... this.current_edges],
+                    neighbours: [...this.current_neighbours],
+                    inQueue: [...this.queue],
+                });
+            },
+
+            onInspect: ({ current, neighborIds }) => {
+                this.addStep(`Inspect neighbours of ${current}`, {
+                    current,
+                    visited: [...this.visited],
+                    neighbours: [],
+                    inQueue: [...this.queue],
+                });
+            },
+
+            onEdges: ({current, newEdge}) => {
+                this.addStep(`Inspect edge ${newEdge}`, {
+                    current,
+                    visited: [...this.visited],
+                    edges: [... this.current_edges],
+                    neighbours: [...this.current_neighbours],
+                    inQueue: [...this.queue],
+                });
+            },
+
+            onReturn: () => {
+            this.addStep(`All reachable nodes found`, {
+                    visited: [],
+                    inQueue: [],
+                    result: this.paths,
+                    isFinal: true
+                });
             },
         });
-        return distances;
+
+        Object.keys(parent).forEach(node => {
+            this.paths[node] = this.buildPath(parent, source, node);
+        });
+        
+        return this.steps;
     }
 
     
@@ -167,15 +229,27 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             onInit: ({ source }) => {
                 distances[source] = 0;
                 parent[source] = source;
+
+                this.addStep(`Initialize queue with ${source}`, {
+                    current: undefined,
+                    inQueue: [...this.queue],
+                });
             },
 
             onPop: ({ current }) => {
                 if (current === targetNode) {
                     found = true;
                 }
+
+                this.addStep(`Pop ${current} from queue`, {
+                    current,
+                    visited: [...this.visited],
+                    inQueue: [...this.queue],
+                    neighbours: [],
+                });
             },
 
-            onDiscover: ({ current, neighborIds, to }) => {
+            onDiscover: ({ current, to, stop }) => {
                 if (found) return;
 
                 distances[to] = distances[current] + 1;
@@ -183,8 +257,37 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
                 if (to === targetNode) {
                     found = true;
+                    stop();
                 }
+
+                this.addStep(`Add ${to} to queue`, {
+                    current,
+                    visited: [...this.visited],
+                    edges: [... this.current_edges],
+                    neighbours: [...this.current_neighbours],
+                    inQueue: [...this.queue],
+                });
             },
+            onInspect: ({ current, neighborIds }) => {
+                this.addStep(`Inspect neighbours of ${current}`, {
+                    current,
+                    visited: [...this.visited],
+                    neighbours: [],
+                    inQueue: [...this.queue],
+                });
+            },
+
+            onEdges: ({current, newEdge}) => {
+                this.addStep(`Inspect edge ${newEdge}`, {
+                    current,
+                    visited: [...this.visited],
+                    edges: [... this.current_edges],
+                    neighbours: [...this.current_neighbours],
+                    inQueue: [...this.queue],
+                });
+            },
+
+            
         });
 
         if(!found) {
@@ -192,8 +295,21 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             return;
         }
 
+        this.paths = this.buildPath(parent, source, targetNode);
+        this.addStep(`Shortest path found ${this.paths}`, {
+            visited: [],
+            result: this.paths,
+            inQueue: [],
+            isFinal: true
+        });
+
+        return this.steps
+
+    }
+
+    buildPath(parent, source, target) {
         const path = [];
-        let node = targetNode;
+        let node = target;
 
         while (parent[node] != node) {
             path.push(Number(node));
@@ -202,16 +318,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
         path.push(Number(source));
 
-        path.reverse()
-        this.addStep(`Shortest path found`, {
-            path,
-        });
-
-        return {
-            path,
-            length: path.length - 1,
-        };
-
+        return path.reverse()
     }
 
 

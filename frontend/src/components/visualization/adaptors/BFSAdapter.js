@@ -11,7 +11,7 @@ export default class BFSAdapter {
         ]
 
         this.bfsEdgeRules = [
-            edgeRules.activeEdge("neighbours", "neighbours"),
+            edgeRules.activeEdge("edges", "neighbours"),
         ]
     }
 
@@ -35,7 +35,7 @@ export default class BFSAdapter {
         return states;
 
     }
-    
+
     getEdgeState(edgeId, step) {
         for (const rule of this.bfsEdgeRules) {
             if(rule.matches(edgeId, step)){
