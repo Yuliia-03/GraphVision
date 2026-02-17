@@ -8,6 +8,7 @@ export default class DFSAdapter {
             //nodeRules.inList("visited", "visited"),
             nodeRules.inList("inStack", "inStack"),
             nodeRules.inList("visited", "visited"),
+            nodeRules.inList("reached", "final"),
         ]
 
         this.dfsEdgeRules = [
@@ -35,7 +36,15 @@ export default class DFSAdapter {
         return states;
 
     }
+
     getEdgeState(edgeId, step) {
+
+        if (step.isFinal && step.result?.treeEdges) {
+            return step.result.treeEdges.includes(edgeId)
+                ? "finalTree"
+                : "unactive";
+        }
+
         for (const rule of this.dfsEdgeRules) {
             if(rule.matches(edgeId, step)){
                 return rule.state;

@@ -7,6 +7,7 @@ export default class BFSAdapter {
             nodeRules.inList("neighbours", "neighbours"),
             nodeRules.inList("visited", "visited"),
             nodeRules.inList("inQueue", "inQueue"),
+            nodeRules.inList("reached", "final"),
             //nodeRules.isCurrent(),
         ]
 
@@ -37,6 +38,13 @@ export default class BFSAdapter {
     }
 
     getEdgeState(edgeId, step) {
+        if (step.isFinal && step.result?.treeEdges) {
+            return step.result.treeEdges.includes(edgeId)
+                ? "finalTree"
+                : "ignored";
+        }
+
+
         for (const rule of this.bfsEdgeRules) {
             if(rule.matches(edgeId, step)){
                 return rule.state;

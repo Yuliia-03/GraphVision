@@ -31,8 +31,12 @@ export default function DFSDataVisualization({step}) {
                 <div className="block result">
                     <h3>Result</h3>
 
-                    {step.result !== undefined && (
-                        <p>DFS: {step.result}</p>
+                    {typeof step.result === "string" && (
+                        <p>{step.result}</p>
+                    )}
+
+                    {Array.isArray(step.result) && (
+                        <p>{step.result.join(" → ")}</p>
                     )}
                 </div>
             )}

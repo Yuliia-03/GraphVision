@@ -9,11 +9,14 @@ export const AlgorithmStates = {
             neighbours: "bfs-node-neighbours",
             inQueue: "bfs-node-inQueue",
             unseen: "bfs-node-unseen",
+            final: "bfs-node-final",
 
         },
         edges: {
             unactive: "bfs-edge",
             neighbours: "bfs-tree-edge",
+            finalTree: "bfs-tree-edge-final",
+            ignored: "bfs-ignored",
         }
     },
 

@@ -61,6 +61,9 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
                 const newEdge = `${current}-${to}`
                 this.current_edges.push(newEdge);
+                if (!this.directed) {
+                    this.current_edges.push(`${to}-${current}`);
+                }
                 this.current_neighbours.push(to)
 
                 onEdges({current, newEdge});
@@ -81,11 +84,12 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
     bfsTraversal(source) {
         this.steps = [];
+        const parent = {};
 
         this._runBFS(source, {
             onInit: ({ source }) => {
+                parent[source] = source;
                 this.addStep(`Initialize queue with ${source}`, {
-                    current: undefined,
                     inQueue: [...this.queue],
                 });
             },
@@ -109,6 +113,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             },
 
             onDiscover: ({ current, to }) => {
+                parent[to] = current;
                 this.addStep(`Add ${to} to queue`, {
                     current,
                     visited: [...this.visited],
@@ -129,15 +134,26 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             },
 
             onReturn: () => {
-            this.addStep("DFS finished", {
-                visited: [...this.visited],
-                inQueue: [],
-                result: this.bfs,
-                isFinal: true
-            });
 
-        }});
+                const treeEdges = this.buildTreeEdges(parent);
+                const paths = this.buildAllPaths(parent, source);
+                
+                this.addStep("DFS finished", {
+                    reached: [...this.visited],
+                    inQueue: [],
+                    result: {
+                        type: "traversal",
+                        treeEdges,
+                        paths: this.getAllBFSTraversals(source),
+                        bfs: this.bfs
+                    },
+                    // result: this.bfs,
+                    isFinal: true
+                });
 
+            }
+        });
+        console.log(this.getAllBFSTraversals(source))
 
         return this.steps;
     }
@@ -149,11 +165,13 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         this.steps = [];
 
         this._runBFS(source, {
+
             onInit: ({ source }) => {
+
                 distances[source] = 0;
                 parent[source] = source;
+
                 this.addStep(`Initialize queue with ${source}`, {
-                    current: undefined,
                     inQueue: [...this.queue],
                 });
             },
@@ -198,21 +216,26 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                     inQueue: [...this.queue],
                 });
             },
+            
 
             onReturn: () => {
-            this.addStep(`All reachable nodes found`, {
-                    visited: [],
+
+                const treeEdges = this.buildTreeEdges(parent);
+                const paths = this.buildAllPaths(parent, source);
+                
+                this.addStep("DFS finished", {
+                    reached: [...this.visited],
                     inQueue: [],
-                    result: this.paths,
+                    result: {
+                        type: "distances",
+                        treeEdges,
+                        paths,
+                    },
                     isFinal: true
                 });
-            },
-        });
 
-        Object.keys(parent).forEach(node => {
-            this.paths[node] = this.buildPath(parent, source, node);
+            }
         });
-        
         return this.steps;
     }
 
@@ -286,7 +309,6 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                     inQueue: [...this.queue],
                 });
             },
-
             
         });
 
@@ -296,10 +318,20 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         }
 
         this.paths = this.buildPath(parent, source, targetNode);
-        this.addStep(`Shortest path found ${this.paths}`, {
-            visited: [],
-            result: this.paths,
+        console.log(this.paths)
+
+        const treeEdges = this.buildTreeEdges(parent);
+        const allPaths = this.buildAllPaths(parent, source);
+                
+        this.addStep("DFS finished", {
+            reached: [...this.visited],
             inQueue: [],
+            result: {
+                type: "shortest",
+                treeEdges,
+                allPaths,
+                path: this.paths
+            },
             isFinal: true
         });
 
@@ -323,7 +355,6 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
 
 
-
     run(params) {
         const { startNode, targetNode, task } = params;
         switch (task) {
@@ -338,10 +369,75 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         }
     }
 
-    getResult(){
-        return this.bfs;
+    buildTreeEdges(parent) {
+        const edges = Object.entries(parent)
+            .filter(([node, p]) => p !== node)
+            .map(([node, p]) => `${p}-${node}`);
+
+        if (this.directed) return edges;
+
+        return edges.flatMap(edge => {
+            const [from, to] = edge.split("-");
+            return [`${from}-${to}`, `${to}-${from}`];
+        });
     }
 
+
+    buildAllPaths(parent, source) {
+        const paths = {};
+
+        Object.keys(parent).forEach(node => {
+            paths[node] = this.buildPath(parent, source, node);
+        });
+
+        return paths;
+    }
+
+    getAllBFSTraversals(source) {
+        const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
+        const results = [];
+
+        const permute = (arr) => {
+            if (arr.length <= 1) return [arr];
+            return arr.flatMap((v, i) =>
+                permute([...arr.slice(0, i), ...arr.slice(i + 1)])
+                    .map(p => [v, ...p])
+            );
+        };
+
+        const bfsBacktrack = (queue, visited, order) => {
+            if (queue.length === 0) {
+                results.push([...order]);
+                return;
+            }
+
+            const current = queue[0];
+            const restQueue = queue.slice(1);
+
+            const neighbors = (graph[current] || [])
+                .map(e => e.to)
+                .filter(v => !visited.has(v));
+
+            if (neighbors.length === 0) {
+                bfsBacktrack(restQueue, visited, [...order, current]);
+                return;
+            }
+
+            for (const perm of permute(neighbors)) {
+                const newVisited = new Set(visited);
+                perm.forEach(v => newVisited.add(v));
+
+                bfsBacktrack(
+                    [...restQueue, ...perm],
+                    newVisited,
+                    [...order, current]
+                );
+            }
+        };
+
+        bfsBacktrack([source], new Set([source]), []);
+        return results;
+    }
 
 
 }

@@ -17,7 +17,7 @@ export default function DFSControls() {
             <option value="">-- Select --</option>
             <option value="traversal">Basic Traversal</option>
             <option value="path">Check path from A to B</option>
-            <option value="cycle_undirected">Cycle detection (Undirected)</option>
+            {/* <option value="cycle_undirected">Cycle detection (Undirected)</option> */}
         </select>
 
         <label>Starting node:</label>

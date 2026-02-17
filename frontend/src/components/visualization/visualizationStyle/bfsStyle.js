@@ -55,6 +55,11 @@ export const bfsStyle = (directed = false) => [
         style: {
             'background-color': '#7f17cf',
         }
+    },{
+        selector: ".bfs-node-final",
+        style: {
+            'background-color': '#007e2e',
+        }
     },
 
 
@@ -105,6 +110,27 @@ export const bfsStyle = (directed = false) => [
         'line-color': '#dc0000',
         targetArrowShape: directed ? "triangle" : "none",
         'target-arrow-color': directed ? '#dc0000' : undefined,
+        curveStyle: "bezier"
+        }
+    },
+    {
+        selector: ".bfs-tree-edge-final",
+        style: {
+        width: 2,
+        'line-color': '#000000',
+        targetArrowShape: directed ? "triangle" : "none",
+        'target-arrow-color': directed ? '#000000' : undefined,
+        curveStyle: "bezier"
+        }
+    }
+    ,
+    {
+        selector: ".bfs-tree-ignored",
+        style: {
+        width: 2,
+        'line-color': '#abaaaa',
+        targetArrowShape: directed ? "triangle" : "none",
+        'target-arrow-color': directed ? '#abaaaa' : undefined,
         curveStyle: "bezier"
         }
     }

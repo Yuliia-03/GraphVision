@@ -31,23 +31,45 @@ export default function BFSDataVisualization({step}) {
                 <div className="block result">
                     <h3>Result</h3>
 
-                    {typeof step.result === "string" && (
-                        <p>{step.result}</p>
+                    {step.result.type === "traversal" && (
+                        <>
+                            <>
+                                <p>BFS:</p>
+                                <p>{step.result.bfs}</p>
+                            </>
+
+                            <>
+                                <p>All possible BFS:</p>
+                                <ul>
+                                    {step.result.paths.map((path, i) => (
+                                        <li key={i}>
+                                        {path.join(" -> ")}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                            </>
+                        </>
                     )}
 
-                    {Array.isArray(step.result) && (
-                        <p>{step.result.join(" → ")}</p>
+                    {step.result.type === "shortest" && (
+                        <>
+                            <p>BFS:</p>
+                            <p>{step.result.path.join(" -> ")}</p>
+                        </>
                     )}
-
-                    {typeof step.result === "object" && !Array.isArray(step.result) && (
+                    {step.result.type === "distances" && (
+                        <>
+                        <p>Shortest paths from source</p>
                         <ul>
-                            {Object.entries(step.result).map(([node, path]) => (
-                                <li key={node}>
-                                    {node}: {path.join(" → ")}
-                                </li>
+                            {Object.entries(step.result.paths).map(([node, path]) => (
+                            <li key={node}>
+                                <strong>{node}:</strong> {path.join(" → ")}
+                            </li>
                             ))}
                         </ul>
-                    )}
+                        </>
+                     )}
                 </div>
             )}
         

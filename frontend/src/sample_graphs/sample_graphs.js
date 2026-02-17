@@ -13,11 +13,11 @@ export const Samples = {
             { data: { id: "1-2", source: "1", target: "2", weight: 1 } },
             { data: { id: "1-3", source: "1", target: "3", weight: 1 } },
             { data: { id: "2-4", source: "2", target: "4", weight: 1 } },
-            { data: { id: "3-4", source: "4", target: "3", weight: 1 } },
+            { data: { id: "4-3", source: "4", target: "3", weight: 1 } },
             { data: { id: "2-5", source: "2", target: "5", weight: 1 } },
             { data: { id: "3-6", source: "3", target: "6", weight: 1 } },
             { data: { id: "4-6", source: "4", target: "6", weight: 1 } },
-            { data: { id: "5-6", source: "6", target: "5", weight: 1 } },
+            { data: { id: "6-5", source: "6", target: "5", weight: 1 } },
         ],
 
     },

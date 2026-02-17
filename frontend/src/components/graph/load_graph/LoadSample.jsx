@@ -1,10 +1,9 @@
 import { Samples } from "../../../sample_graphs/sample_graphs";
-
 import { useGraph } from "../../../contexts/GraphContext";
 
 export default function LoadSample({onClose}) {
 
-    const {setNodes, setEdges, rules, setGraphConfig} = useGraph();
+    const {setNodes, setEdges, rules, cyRef} = useGraph();
 
 
     const removeWeights = (edges, rules) => {
@@ -29,6 +28,9 @@ export default function LoadSample({onClose}) {
 
         setNodes(graph.nodes);
         setEdges(edges);
+
+        cyRef.current.nodes().addClass("sandbox-node");
+
         onClose();
     };
 
