@@ -17,13 +17,28 @@ export default function BFSDataVisualization({step}) {
                     </div>
 
                     <div className="block">
-                        <p>Queue </p>
-                        <p>{step.inQueue}</p>
+                        <p>Queue</p>
+                        <div className="node-list queue">
+                            {step.inQueue.map((node, i) => (
+                                <span key={node}
+                                    className={`node-chip ${i === 0 ? "front" : ""}`}>
+                                    {node}
+                                </span>
+                            ))}
+                        </div>
                     </div>
+
                     <div className="block">
-                        <p>Visited </p>
-                        <p>{step.visited}</p>
+                        <p>Visited</p>
+                        <div className="node-list visited">
+                            {step.visited.map(node => (
+                                <span key={node} className="node-chip visited">
+                                    {node}
+                                </span>
+                            ))}
+                        </div>
                     </div>
+
                 </>
             )}
 
