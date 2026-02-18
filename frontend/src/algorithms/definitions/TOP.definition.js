@@ -11,6 +11,7 @@ export const TOPDefinition = {
     AlgorithmClass: DAGAlgorithm,
     DataPanel: TOPDataVisualization,
     AlgorithmControl: TOPControls,
-    style: bfsStyle
+    style: bfsStyle,
+    canRun: () => true
 
 }

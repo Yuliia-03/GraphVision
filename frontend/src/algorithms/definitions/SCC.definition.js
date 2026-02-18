@@ -11,6 +11,10 @@ export const SCCDefinition = {
     AlgorithmClass: DAGAlgorithm,
     DataPanel: SCC_DataVisualization,
     AlgorithmControl: SCC_Controls,
-    style: bfsStyle
+    style: bfsStyle,
+    canRun: (params) => {
+        if (!params.task) return false;
+        return true;
+    }
 
 }

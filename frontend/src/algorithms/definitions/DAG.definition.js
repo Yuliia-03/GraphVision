@@ -11,6 +11,7 @@ export const DAGDefinition = {
     AlgorithmClass: DAGAlgorithm,
     DataPanel: DAGDataVisualization,
     AlgorithmControl: DAGControls,
-    style: bfsStyle
+    style: bfsStyle,
+    canRun: () => true
 
 }

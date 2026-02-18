@@ -11,6 +11,9 @@ export const MSTDefinition = {
     AlgorithmClass: MSTAlgorithm,
     DataPanel: MSTDataVisualization,
     AlgorithmControl: MSTControls,
-    style: mstStyle
-
+    style: mstStyle,
+    canRun: (params) => {
+        if (!params.task) return false;
+        return true;
+    }
 }

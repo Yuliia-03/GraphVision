@@ -11,6 +11,13 @@ export const BFSDefinition = {
     AlgorithmClass: BFSAlgorithm,
     DataPanel: BFSDataVisualization,
     AlgorithmControl: BFSControls,
-    style: bfsStyle
+    style: bfsStyle,
+
+    canRun: (params) => {
+        if (!params.task) return false;
+        if (!params.startNode) return false;
+        if (params.task === "shortest" && !params.targetNode) return false;
+        return true;
+    }
 
 }

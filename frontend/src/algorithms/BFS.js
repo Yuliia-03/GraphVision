@@ -91,6 +91,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                 parent[source] = source;
                 this.addStep(`Initialize queue with ${source}`, {
                     inQueue: [...this.queue],
+                    visited: []
                 });
             },
 
@@ -173,6 +174,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
                 this.addStep(`Initialize queue with ${source}`, {
                     inQueue: [...this.queue],
+                    visited: []
                 });
             },
 
@@ -256,6 +258,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                 this.addStep(`Initialize queue with ${source}`, {
                     current: undefined,
                     inQueue: [...this.queue],
+                    visited: []
                 });
             },
 

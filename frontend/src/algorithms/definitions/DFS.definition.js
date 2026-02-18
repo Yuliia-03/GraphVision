@@ -11,6 +11,12 @@ export const DFSDefinition = {
     AlgorithmClass: DFSAlgorithm,
     DataPanel: DFSDataVisualization,
     AlgorithmControl: DFSControls,
-    style: bfsStyle
+    style: bfsStyle,
+    canRun: (params) => {
+        if (!params.task) return false;
+        if (!params.startNode) return false;
+        if (params.task === "path" && !params.targetNode) return false;
+        return true;
+    }
 
 }
