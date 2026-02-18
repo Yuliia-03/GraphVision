@@ -1,4 +1,4 @@
-import '../../styles/Control.css'
+import '../../styles/ButtonPanel.css'
 import { useGraph } from '../../contexts/GraphContext';
 import AlgorithmVisualizer from '../visualization/AlgorithmVisualizer';
 import { AlgorithmDefinition } from '../../algorithms/definitions';
@@ -54,18 +54,24 @@ export function ButtonPanel({params= {}}){
     }
 
     return(
-        <>
-        
-            <button onClick={() => {run()}}>
-                Run
-            </button>
+        <div className="control-panel">
+            <div className="controls">
+                <button className="primary" onClick={() => {run()}} disabled={!algoDef.canRun(params)}
+                    title={!algoDef.canRun(params) ? "Select required parameters to run this algorithm" : ""}> 
+                    ▶ Run
+                </button>
 
-            <button>Pause</button>
-            <button onClick={() => next()}>Next Step</button>
-            <button onClick={() => prev()}>Previous Step</button>
+                <button disabled>
+                    ⏸ Pause
+                </button>
+
+                <button onClick={prev} disabled={stepIndex === 0}>◀ Prev</button>
+                <button onClick={next} disabled={stepIndex === steps.length - 1}>Next ▶</button>
+                {steps.length > 0 && (<div className="step-indicator">Step {stepIndex + 1} / {steps.length}</div>)}
+            </div>
 
             { steps.length > 0  && <algoDef.DataPanel step={steps[stepIndex]}/>}
         
-        </>
+        </div>
     );
 }
