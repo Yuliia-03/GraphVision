@@ -1,0 +1,79 @@
+/* Overall container */
+.algo-controls,
+.control-panel {
+    background: #f8fafc;          /* very light grey */
+    border-radius: 14px;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    color: #0f172a;
+}
+
+/* Configuration card */
+.config-panel {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.config-panel h3 {
+    margin: 0 0 0.8rem 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #2563eb;
+}
+
+/* Button row */
+.controls {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+/* Base button */
+.controls button {
+    padding: 0.45rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #cbd5f5;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.controls button:hover:not(:disabled) {
+    background: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+/* Primary action */
+.controls button.primary {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+}
+
+.controls button.primary:hover {
+    background: #1d4ed8;
+}
+
+/* Disabled buttons */
+.controls button:disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+}
+
+/* Step indicator */
+.step-indicator {
+    font-size: 0.75rem;
+    color: #475569;
+    font-family: "JetBrains Mono", monospace;
+    align-self: flex-end;
+    margin-top: 0.3rem;
+}

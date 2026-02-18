@@ -1,27 +1,89 @@
 .bfs-data-panel {
-    max-width: 600px;
-    margin: 20px auto;
-
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem;
+    margin-top: 1.5rem;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    color: #1e293b;
+    font-family: "Inter", system-ui, sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* Generic block */
 .block {
-    background: #eaeaea;
-    padding: 10px;
-    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    background: #f8fafc;
 }
 
-.label {
-    font-size: 12px;
+.block p {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Section title (Action, Queue, Visited) */
+.block p:first-child {
+    font-weight: 600;
+    color: #2563eb;
+}
+
+/* Result block */
+.block.result {
+    border: 1px solid #38bdf8;
+    background: #f0f9ff;
+}
+
+.block.result h3 {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    color: #0284c7;
     text-transform: uppercase;
-    color: #aaa;
-    margin-bottom: 4px;
 }
 
-.value {
-    font-size: 16px;
-    font-weight: 500;
-    word-break: break-word;
+/* Lists */
+.block.result li {
+    margin-bottom: 0.35rem;
+    font-size: 0.85rem;
+    font-family: "JetBrains Mono", monospace;
+    color: #065f46;
+}
+
+/* Path display */
+.block.result p:nth-of-type(2) {
+    font-family: "JetBrains Mono", monospace;
+    color: #be123c;
+}
+
+/* Node lists */
+.node-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+/* Node chips */
+.node-chip {
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-family: "JetBrains Mono", monospace;
+    background: #e2e8f0;
+    color: #0f172a;
+    border: 1px solid #cbd5f5;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+/* Front of queue */
+.queue .node-chip.front {
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    transform: scale(1.05);
 }
