@@ -1,15 +1,16 @@
+import '../../styles/SelectTask.css'
 import { useGraph } from '../../contexts/GraphContext';
 
 export function SelectNode({ label, value, onChange, exclude }) {
     const { nodes } = useGraph();
 
     return (
-        <>
+        <div className="select-group">
             <label>{label}:</label>
             <select
                 value={value || ""}
                 onChange={e => onChange(e.target.value)}
-                className="option"
+                className="select"
             >
                 <option value="">-- Select --</option>
                 {nodes
@@ -20,6 +21,6 @@ export function SelectNode({ label, value, onChange, exclude }) {
                     </option>
                 ))}
             </select>
-        </>
+        </div>
     );
 }

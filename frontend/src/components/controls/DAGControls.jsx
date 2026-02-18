@@ -1,4 +1,4 @@
-import '../../styles/Control.css'
+import '../../styles/BFSControl.css'
 import { ButtonPanel } from './ButtonPanels';
 
 export default function DAGControls({ }) {

@@ -1,4 +1,7 @@
-import '../../styles/Control.css'
+import '../../styles/BFSControl.css'
+
+import  {SelectTask}  from "./SelectTask";
+import {SelectNode} from './SelectNode';
 import { useGraph } from '../../contexts/GraphContext';
 
 import  { useState } from "react";
@@ -11,54 +14,32 @@ export default function DFSControls() {
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
 
     return (
-    <div>
-        <label>Choose subtask:</label>
-        <select value={params.task || ""} onChange={(e) => update({ task: e.target.value })} className='option'>
-            <option value="">-- Select --</option>
-            <option value="traversal">Basic Traversal</option>
-            <option value="path">Check path from A to B</option>
-            {/* <option value="cycle_undirected">Cycle detection (Undirected)</option> */}
-        </select>
+    <div className="algo-controls">
 
-        <label>Starting node:</label>
-            <select
-                value={params.startNode || ""}
-                onChange={(e) => update({ startNode: e.target.value })}
-                className='option'
-            >
-            <option value="">-- Select --</option>
-            {nodes.map((node) => (
-            <option key={node.data.id} value={String(node.data.id)}>
-                {node.data.label}
-            </option>
-            ))}
-        </select>
+        <h3>DFS Configuration</h3>
+        <SelectTask
+            value={params.task}
+            onChange={task => update({ task })}
+            options={[
+            { value: "traversal", label: "Basic Traversal" },
+            { value: "path", label: "Check path from A to B" }
+            ]}
+        />
 
-        {
-            params.task === "path" && (
-                <>
-                    <label>Target node:</label>
-                    <select
-                        value={params.targetNode || ""}
-                        onChange={(e) => update({ targetNode: e.target.value })}
-                        className='option'
-                    >
-                        <option value="">-- Select --</option>
-                        {nodes
-                        .filter((node) => String(node.data.id) !== String(params.startNode))
-                        .map((node) => (
-                            <option key={node.data.id} value={String(node.data.id)}>
-                                {node.data.label}
-                            </option>
-                        ))}
-                    </select>
-                
-                </>
+        <SelectNode
+            label="Starting node"
+            value={params.startNode}
+            onChange={startNode => update({ startNode })}
+        />
 
-
-            )
-            
-        }
+        {params.task === "path" && (
+            <SelectNode
+            label="Target node"
+            value={params.targetNode}
+            exclude={params.startNode}
+            onChange={targetNode => update({ targetNode })}
+            />
+        )}
         <ButtonPanel params={params}/>        
     </div>
   );

@@ -1,7 +1,8 @@
-import '../../styles/Control.css'
+import '../../styles/BFSControl.css'
 import { ButtonPanel } from './ButtonPanels';
 
 import  { useState } from "react";
+import { SelectTask } from './SelectTask';
 
 export default function MSTControls() {
 
@@ -9,12 +10,14 @@ export default function MSTControls() {
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     return (
         <div>
-            <label>Choose subtask:</label>
-            <select value={params.task || ""} onChange={(e) => update({ task: e.target.value })}  className='option'>
-                <option value="">-- Select --</option>
-                <option value="prims">Prim's Algorithm</option>
-                <option value="kruskals">Kruskal's Algorithm</option>
-            </select>
+            <SelectTask
+                value={params.task}
+                onChange={task => update({ task })}
+                options={[
+                { value: "prims", label: "Prim's Algorithm" },
+                { value: "kruskals", label: "Kruskal's Algorithm" }
+                ]}
+            />
 
             
             <ButtonPanel params={params}/>

@@ -1,6 +1,7 @@
-import '../../styles/Control.css'
+import '../../styles/BFSControl.css'
 import { ButtonPanel } from './ButtonPanels';
 
+import  {SelectTask}  from "./SelectTask";
 import  { useState } from "react";
 export default function SCC_Controls({ }) {
     
@@ -9,12 +10,14 @@ export default function SCC_Controls({ }) {
     
     return (
         <div>
-            <label>Choose subtask:</label>
-            <select value={params.task || ""} onChange={(e) => update({ task: e.target.value })} className='option'>
-                <option value="">-- Select --</option>
-                <option value="traversal">Tarjan's Algorithm</option>
-                <option value="shortest">Kosaraju's Algorithm</option>
-            </select>
+            <SelectTask
+                value={params.task}
+                onChange={task => update({ task })}
+                options={[
+                { value: "traversal", label: "Tarjan's Algorithm" },
+                { value: "shortest", label: "Kosaraju's Algorithm" }
+                ]}
+            />
 
 
             

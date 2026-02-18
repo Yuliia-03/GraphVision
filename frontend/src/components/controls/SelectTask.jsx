@@ -1,12 +1,13 @@
-
+import '../../styles/SelectTask.css'
 export function SelectTask({ value, onChange, options }) {
+
     return (
-        <>
-            <label>Choose subtask:</label>
+        <div className="select-group">
+            <label >Choose subtask:</label>
             <select
                 value={value || ""}
                 onChange={e => onChange(e.target.value)}
-                className="option"
+                className="select"
             >
                 <option value="">-- Select --</option>
                 {options.map(opt => (
@@ -15,6 +16,6 @@ export function SelectTask({ value, onChange, options }) {
                 </option>
                 ))}
             </select>
-        </>
+        </div>
     );
 }
