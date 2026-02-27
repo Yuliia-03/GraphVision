@@ -21,7 +21,6 @@ export default function GraphSandbox() {
 
     const clearSelection = () => {
         if (selectedNode.current) {
-            //cyRef.current.getElementById(selectedNode.current).style("backgroundColor", "#4a90e2");
             cyRef.current
                 .getElementById(selectedNode.current)
                 .removeClass("sandbox-node-selected");
@@ -164,7 +163,6 @@ export default function GraphSandbox() {
         const onNodeCreateEdge = (event, nodeId) => {
             if (!selectedNode.current) {
                 selectedNode.current = nodeId;
-                //event.target.style("backgroundColor", "orange");
                 event.target.addClass("sandbox-node-selected");
             } else {
                 const source = selectedNode.current;
@@ -203,7 +201,7 @@ export default function GraphSandbox() {
     return (
         <div style={{ height: "100%" }}>
 
-            <SandboxToolbar setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)}/>
+            <SandboxToolbar mode={mode} setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)}/>
     
             <CytoscapeComponent
                 cy={(cy) => (cyRef.current = cy)}

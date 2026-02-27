@@ -1,5 +1,5 @@
 import { useState } from "react";
-import '../../../styles/LoadMatrix.css'
+import '../../../styles/LoadAdjacencyList.css'
 import { useGraph } from "../../../contexts/GraphContext";
 
 import GraphConfig from "../GraphConfig";
@@ -60,7 +60,11 @@ export default function LoadAdjacencyList({onClose}) {
             position: { x: 100 + i * 60, y: 200 }
             });
         }
-        setNodes(nodes);
+        const nodesWithClass = nodes.map(node => ({
+            ...node,
+            classes: "sandbox-node"
+        }));
+        setNodes(nodesWithClass);
 
         const edges = [];
         for (let i = 0; i < size; i++) {
@@ -92,25 +96,31 @@ export default function LoadAdjacencyList({onClose}) {
 
 
     return(
-        <div>
-            <h3>Adjacency List</h3>
+        <div className="adj-list-panel">
 
-            <label>
-                Size:
-                <input type="number" min={1} value={size}
-                    onChange={(e) => {
-                        const n = Number(e.target.value);
-                        setSize(n);
-                        setAdjList(Array.from({ length: n }, () => []));
-                        setLabels(Array.from({ length: n }, (_, i) => i));
-                    }}
-                />
-            </label>
+
+            <div className="adj-list-header">
+                
+                <h3>Adjacency List</h3>
+
+                <div className="adj-size">
+                    <label>Size:</label>
+                    <input className="adj-node-input" type="number" min={1} value={size}
+                        onChange={(e) => {
+                            const n = Number(e.target.value);
+                            setSize(n);
+                            setAdjList(Array.from({ length: n }, () => []));
+                            setLabels(Array.from({ length: n }, (_, i) => i));
+                        }}
+                    />
+                </div>
+
+            </div>
 
             
             <GraphConfig />
         
-            <table border="1">
+            <table className="adj-table">
                 <thead>
                     <tr>
                     <th>Node</th>
@@ -124,6 +134,7 @@ export default function LoadAdjacencyList({onClose}) {
                     <tr key={i}>
                         <td>
                         <input
+                            className="adj-node-input"
                             value={labels[i]}
                             onChange={(e) => {
                                 const copy = [...labels];
@@ -134,9 +145,9 @@ export default function LoadAdjacencyList({onClose}) {
                         />
                         </td>
 
-                        <td><p>{"->"}</p></td>
+                        <td className="adj-arrow">→</td>
 
-                        <td>
+                        <td className="adj-neighbors">
 
                             <NeighborsInput
                             i = {i}
@@ -151,8 +162,9 @@ export default function LoadAdjacencyList({onClose}) {
                 </tbody>
             </table>
 
-
-            <button onClick={loadGraph}>Load Graph</button>
+            <div className="adj-actions">
+                <button onClick={loadGraph}>Load Graph</button>
+            </div>
 
         </div>
     );

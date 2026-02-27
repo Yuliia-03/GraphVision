@@ -7,11 +7,10 @@ import GraphConfig from "../GraphConfig";
 
 export default function LoadMatrix({onClose,}) {
 
-    const { rules, graphConfig, setNodes, setEdges, setGraphConfig  } = useGraph();
+    const { rules, graphConfig, setNodes, setEdges  } = useGraph();
 
     const directed = graphConfig.directed;
     const weighted = rules.requiresWeighted;
-    const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
     const [size, setSize] = useState(3);
     const [matrix, setMatrix] = useState(Array.from({ length: 3 }, () => Array(3).fill(0)));
     const [labels, setLabels] = useState(Array.from({ length: 3 }, (_, i) => i));
@@ -40,7 +39,12 @@ export default function LoadMatrix({onClose,}) {
             });
         }
 
-        setNodes(nodes);
+        const nodesWithClass = nodes.map(node => ({
+            ...node,
+            classes: "sandbox-node"
+        }));
+
+        setNodes(nodesWithClass);
 
         let edges = [];
 
@@ -70,30 +74,33 @@ export default function LoadMatrix({onClose,}) {
 
     
     return(
-        <div>
-            <h3>Adjacency Matrix</h3>
+        <div className="matrix-panel">
+            <div className="matrix-header">
+                <h3>Adjacency Matrix</h3>
 
-            <label>
-                Size:
-                <input type="number" min={1} value={size}
-                    onChange={(e) => {
-                        const n = Number(e.target.value);
-                        setSize(n);
-                        setMatrix(Array.from({ length: n }, () => Array(n).fill(0)));
-                        setLabels(Array.from({ length: n }, (_, i) => i));
-                    }}
-                />
-            </label>
+                <label>
+                    Size:
+                    <input className="matrix-label" type="number" min={1} value={size}
+                        onChange={(e) => {
+                            const n = Number(e.target.value);
+                            setSize(n);
+                            setMatrix(Array.from({ length: n }, () => Array(n).fill(0)));
+                            setLabels(Array.from({ length: n }, (_, i) => i));
+                        }}
+                    />
+                </label>
+            </div>
 
             <GraphConfig />
 
-            <table border="1">
+            <table className="matrix-table">
                 <thead>
                     <tr>
                     <th></th>
                     {labels.map((label, j) => (
                         <th key={j}>
                         <input
+                            className="matrix-label"
                             value={label}
                             onChange={(e) => {
                             const copy = [...labels];
@@ -112,6 +119,7 @@ export default function LoadMatrix({onClose,}) {
                     <tr key={i}>
                         <th>
                         <input
+                            className="matrix-label"
                             value={labels[i]}
                             onChange={(e) => {
                             const copy = [...labels];
@@ -123,7 +131,7 @@ export default function LoadMatrix({onClose,}) {
                         </th>
 
                         {row.map((val, j) => (
-                        <td key={j}>
+                        <td key={j} className="matrix-cell">
                             {weighted ? (
                                 <input
                                     type="number"
@@ -153,8 +161,9 @@ export default function LoadMatrix({onClose,}) {
                 </tbody>
             </table>
 
-
-            <button onClick={loadGraph}>Load Graph</button>
+            <div className="matrix-actions">
+                <button onClick={loadGraph}>Load Graph</button>
+            </div>
 
         </div>
     );

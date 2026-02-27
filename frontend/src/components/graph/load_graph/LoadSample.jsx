@@ -25,11 +25,16 @@ export default function LoadSample({onClose}) {
         if (!graph) return;
 
         const edges = removeWeights(graph.edges, rules);
+        //cyRef.current.nodes().addClass("sandbox-node");
+        const nodesWithClass = graph.nodes.map(node => ({
+            ...node,
+            classes: "sandbox-node"
+        }));
 
-        setNodes(graph.nodes);
+
+        setNodes(nodesWithClass);
         setEdges(edges);
 
-        cyRef.current.nodes().addClass("sandbox-node");
 
         onClose();
     };

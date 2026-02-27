@@ -1,14 +1,13 @@
 import { useState } from "react";
-import '../../../styles/LoadMatrix.css'
+import '../../../styles/LoadEdgeList.css'
 import { useGraph } from "../../../contexts/GraphContext.jsx";
 
 import GraphConfig from "../GraphConfig";
 
-export default function LoadAdjacencyList({onClose}) {
+export default function LoadEdgeList({onClose}) {
 
-    const { rules, graphConfig, setNodes, setEdges, setGraphConfig  } = useGraph();
+    const { rules, graphConfig, setNodes, setEdges  } = useGraph();
     const directed = graphConfig.directed;
-    const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
     
     const weighted = rules.requiresWeighted;
     const [edgeList, setEdgeList] = useState(Array.from({ length: 1 }, () =>[]));
@@ -55,38 +54,49 @@ export default function LoadAdjacencyList({onClose}) {
             position: { x: 100 + i * 60, y: 200 }
             });
         }
-        setNodes(nodes);
+
+        const nodesWithClass = nodes.map(node => ({
+            ...node,
+            classes: "sandbox-node"
+        }));
+        setNodes(nodesWithClass);
         setEdges(edges);
         onClose();
     };
 
     return(
-        <div>
-            <h3>Edge List</h3>
+        <div className="edge-list-panel">
+            <div className="edge-list-header">
+                <h3>Edge List</h3>
 
-            <label>
-                Edges:
-                <input type="number" min={1} value={edgesN}
-                    onChange={(e) => {
-                        const n = Number(e.target.value);
-                        setEdgesN(n);
-                        setEdgeList((prev) => {
-                            const newList = prev.slice(0, n);
-                            while (newList.length < n) {
-                                newList.push({ source: '', target: '', weight: '' });
-                            }
-                            return newList;
-                        });
-                    }}
-                />
-            </label>
+                <div className="edge-count">
+
+                    <label>Edges:</label>
+                    <input  className="edge-input" type="number" min={1} value={edgesN}
+                        onChange={(e) => {
+                            const n = Number(e.target.value);
+                            setEdgesN(n);
+                            setEdgeList((prev) => {
+                                const newList = prev.slice(0, n);
+                                while (newList.length < n) {
+                                    newList.push({ source: '', target: '', weight: '' });
+                                }
+                                return newList;
+                            });
+                        }}
+                    />
+                
+                </div>
+
+            </div>
 
             
             <GraphConfig />
 
-            <p>{'s = {'}</p>
+            {/* <p>{'s = {'}</p> */}
+            <div className="edge-brace">{'s = {'}</div>
 
-            <table>
+            <table className="edge-table">
 
                 <thead>
                     <tr>
@@ -104,11 +114,12 @@ export default function LoadAdjacencyList({onClose}) {
                         (
                             <tr key={i}>
                                     
-                                    <td>
+                                    <td className="edge-brace">
                                         <p>{"("}</p>
                                     </td>
                                     <td>
                                     <input
+                                        className="edge-input"
                                         style={{width:40}}
                                         value={edge.source || ""}
                                         onChange={(e) => {
@@ -120,6 +131,7 @@ export default function LoadAdjacencyList({onClose}) {
                                     </td>
                                     <td>
                                     <input
+                                        className="edge-input"
                                         style={{width:40}}
                                         value={edge.target || ""}
                                         onChange={(e) => {
@@ -133,7 +145,7 @@ export default function LoadAdjacencyList({onClose}) {
                                         weighted && 
                                         <td>
                                             <input
-                                        style={{width:40}}
+                                                className="edge-input"
                                                 type="number" 
                                                 value={edge.weight || 0}
                                                 onChange={(e) => {
@@ -146,7 +158,7 @@ export default function LoadAdjacencyList({onClose}) {
 
                                         </td>
                                     }
-                                    <td><p>{")"}</p></td>
+                                    <td className="edge-brace">)</td>
                                 
                             </tr>
                         )
@@ -160,9 +172,11 @@ export default function LoadAdjacencyList({onClose}) {
                 </tbody>
 
             </table>
-            <p>{'}'}</p>
+            <div className="edge-brace">{'}'}</div>
 
-            <button onClick={loadGraph}>Load Graph</button>
+            <div className="edge-actions">
+                <button onClick={loadGraph}>Load Graph</button>
+            </div>
 
         </div>
     );
