@@ -44,6 +44,8 @@ export const AlgorithmStates = {
             current_edge: "mst-current-edge",
             mst_tree: "mst-edge",
             cycle_edge: "mst-unpicked-edge",
+            prims_queue: "prims-queue",
+            prims_cycle: "prims-cycle"
         }
     },
 

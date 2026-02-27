@@ -10,6 +10,8 @@ export default class MSTAdaptor {
         this.mstEdgeRules = [
             edgeRules.activeEdge("currentEdge", "current_edge"),
             edgeRules.activeEdge("mstTree", "mst_tree"),
+            edgeRules.activeEdge("inQueue", "prims_queue"),
+            edgeRules.activeEdge("ignore", "prims_cycle"),
             //edgeRules.activeEdge("cycle_edge")
         ]
     }

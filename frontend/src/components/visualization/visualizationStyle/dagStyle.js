@@ -3,7 +3,7 @@ export const dagStyle = (directed = false) => [
         selector: "node",
         style: {
             label: "data(label)",
-            'background-color': "#abababff",
+            'background-color': "#ababab",
             width: 60,
             height: 60,
             fontSize: 16,
