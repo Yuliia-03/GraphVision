@@ -36,39 +36,6 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         }
     }
 
-    cycleDetection(){
-
-        let parent = []
-        this.stack = []
-
-        const graph = buildAdjacencyList(this.nodes, this.edges, false);
-
-
-        for (const node of this.nodes) {
-            const start = node.data.id;
-            if (this.visited.has(start)) continue;
-
-            this.stack.push({ node: start, parent: null });
-            this.visited.add(start);
-
-            while (this.stack.length > 0) {
-                const { node: current, parent } = this.stack.pop();
-
-                for (const { to } of graph[current] || []) {
-                    if (!this.visited.has(to)) {
-                        this.visited.add(to);
-                        this.stack.push({ node: to, parent: current });
-                    } else if (to !== parent) {
-                        return true;
-                    }
-                }
-
-            }
-        }
-
-        return false;
-    }
-
     _runDFS(source, {
         onInit = () => {},
         onPop = () => {},
@@ -166,6 +133,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                 this.addStep(`Initialize stack with ${source}`, {
                     current: undefined,
                     inStack: [...this.stack],
+                    visited: []
                 });
             },
 
@@ -230,6 +198,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
 
                 this.addStep(`Initialize stack with ${source}`, {
                     inStack: [...this.stack],
+                    visited: [...this.visited]
                 });
             },
 
@@ -251,7 +220,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         });
 
         if (!parent[target]) {
-            this.addStep("Target not reachable", { isFinal: true });
+            this.addStep("Target not reachable", { isFinal: true, visited: [...this.visited]});
             return this.steps;
         }
 
@@ -260,6 +229,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         this.addStep(`Path found ${path}`, {
             result: path,
             isFinal: true,
+            visited: [...this.visited],
         });
 
         return this.steps;

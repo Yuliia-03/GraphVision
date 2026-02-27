@@ -40,6 +40,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
 
 
         onInit({ source });
+        // console.log(this.steps)
 
         while (this.queue.length > 0 && !shouldStop) {
             const current = this.queue.shift();
@@ -96,7 +97,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             },
 
             onPop: ({ current }) => {
-                this.addStep(`Pop ${current} from queue`, {
+                this.addStep(`Pop ${current} from queue. Inspect neighbours of ${current}`, {
                     current,
                     visited: [...this.visited],
                     inQueue: [...this.queue],
@@ -104,14 +105,14 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                 });
             },
 
-            onInspect: ({ current, neighborIds }) => {
-                this.addStep(`Inspect neighbours of ${current}`, {
-                    current,
-                    visited: [...this.visited],
-                    neighbours: [],
-                    inQueue: [...this.queue],
-                });
-            },
+            // onInspect: ({ current, neighborIds }) => {
+            //     this.addStep(`Inspect neighbours of ${current}`, {
+            //         current,
+            //         visited: [...this.visited],
+            //         neighbours: [],
+            //         inQueue: [...this.queue],
+            //     });
+            // },
 
             onDiscover: ({ current, to }) => {
                 parent[to] = current;
@@ -316,12 +317,14 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         });
 
         if(!found) {
-            this.addStep("Node target is not reachable from the source you picked");
-            return;
+            this.addStep("Node target is not reachable from the source you picked", {
+                inQueue: [],
+                visited: []
+            });
+            return this.steps;
         }
 
         this.paths = this.buildPath(parent, source, targetNode);
-        console.log(this.paths)
 
         const treeEdges = this.buildTreeEdges(parent);
         const allPaths = this.buildAllPaths(parent, source);
@@ -337,7 +340,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
             },
             isFinal: true
         });
-
+        
         return this.steps
 
     }

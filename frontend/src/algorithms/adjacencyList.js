@@ -6,15 +6,19 @@ export function buildAdjacencyList(nodes, edges, directed) {
     });
 
     edges.forEach(e => {
-        const { source, target, weight = 1 } = e.data;
+        const { id, source, target, weight = 1 } = e.data;
 
         graph[source].push({
-        to: target,
-        weight
+            id: id,
+            from: source,
+            to: target,
+            weight
         });
 
         if (!directed) {
             graph[target].push({
+                id: id,
+                from: target,
                 to: source,
                 weight
             });
