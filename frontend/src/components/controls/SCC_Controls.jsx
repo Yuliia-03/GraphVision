@@ -2,6 +2,7 @@ import '../../styles/BFSControl.css'
 import { ButtonPanel } from './ButtonPanels';
 
 import  {SelectTask}  from "./SelectTask";
+import  {SelectNode}  from "./SelectNode";
 import  { useState } from "react";
 export default function SCC_Controls({ }) {
     
@@ -14,14 +15,20 @@ export default function SCC_Controls({ }) {
                 value={params.task}
                 onChange={task => update({ task })}
                 options={[
-                { value: "traversal", label: "Tarjan's Algorithm" },
-                { value: "shortest", label: "Kosaraju's Algorithm" }
+                    { value: "tarajan", label: "Tarjan's Algorithm" },
+                    { value: "kosaraju", label: "Kosaraju's Algorithm" }
                 ]}
             />
 
+            {params.task === "startNode" && (
+                <SelectNode
+                label="Source node"
+                value={params.startNode}
+                onChange={startNode => update({ startNode })}
+                />
+            )}
 
-            
-            <ButtonPanel/>
+            <ButtonPanel params={params}/>
         </div>
     );
 }

@@ -16,9 +16,9 @@ export default function BFSControls() {
                     value={params.task}
                     onChange={task => update({ task })}
                     options={[
-                    { value: "traversal", label: "Basic Traversal" },
-                    { value: "shortest", label: "Shortest path from A to B" },
-                    { value: "distances", label: "All distances from A" }
+                        { value: "traversal", label: "Basic Traversal" },
+                        { value: "shortest", label: "Shortest path from A to B" },
+                        { value: "distances", label: "All distances from A" }
                     ]}
                 />
 

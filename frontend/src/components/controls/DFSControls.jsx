@@ -2,19 +2,17 @@ import '../../styles/BFSControl.css'
 
 import  {SelectTask}  from "./SelectTask";
 import {SelectNode} from './SelectNode';
-import { useGraph } from '../../contexts/GraphContext';
-
 import  { useState } from "react";
 import { ButtonPanel } from './ButtonPanels';
 
 export default function DFSControls() {
 
     const [params, setParams] = useState({});
-    const { nodes } = useGraph();
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
 
     return (
     <div className="algo-controls">
+        <div className="config-panel">
 
         <h3>DFS Configuration</h3>
         <SelectTask
@@ -40,6 +38,7 @@ export default function DFSControls() {
             onChange={targetNode => update({ targetNode })}
             />
         )}
+        </div>
         <ButtonPanel params={params}/>        
     </div>
   );
