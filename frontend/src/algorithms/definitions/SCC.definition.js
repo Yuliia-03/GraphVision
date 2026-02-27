@@ -12,6 +12,7 @@ export const SCCDefinition = {
     DataPanel: SCC_DataVisualization,
     AlgorithmControl: SCC_Controls,
     style: bfsStyle,
+
     canRun: (params) => {
         if (!params.task) return false;
         return true;

@@ -3,6 +3,7 @@ import BFSAlgorithm from '../BFS'
 import BFSDataVisualization from "../../components/controls/data_containers/BFSData"
 import BFSControls from "../../components/controls/BFSControls"
 import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
+import  bfsDataCss  from "../../components/visualization/visualizationStyle/bfsDataCss"
 
 export const BFSDefinition = {
 
@@ -12,6 +13,7 @@ export const BFSDefinition = {
     DataPanel: BFSDataVisualization,
     AlgorithmControl: BFSControls,
     style: bfsStyle,
+    dataCss: bfsDataCss,
 
     canRun: (params) => {
         if (!params.task) return false;
