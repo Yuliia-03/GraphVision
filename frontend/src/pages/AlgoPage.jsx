@@ -24,5 +24,6 @@ export default function AlgoPage({ algorithm }) {
                 </div>
             </div>
         </GraphProvider>
+        
     );
 }

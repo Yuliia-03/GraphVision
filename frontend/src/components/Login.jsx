@@ -1,5 +1,5 @@
 import { useState } from "react";
-import '../styles/LoadGraphMenue.css'
+import '../styles/Login.css'
 import {login} from '../services/api.js'
 
 export default function Login ({onClose, onSuccess }) {
@@ -34,8 +34,8 @@ export default function Login ({onClose, onSuccess }) {
 
                 <form onSubmit={handleSubmit}>
                     <h3>Login</h3>
-                    <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                    <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                    <input type="text" placeholder="Email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                    <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                     {error && <p className="error">{error}</p>}
                     <button type="submit" disabled={loading}>
                         {loading ? "Logging in..." : "Log in"}
