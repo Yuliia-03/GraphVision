@@ -6,7 +6,7 @@ export default function BFSDataVisualization({step}) {
 
     return (
 
-        <div className="bfs-data-panel">
+        <div id="data-panel" className="bfs-data-panel">
 
             {!step.isFinal && ( 
                 <>
@@ -44,7 +44,7 @@ export default function BFSDataVisualization({step}) {
 
             {step.isFinal && (
                 <div className="block result">
-                    <h3>Result</h3>
+                    <h3>Result: {step.message}</h3>
 
                     {step.result.type === "traversal" && (
                         <>

@@ -6,7 +6,7 @@ export default function SCC_DataVisualization({step}) {
 
     return (
 
-        <div className="bfs-data-panel">
+        <div id="data-panel" className="bfs-data-panel">
 
             <div className="block"> 
                 <p>Action: {step.message || ""}</p>

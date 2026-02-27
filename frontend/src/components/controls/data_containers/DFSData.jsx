@@ -6,7 +6,7 @@ export default function DFSDataVisualization({step}) {
 
     return (
 
-        <div className="bfs-data-panel">
+        <div id="data-panel" className="bfs-data-panel">
 
             {!step.isFinal && ( 
                 <>
@@ -17,12 +17,24 @@ export default function DFSDataVisualization({step}) {
                     </div>
 
                     <div className="block">
-                        <p>Stack </p>
-                        <p>{step.inStack}</p>
+                        <p>Stack </p><div className="node-list queue">
+                            {step.inStack.map((node, i) => (
+                                <span key={node}
+                                    className={`node-chip ${i == step.inStack.length - 1 ? "front" : ""}`}>
+                                    {node}
+                                </span>
+                            ))}
+                        </div>
                     </div>
                     <div className="block">
                         <p>Visited </p>
-                        <p>{step.visited}</p>
+                        <div className="node-list visited">
+                            {step.visited.map(node => (
+                                <span key={node} className="node-chip visited">
+                                    {node}
+                                </span>
+                            ))}
+                        </div>
                     </div>
                 </>
             )}
