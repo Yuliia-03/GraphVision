@@ -1,28 +1,20 @@
-.option {
-    color: #0f172a;
-    background-color: #ffffff;
-}
 
-/* Control panel */
 .control-panel {
-    background: #f8fafc;           /* light grey panel */
+    background: #f8fafc;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    padding: 0.8rem;
     color: #0f172a;
 }
 
-/* Button row */
 .controls {
     display: flex;
     gap: 0.6rem;
     align-items: center;
 }
 
-/* Base button */
 .controls button {
     padding: 0.45rem 0.9rem;
     border-radius: 10px;
@@ -40,7 +32,6 @@
     transform: translateY(-1px);
 }
 
-/* Primary action */
 .controls button.primary {
     background: #2563eb;
     border-color: #2563eb;
@@ -51,7 +42,6 @@
     background: #1d4ed8;
 }
 
-/* Disabled */
 .controls button:disabled {
     background: #f1f5f9;
     color: #94a3b8;
@@ -59,7 +49,6 @@
     cursor: not-allowed;
 }
 
-/* Step counter */
 .step-indicator {
     font-size: 0.75rem;
     color: #475569;

@@ -1,4 +1,4 @@
-.matrix-panel {
+.edge-list-panel {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
@@ -10,78 +10,78 @@
     font-family: "Inter", system-ui, sans-serif;
 }
 
-.matrix-header {
+.edge-list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.matrix-header h3 {
+.edge-list-header h3 {
     margin: 0;
     color: #2563eb;
 }
 
-.matrix-table {
-    border-collapse: separate;
-    border-spacing: 0.35rem;
-    margin-top: 0.5rem;
+.edge-count {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
-.matrix-table th,
-.matrix-table td {
+.edge-table {
+    border-collapse: separate;
+    border-spacing: 0.5rem;
+}
+
+.edge-table th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #64748b;
+}
+
+.edge-table td {
     text-align: center;
 }
 
-.matrix-label {
+.edge-input {
     width: 44px;
     padding: 0.35rem;
-    border-radius: 8px;
-    border: 1px solid #cbd5f5;
-    font-family: "JetBrains Mono", monospace;
-    background: #f1f5f9;
-    color: #2563eb;
-}
-
-.matrix-cell input {
-    width: 50px;
-    padding: 0.3rem;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
     background: #f8fafc;
     font-family: "JetBrains Mono", monospace;
     text-align: center;
+    color: #2563eb;
 }
 
-.matrix-cell input:focus {
+.edge-input:focus {
     outline: none;
     border-color: #2563eb;
     background: #eff6ff;
 }
 
-.matrix-cell input:disabled {
-    background: #e5e7eb;
-    cursor: not-allowed;
+.edge-brace {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    color: #475569;
 }
 
-.matrix-actions {
+.edge-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 0.6rem;
-    margin-top: 0.8rem;
 }
 
-.matrix-actions button {
-    padding: 0.45rem 0.9rem;
+.edge-actions button {
+    padding: 0.45rem 1rem;
     border-radius: 10px;
     border: none;
     font-weight: 600;
-    cursor: pointer;
     background: #2563eb;
     color: white;
+    cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.matrix-actions button:hover {
+.edge-actions button:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
 }

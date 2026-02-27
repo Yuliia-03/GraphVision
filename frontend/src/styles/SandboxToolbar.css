@@ -1,0 +1,16 @@
+.controls {
+    padding-top: 1rem;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.controls button.primary {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+}
+
+.controls button.primary:hover {
+    background: #1d4ed8;
+}
