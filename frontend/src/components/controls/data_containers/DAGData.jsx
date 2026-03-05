@@ -20,7 +20,7 @@ export default function DAGDataVisualization({step}) {
             </div>
             <div className="block">
                 <p>Visited </p>
-                <p>{step.topOrder}</p>
+                <p>{step.topoOrder}</p>
             </div>
         
         </div>

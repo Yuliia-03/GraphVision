@@ -19,7 +19,7 @@ export default function TOPDataVisualization({step}) {
                 <p>{step.inStack}</p>
             </div>
             <div className="block">
-                <p>Visited </p>
+                <p>Topological list </p>
                 <p>{step.topoOrder}</p>
             </div>
         

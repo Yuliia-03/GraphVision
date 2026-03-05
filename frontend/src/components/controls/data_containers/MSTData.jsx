@@ -13,15 +13,33 @@ export default function MSTDataVisualization({step}) {
             </div>
 
             <div className='block inline'>
-                <p>Current edge: </p>
+                {/* <p>Current edge: </p> */}
                 <div className="node-list">
                     {step.currentEdge ? 
                         (
+                            <>
+                            <p>Current edge: </p>
                             <span className="edge-chip active">
                                 {step.currentEdge}
                             </span>
+                            </>
                         ):
-                    <p>-</p>}
+                        (
+                            <>
+                                {step.currentNode ? 
+                                    (
+                                        <>
+                                        <p>Current node: </p>
+                                        <span className="edge-chip active">
+                                            {step.currentNode}
+                                        </span>
+                                        </>
+                                    ):
+                                    <p>-</p>
+                                }
+                            </>
+                        )
+                    }
                 </div>
             </div>
 
