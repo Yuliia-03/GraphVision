@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from api.views import SignUpView, LogInView
+from api.views import SignUpView, LogInView, SaveGraph, SampleGraphs
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', SignUpView.as_view()),
     path('login/', LogInView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('get_samples/', SampleGraphs.as_view(), name='token_refresh'),
+    path('save/', SaveGraph.as_view(), name='token_refresh'),
 ]
