@@ -58,8 +58,12 @@ export function ButtonPanel({params= {}}){
         cyRef.current.nodes().forEach(node => {
             node.classes("sandbox-node");
         });
+        cyRef.current.edges().forEach(node => {
+            node.classes("edge");
+        });
+        // console.log("call")
 
-    }, [edges, graphConfig, algorithm]);
+    }, [edges, graphConfig, algorithm, params.task]);
 
     const run = () => {
 
