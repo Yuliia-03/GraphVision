@@ -71,6 +71,19 @@ export const bfsStyle = (directed = false) => [
             'border-style': 'solid'
         }
     },
+    {
+        selector: ".top-final",
+        style: {
+            label: "data(label)",
+            'background-color': '#09860d',
+            width: 60,
+            height: 60,
+            fontSize: 16,
+            textValign: "center",
+            textHalign: "center",
+            textWrap: "wrap",     
+        }
+    },
 
 
     {

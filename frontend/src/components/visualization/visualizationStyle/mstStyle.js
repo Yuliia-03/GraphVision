@@ -30,7 +30,21 @@ export const mstStyle = (directed = false) => [
     },
 
     {
-        selector: ".bfs-node-unseen",
+        selector: ".mst-node-unseen",
+        style: {
+            label: "data(label)",
+            'background-color': '#919191',
+            width: 60,
+            height: 60,
+            fontSize: 16,
+            textValign: "center",
+            textHalign: "center",
+            textWrap: "wrap",     
+        }
+    },
+
+    {
+        selector: ".mst-node-current",
         style: {
             label: "data(label)",
             'background-color': '#919191',

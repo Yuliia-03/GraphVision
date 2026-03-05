@@ -5,6 +5,7 @@ export default class MSTAdaptor {
     constructor(){
         this.mstNodeRules = [
             nodeRules.inList("mstNodes", "connected"),
+            nodeRules.inList("currentNode", "current_node"),
         ]
 
         this.mstEdgeRules = [

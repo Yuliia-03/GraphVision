@@ -5,8 +5,11 @@ export default class dagAdapter {
     constructor(){
         this.dagNodeRules = [
             nodeRules.inList("neighbours", "neighbours"),
+            nodeRules.inList("final", "final"),
             nodeRules.inList("topoOrder", "visited"),
             nodeRules.inList("inStack", "inStack"),
+
+            nodeRules.inList("final", "final"),
             //nodeRules.isCurrent(),
         ]
 

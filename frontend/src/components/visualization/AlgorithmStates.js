@@ -37,7 +37,8 @@ export const AlgorithmStates = {
     MST: {
         nodes: {
             connected: "mst-node-visited",
-            unseen: "mst-node-unseen"
+            unseen: "mst-node-unseen",
+            current_node: "mst-node-current"
         },
         edges: {
             unseen: "mst-initial-edge",
@@ -69,6 +70,7 @@ export const AlgorithmStates = {
             neighbours: "bfs-node-neighbours",
             inStack: "bfs-node-inStack",
             unseen: "bfs-node-unseen",
+            final: "top-final",
         },
         edges: {
             unactive: "bfs-edge",

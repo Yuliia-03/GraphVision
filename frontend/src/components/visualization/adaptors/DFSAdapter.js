@@ -12,7 +12,7 @@ export default class DFSAdapter {
         ]
 
         this.dfsEdgeRules = [
-            edgeRules.activeEdge("neighbours","neighbours"),
+            edgeRules.activeEdge("edges","neighbours"),
         ]
     }
 

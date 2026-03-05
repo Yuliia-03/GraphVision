@@ -88,3 +88,10 @@ export const logout = () => {
     localStorage.removeItem(REFRESH_TOKEN);
 };
 
+export const getSamples = () => {
+    console.log("Getsamples")
+    const response = axios.get(`${API_BASE_URL}/get_samples/`);
+
+    return response.data;
+};
+
