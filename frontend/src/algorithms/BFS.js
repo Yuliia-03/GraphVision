@@ -105,14 +105,6 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                 });
             },
 
-            // onInspect: ({ current, neighborIds }) => {
-            //     this.addStep(`Inspect neighbours of ${current}`, {
-            //         current,
-            //         visited: [...this.visited],
-            //         neighbours: [],
-            //         inQueue: [...this.queue],
-            //     });
-            // },
 
             onDiscover: ({ current, to }) => {
                 parent[to] = current;
@@ -140,7 +132,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                 const treeEdges = this.buildTreeEdges(parent);
                 const paths = this.buildAllPaths(parent, source);
                 
-                this.addStep("DFS finished", {
+                this.addStep("BFS finished", {
                     reached: [...this.visited],
                     inQueue: [],
                     result: {
@@ -226,7 +218,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
                 const treeEdges = this.buildTreeEdges(parent);
                 const paths = this.buildAllPaths(parent, source);
                 
-                this.addStep("DFS finished", {
+                this.addStep("BFS finished", {
                     reached: [...this.visited],
                     inQueue: [],
                     result: {
@@ -329,7 +321,7 @@ export default class BFSAlgorithm extends BaseAlgorithm{
         const treeEdges = this.buildTreeEdges(parent);
         const allPaths = this.buildAllPaths(parent, source);
                 
-        this.addStep("DFS finished", {
+        this.addStep("BFS finished", {
             reached: [...this.visited],
             inQueue: [],
             result: {

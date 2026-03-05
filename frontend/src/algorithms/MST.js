@@ -116,7 +116,6 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         this.weight = 0
         this.currentNode = source
         this.inQueue = []
-        this.queueEdges = []
 
         this.addStep(`Initialise with source node ${source}`, {
             currentNode: this.currentNode,
@@ -125,19 +124,19 @@ export default class MSTAlgorithm extends BaseAlgorithm{
             mstNodes: [...this.connectedNodes],
             inQueue: []
         }); 
+
         const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
 
         const neighbours = (graph[this.currentNode] || []).slice().sort((a,b) => a.weight - b.weight);
 
         this.inQueue = neighbours;
-        neighbours.forEach((edge) => this.queueEdges.push(`${edge.id}`))
         this.connectedNodes.add(this.currentNode);
 
         this.addStep(`Mark ${this.currentNode} as visited and add adjacent edges to the queue`, {
             currentNode: this.currentNode,
             weight: 0,
             mstTree: [...this.visitedEdges],
-            inQueue: [...this.queueEdges],
+            inQueue: [],
             mstNodes: [...this.connectedNodes]
         });
 
@@ -146,18 +145,18 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         while (this.visitedEdges.size < this.nodes.length - 1 && this.inQueue.length != 0) {
             const currentEdge = this.inQueue.shift();
             this.weight += currentEdge.weight;
+
             const nextNode = currentEdge.to;
             this.visitedEdges.add(`${currentEdge.from}-${nextNode}`);
 
 
             this.mstTree.add(`${currentEdge.id}`);
-            // this.mstTree.add(`${nextNode}-${currentEdge.from}`);
 
             this.addStep(`Select ${currentEdge.from}-${nextNode} as with min weight`, {
                 currentNode: this.currentNode,
                 weight: this.weight,
                 mstTree: [...this.mstTree],
-                inQueue: [...this.queueEdges],
+                inQueue: this.inQueue.map((edge) => edge.id),
                 mstNodes: [...this.connectedNodes]
             });
 
@@ -168,7 +167,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
                 currentNode: this.currentNode,
                 weight: this.weight,
                 mstTree: [...this.mstTree],
-                inQueue: [...this.queueEdges],
+                inQueue: this.inQueue.map((edge) => `${edge.id}`),
                 mstNodes: [...this.connectedNodes]
             });
 
@@ -185,20 +184,19 @@ export default class MSTAlgorithm extends BaseAlgorithm{
             }
 
             newEdges.forEach(n => this.inQueue.push(n))
-            newEdges.forEach((edge) => this.queueEdges.push(`${edge.id}`))
-            // newEdges.forEach((edge) => this.queueEdges.push(`${edge.to}-${this.currentNode}`))
+            this.inQueue.sort((a,b) => a.weight - b.weight);
 
-            this.addStep(`New edges to add to the queue: `, {
+            this.addStep(`New edges to add to the queue: ${[...newEdges].map((edge) => edge.id)}`, {
                 currentNode: this.currentNode,
                 weight: this.weight,
                 mstTree: [...this.mstTree],
-                inQueue: [...this.queueEdges],
+                inQueue: this.inQueue.map((edge) => edge.id),
                 mstNodes: [...this.connectedNodes],
                 ignore: [...this.ignoredEdges]
             });
             
             this.inQueue.sort((a,b) => a.weight - b.weight);
-        
+            
         }
 
         this.addStep(`MST completed: `, {
@@ -207,7 +205,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
                 mstTree: [...this.mstTree],
                 inQueue: [],
                 mstNodes: [...this.connectedNodes],
-                ignore: [...this.queueEdges]
+                ignore: this.inQueue.map((edge) => edge.id),
             });
 
         return this.steps;
