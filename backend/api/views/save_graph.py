@@ -7,11 +7,40 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 
-class SampleGraphs(ListAPIView):
-    serializer_class = GraphCreateSerializer
+
+class SampleGraphs(APIView):
     permission_classes = [AllowAny]
 
-    queryset = Graph.objects.filter(owner__isnull=True)
+    def get(self, request):
+        graphs = Graph.objects.filter(is_sample=True)
+
+        result = []
+
+        for g in graphs:
+            nodes = [
+                {
+                    "id": n.node_id, "label": n.label, "x": n.x, "y": n.y,
+                }
+                for n in g.nodes.all()
+            ]
+
+            edges = [
+                {
+                    "id": e.edge_id,
+                        "source": e.source.node_id,
+                        "target": e.target.node_id,
+                        "weight": e.weight,
+                }
+                for e in g.edges.all()
+            ]
+
+            result.append({
+                "name": g.name,
+                "nodes": nodes,
+                "edges": edges,
+            })
+
+        return Response(result)
     
 class SaveGraph(APIView):
     

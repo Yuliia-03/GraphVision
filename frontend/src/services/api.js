@@ -89,6 +89,6 @@ export const logout = () => {
 };
 
 export const getSamples = () => {
-    return axios.get(`${API_BASE_URL}/samples/`)
+    return axios.get(`${API_BASE_URL}/get_samples/`)
         .then(res => res.data);
 };
