@@ -88,4 +88,7 @@ export const logout = () => {
     localStorage.removeItem(REFRESH_TOKEN);
 };
 
-
+export const getSamples = () => {
+    return axios.get(`${API_BASE_URL}/samples/`)
+        .then(res => res.data);
+};
