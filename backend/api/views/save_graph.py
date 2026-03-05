@@ -11,8 +11,7 @@ class SampleGraphs(ListAPIView):
     serializer_class = GraphCreateSerializer
     permission_classes = [AllowAny]
 
-    def get(self):
-        return Graph.objects.filter(owner__isnull=True)
+    queryset = Graph.objects.filter(owner__isnull=True)
     
 class SaveGraph(APIView):
     
