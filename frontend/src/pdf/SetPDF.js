@@ -6,7 +6,6 @@ import { captureDataPanel } from "./HTMLtoImage";
 function createHeadlessCy(nodes, edges, style, directed) {
     const container = document.createElement("div");
     container.style.position = "fixed";
-    container.style.left = "-9999px";
     document.body.appendChild(container);
 
     const cy = cytoscape({
@@ -54,9 +53,9 @@ export async function exportAlgorithmPDF(algoDef, nodes, edges, graphConfig, ste
                      (dh.height * columnWidth) / dh.width) + 15;
 
         if (y + h > pageHeight - 15) { pdf.addPage(); y = 20; }
-        pdf.setFontSize(14).text(`Step ${i + 1}`, margin, y-2);
-
-        const h1 = await addImageFit(pdf, graphImg, margin, y, columnWidth);
+        
+        pdf.setFontSize(14).text(`Step ${i + 1}`, columnWidth + margin/2, y-5);
+        await addImageFit(pdf, graphImg, margin, y, columnWidth);
         await addImageFit(pdf, dataImg, margin + columnWidth + gap, y, columnWidth);
 
         y += h + 5;
