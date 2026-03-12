@@ -3,7 +3,9 @@ import { addEdge } from "./load_graph/graph_saving";
 import { useGraph } from "../../contexts/GraphContext";
 import SandboxToolbar from './SandboxToolbar'
 import LoadGraph from './load_graph/LoadGraphMenue'
+import SaveGraph from "./load_graph/SaveGraph";
 import { useRef, useEffect, useState } from "react";
+import { getSandboxStyles } from "./SandboxStyle";
 
 export default function GraphSandbox() {
 
@@ -18,6 +20,7 @@ export default function GraphSandbox() {
     const selectedNode = useRef(null);
 
     const [showLoad, setShowLoad] = useState(false);
+    const [save, setSaveGraph] = useState(false);
 
     const clearSelection = () => {
         if (selectedNode.current) {
@@ -175,7 +178,7 @@ export default function GraphSandbox() {
                             data: {
                                 source,
                                 target,
-                                ...(weighted ? { weight: 1 } : {})
+                                weight: 1,
                             }
                         },
                         directed, rules.allowSelfLoops
@@ -201,61 +204,23 @@ export default function GraphSandbox() {
     return (
         <div style={{ height: "100%" }}>
 
-            <SandboxToolbar mode={mode} setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)}/>
+            <SandboxToolbar mode={mode} setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)} onSave={() => setSaveGraph(true)}/>
     
             <CytoscapeComponent
                 cy={(cy) => (cyRef.current = cy)}
                 elements={[...nodes, ...edges]}
                 style={{ width: "100%", height: "90%" }}
                 layout={{ name: "preset" }}
-                stylesheet={[
-                    {
-                        selector: "node",
-                        style: {
-                        label: "data(label)",
-                        width: 60,
-                        height: 60,
-                        fontSize: 16,
-                        textValign: "center",
-                        textHalign: "center",
-                        textWrap: "wrap"
-                        }
-                    },
-                    {
-                        selector: ".sandbox-node",
-                        style: {
-                        backgroundColor: "#4a90e2"
-                        }
-                    },
-                    {
-                        selector: ".sandbox-node-selected",
-                        style: {
-                        backgroundColor: "orange"
-                        }
-                    },
-                    {
-                        selector: "edge",
-                        style: {
-                        width: 2,
-                        targetArrowShape: directed ? "triangle" : "none",
-                        curveStyle: "bezier"
-                        }
-                    },
-                    {
-                        selector: "edge[weight]",
-                        style: {
-                        label: "data(weight)",
-                        fontSize: 14,
-                        textBackgroundColor: "#fff",
-                        textBackgroundOpacity: 0.8
-                        }
-                    }
-                ]}
+                stylesheet={getSandboxStyles(directed, weighted)}
 
             />
 
             {showLoad && (
                 <LoadGraph onClose={() => setShowLoad(false)} />
+            )}
+
+            {save && (
+                <SaveGraph onClose={() => setSaveGraph(false)} />
             )}
         </div>
     );

@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAccessToken = () => localStorage.getItem("access_token");
 export const getRefreshToken = () => localStorage.getItem("refresh_token");
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "http://127.0.0.1:8001";
 const ACCESS_TOKEN = "access_token";
 const REFRESH_TOKEN = "refresh_token";
 
@@ -19,12 +19,6 @@ export const isTokenExpired = (token) => {
       console.error("Invalid token:", err);
       return true;
     }
-};
-
-const logoutUser = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    //window.location.href = "/login";
 };
 
 export const refreshToken = async () => {
@@ -75,11 +69,6 @@ export const signup = async (email, password) => {
     });
 
     return login(email,password)
-
-    // localStorage.setItem(ACCESS_TOKEN, response.data.access);
-    // localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-
-    // return response.data;
 };
 
 export const logout = () => {
@@ -88,7 +77,39 @@ export const logout = () => {
     localStorage.removeItem(REFRESH_TOKEN);
 };
 
+export const isLoggedIn = () => {
+    return localStorage.getItem(ACCESS_TOKEN) !== null;
+};
+
 export const getSamples = () => {
     return axios.get(`${API_BASE_URL}/get_samples/`)
+        .then(res => res.data);
+};
+
+
+export const saveGraph = async (name, description, nodes, edges) => {
+    const token = localStorage.getItem(ACCESS_TOKEN);
+
+    const response = await axios.post(
+        `${API_BASE_URL}/save_graph/`,
+        { name, description, nodes, edges },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    return response.data;
+};
+
+export const getSavedGraphs = () => {
+    const token = localStorage.getItem(ACCESS_TOKEN);
+
+    return axios.get(`${API_BASE_URL}/save_graph/`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(res => res.data);
 };
