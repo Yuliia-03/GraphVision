@@ -1,9 +1,11 @@
 
 import {nodeRules, edgeRules} from "./AlgorithmAdapters";
+import DFSAdapter from "./DFSAdapter";
 
 export default class SCCAdapter {
 
     constructor(){
+        this.dfsAdapter = new DFSAdapter()
         this.sccNodeRules = [
             nodeRules.inList("neighbours", "neighbours"),
             nodeRules.inList("topoOrder", "visited"),
@@ -16,34 +18,40 @@ export default class SCCAdapter {
         ]
     }
 
+    transposeGraph(){
+
+        this.cy.edges().forEach(edge => {
+
+            const source = edge.source().id()
+            const target = edge.target().id()
+
+            edge.move({
+                source: target,
+                target: source
+            })
+
+        })
+    }
+
     getNodeState(nodeId, step) {
 
         const states = []
 
-        if (nodeRules.isCurrent().matches(nodeId, step)) {
-            return ["current"];
+        if(step.type === 2){
+            return ["unseen"];
         }
 
-        for (const rule of this.sccNodeRules) {
-            if(rule.matches(nodeId, step)){
-                states.push(rule.state);
-            }
-        }
-        if (states.length === 0) {
-            states.push("unseen");
-        }
-
-        return states;
+        return this.dfsAdapter.getNodeState(nodeId, step);
 
     }
     
     getEdgeState(edgeId, step) {
-        for (const rule of this.sccEdgeRules) {
-            if(rule.matches(edgeId, step)){
-                return rule.state;
-            }
+
+        if(step.type === 2){
+            return "unactive";
         }
-        return "unactive";
+
+        return this.dfsAdapter.getEdgeState(edgeId, step);
 
     }
 }

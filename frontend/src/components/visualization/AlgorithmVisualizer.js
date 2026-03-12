@@ -27,12 +27,26 @@ export default class AlgorithmVisualizer{
 
     renderStep(step) {
 
+        if(step.phase === "transposition"){
+
+            this.cy.edges().forEach(edge => {
+
+                const source = edge.source().id()
+                const target = edge.target().id()
+
+                edge.move({
+                    source: target,
+                    target: source
+                })
+
+            })
+
+            return
+        }
+
         this.cy.nodes().forEach(node => {
-            //console.log(step, node.id(), className)
             Object.values(this.algorithmStates.nodes).forEach(cls => {
 
-                //console.log("remove style")
-                //console.log(node.id())
                 node.removeClass(cls);
             });
         })
@@ -45,13 +59,6 @@ export default class AlgorithmVisualizer{
         this.cy.nodes().forEach(node => {
 
             const nodeId = node.id();
-            // const state = this.adaptor.getNodeState(nodeId, step);
-            
-            // const className = this.algorithmStates.nodes[state];
-            // if (className) {
-            //     //console.log(node.id(), className)
-            //     node.addClass(className);
-            // }
 
             const states = this.adaptor.getNodeState(nodeId, step);
 
