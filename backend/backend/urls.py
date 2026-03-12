@@ -26,5 +26,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('get_samples/', SampleGraphs.as_view(), name='token_refresh'),
-    path('save/', SaveGraph.as_view(), name='token_refresh'),
+    path('save_graph/', SaveGraph.as_view(), name='token_refresh'),
 ]

@@ -1,26 +1,49 @@
 from rest_framework import serializers
-from .models import Graph, Node, Edge
+from api.models import Graph, Node, Edge
 
 
 class NodeSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Node objects.
+
+    Transforms Node model instances into a JSON representation
+    used by the frontend graph editor.
+    """
+
+    id = serializers.CharField(source="node_id")
+
     class Meta:
         model = Node
-        fields = ["node_id", "label", "x", "y"]
-
+        fields = ["id", "label", "x", "y"]
 
 class EdgeSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Edge objects.
+
+    Converts edge relationships between nodes into a format
+    compatible with the client-side graph structure.
+    """
+
+    id = serializers.CharField(source="edge_id")
     source = serializers.CharField(source="source.node_id")
     target = serializers.CharField(source="target.node_id")
 
     class Meta:
         model = Edge
-        fields = ["edge_id", "source", "target", "weight"]
+        fields = ["id", "source", "target", "weight"]
 
+class GraphSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Graph objects including their associated
+    nodes and edges.
 
-class GraphCreateSerializer(serializers.ModelSerializer):
-    nodes = NodeSerializer(many=True)
-    edges = EdgeSerializer(many=True)
+    Nested serializers are used to return the complete graph
+    structure in a single API response.
+    """
+    
+    nodes = NodeSerializer(many=True, read_only=True)
+    edges = EdgeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Graph
-        fields = ["id", "name", "nodes", "edges"]
+        fields = ["name", "nodes", "edges"]
