@@ -13,7 +13,7 @@ export default function LoadGraph ({onClose}) {
     const [mode, setMode] = useState("");
 
     return(
-        <div className="popup">
+        <div className="graph-menue-popup">
             <div className="window">
 
 

@@ -33,7 +33,7 @@ export default function SaveGraph ({onClose}) {
     };
 
     return(
-        <div className="popup">
+        <div className="graph-menue-popup">
             <div className="window">
 
                 <form onSubmit={handleSave}>
