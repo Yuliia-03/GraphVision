@@ -6,6 +6,7 @@ import LoadGraph from './load_graph/LoadGraphMenue'
 import SaveGraph from "./load_graph/SaveGraph";
 import { useRef, useEffect, useState } from "react";
 import { getSandboxStyles } from "./SandboxStyle";
+import GraphViewer from "./GraphViewer"
 
 export default function GraphSandbox() {
 
@@ -206,14 +207,16 @@ export default function GraphSandbox() {
 
             <SandboxToolbar mode={mode} setMode = {setMode} onClear={() => {setNodes([]); setEdges([])}} onLoad={() => setShowLoad(true)} onSave={() => setSaveGraph(true)}/>
     
-            <CytoscapeComponent
+            {/* <CytoscapeComponent
                 cy={(cy) => (cyRef.current = cy)}
                 elements={[...nodes, ...edges]}
                 style={{ width: "100%", height: "90%" }}
                 layout={{ name: "preset" }}
                 stylesheet={getSandboxStyles(directed, weighted)}
 
-            />
+            /> */}
+
+            <GraphViewer/>
 
             {showLoad && (
                 <LoadGraph onClose={() => setShowLoad(false)} />
