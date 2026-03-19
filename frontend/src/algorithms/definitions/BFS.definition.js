@@ -4,14 +4,20 @@ import BFSDataVisualization from "../../components/controls/data_containers/BFSD
 import BFSControls from "../../components/controls/BFSControls"
 import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
 import  bfsDataCss  from "../../components/visualization/visualizationStyle/bfsDataCss"
+import BFSExample from "../../components/examples/BFSExample"
+import { bfsQuizConfig } from "../../components/interactive/generation/BFS/BFSQuizConfig"
 
 export const BFSDefinition = {
 
     id: "BFS",
+
     AdapterClass: BFSAdapter,
     AlgorithmClass: BFSAlgorithm,
+
     DataPanel: BFSDataVisualization,
     AlgorithmControl: BFSControls,
+    ExampleContent: BFSExample,
+    QuizzConfig: bfsQuizConfig,
     style: bfsStyle,
     dataCss: bfsDataCss,
 

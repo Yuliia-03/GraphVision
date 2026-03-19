@@ -144,6 +144,9 @@ export default class MSTAlgorithm extends BaseAlgorithm{
 
         while (this.visitedEdges.size < this.nodes.length - 1 && this.inQueue.length != 0) {
             const currentEdge = this.inQueue.shift();
+
+            if (this.connectedNodes.has(currentEdge.to)&& this.connectedNodes.has(currentEdge.from)) continue;
+
             this.weight += currentEdge.weight;
 
             const nextNode = currentEdge.to;
@@ -211,6 +214,8 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         return this.steps;
 
     }
+
+    
 
     run(params) {
 
