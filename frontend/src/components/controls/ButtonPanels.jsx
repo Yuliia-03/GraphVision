@@ -4,6 +4,7 @@ import AlgorithmVisualizer from '../visualization/AlgorithmVisualizer';
 import { AlgorithmDefinition } from '../../algorithms/definitions';
 import { useEffect, useState, useRef } from "react";
 import { exportAlgorithmPDF } from '../../pdf/SetPDF';
+
 export function ButtonPanel({params= {}}){
 
     const { nodes, edges, graphConfig, cyRef, algorithm, setNodes } = useGraph();
@@ -67,7 +68,6 @@ export function ButtonPanel({params= {}}){
 
     const run = () => {
 
-
         if (!algoDef) {
             throw new Error(`Algorithm "${algorithm}" not registered`);
         }
@@ -109,7 +109,14 @@ export function ButtonPanel({params= {}}){
                 
                 <button
                     className="primary"
-                    onClick={() => {if (steps.length === 0 || stepIndex === steps.length-1) {console.log("run"); run(); } console.log(!steps);setPlaying(p => !p)}}
+                    onClick={() => {
+                        if (steps.length === 0 || stepIndex === steps.length-1) {
+                            console.log("run"); 
+                            run(); 
+                        } 
+                        //console.log(!steps);
+                        setPlaying(p => !p)
+                    }}
                     disabled={!canExecute}
                 >
                     {playing ? "⏸ Pause" : "▶ Play"}
@@ -132,7 +139,9 @@ export function ButtonPanel({params= {}}){
                         steps
                         )
                     }
-                    disabled={steps.length === 0}>PDF</button>
+                    disabled={steps.length === 0}>
+                        PDF
+                </button>
                 {steps.length > 0 && (<div className="step-indicator">Step {stepIndex + 1} / {steps.length}</div>)}
             </div>
 

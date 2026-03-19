@@ -4,7 +4,7 @@ import {SelectNode} from './SelectNode';
 import { ButtonPanel } from './ButtonPanels';
 import  { useState } from "react";
 
-export default function BFSControls() {
+export default function BFSControls({ buttonComponent: ButtonComponent = ButtonPanel }) {
     const [params, setParams] = useState({});
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     
@@ -38,7 +38,7 @@ export default function BFSControls() {
                 )}
             </div>
 
-            <ButtonPanel params={params}/>
+            <ButtonComponent params={params} />
         </div>
     );
 }
