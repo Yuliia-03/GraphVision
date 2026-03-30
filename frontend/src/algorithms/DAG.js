@@ -9,7 +9,20 @@ export default class DAGAlgorithm extends BaseAlgorithm{
         super(nodes, edges);
         this.recStack = [];
         this.visited = new Set();
-        this.topoOrder = []
+        this.topoOrder = [];
+        this.moments = [];
+        this.cycle = [];
+    }
+
+    recordMoment(type, data = {}) {
+        this.moments.push({
+            type,
+            currentNode: data.currentNode ?? null,
+            recStack: [...this.recStack],
+            visited: [...this.visited],
+            topoOrder: [...this.topoOrder],
+            neighbours: data.neighbours ?? null
+        });
     }
 
     
@@ -24,11 +37,23 @@ export default class DAGAlgorithm extends BaseAlgorithm{
                     inStack: [...this.recStack],
                     topoOrder: [...this.topoOrder]
                 });
+                this.recordMoment("startComponent", { currentNode: node.data.id });
+
                 if (this.recDFSCycle(graph, node.data.id)) {
-                    this.addStep(`Cycle detected, cannot perform topological sort`);
-                    return this.steps;
+                    this.addStep(`Cycle detected, cannot perform topological sort`, {cycle: this.cycle});
+                    this.recordMoment("cycleDetected", { currentNode: node.data.id , cycle: this.cycle});
+                    
+                    return {
+                        steps: this.steps,
+                        moments: this.moments
+                    }
                 } else if(this.visited.size == this.nodes.length){
-                    this.addStep(`No cycle detected. Graph is DAG`);
+                    this.addStep(`No cycle detected. Graph is DAG`, {
+                        topoOrder: [...this.topoOrder],
+                    });
+                    this.recordMoment("dagConfirmed", {
+                        topoOrder: [...this.topoOrder]
+                    });
                 }
             }
         }
@@ -37,9 +62,16 @@ export default class DAGAlgorithm extends BaseAlgorithm{
                 topoOrder: [...this.topoOrder.reverse()],
                 final: [...this.topoOrder.reverse()],
             });
-            return this.steps;
+            console.log(this.steps)
+            return {
+                steps: this.steps,
+                moments: this.moments
+            }
         }
-        return this.steps;
+        return {
+            steps: this.steps,
+            moments: this.moments
+        }
     }
 
 
@@ -54,22 +86,34 @@ export default class DAGAlgorithm extends BaseAlgorithm{
             inStack: [...this.recStack],
             topoOrder: [...this.topoOrder]
         });
+        this.recordMoment("nodeVisited", {
+            currentNode: source
+        });
         
         const neighbours = graph[source] || [];
 
         for (const { to } of neighbours) {
 
-            if (!this.visited.has(to)) {
+
                 this.addStep(`Current node neighbours ${neighbours.map(e => e.to) || undefined}`, {
                     current: source,
                     inStack: [...this.recStack],
                     topoOrder: [...this.topoOrder],
                     neighbours: neighbours.map(e => e.to)
                 });
+                this.recordMoment("exploringNeighbours", {
+                    currentNode: source,
+                    neighbours: neighbours.map(e => e.to)
+                });
+            if (!this.visited.has(to)) {
                 if (this.recDFSCycle(graph, to)) {
                     return true;
                 }
             } else if (this.recStack.includes(to)) {
+                const index = this.recStack.indexOf(to);
+                this.cycle = this.recStack.slice(index);
+                this.cycle.push(to)
+                console.log(this.cycle)
                 return true;
             }
 
@@ -82,6 +126,10 @@ export default class DAGAlgorithm extends BaseAlgorithm{
             current: source,
             inStack: [...this.recStack],
             topoOrder: [...this.topoOrder],
+        });
+
+        this.recordMoment("backtrack", {
+            currentNode: source,
         });
 
         return false;
