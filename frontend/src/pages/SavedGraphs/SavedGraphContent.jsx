@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getSavedGraphs, getSavedGraphById, editGraph, deleteGraph, saveGraph } from "../../services/api";
-import GraphSandbox from "../../components/graph/Sandbox";
+import GraphSandbox from "../../components/graphPanel/Sandbox/Sandbox";
 import { useGraph } from "../../contexts/GraphContext";
 import { formatEdgesForAPI, formatNodesForAPI } from "../../utils/saveGraphFormatter";
 import { formatGraphs } from "../../utils/getGraphFormatter";

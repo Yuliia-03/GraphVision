@@ -1,8 +1,8 @@
-import SCCAdapter from "../../components/visualization/adaptors/SCCAdapter"
+import SCCAdapter from "../../components/graphPanel/visualizationLogic/algoRules/SCC/SCCAdapter"
 import DAGAlgorithm from '../DAG'
-import SCC_DataVisualization from "../../components/controls/data_containers/SCC_Data"
-import SCC_Controls from "../../components/controls/SCC_Controls"
-import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
+import SCC_DataVisualization from "../../components/controlsPanel/dataContainers/SCC_Data"
+import SCC_Controls from "../../components/controlsPanel/subtaskControls/SCC_Controls"
+import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"
 import  AlgoDataStyle  from "../../pdf/dataStyles/algorithmDataStyle"
 import SCCAlgorithm from "../SCC/SCC"
 

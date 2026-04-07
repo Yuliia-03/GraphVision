@@ -1,6 +1,6 @@
 import cytoscape from "cytoscape";
 import jsPDF from "jspdf";
-import AlgorithmVisualizer from "../components/visualization/AlgorithmVisualizer";
+import AlgorithmVisualizer from "../components/graphPanel/visualizationLogic/AlgorithmVisualizer";
 import { captureDataPanel } from "./HTMLtoImage";
 
 function createHeadlessCy(nodes, edges, style, directed) {

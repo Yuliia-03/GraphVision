@@ -1,6 +1,6 @@
 
 import { GraphProvider } from "../../contexts/GraphContext";
-import GraphSandbox from "../../components/graph/Sandbox";
+import GraphSandbox from "../../components/graphPanel/Sandbox/Sandbox";
 import { AlgorithmDefinition } from "../../algorithms/definitions";
 import { useState } from "react";
 
@@ -12,14 +12,14 @@ export default function AlgoPage({ algorithm }) {
     
     return (
         <GraphProvider algorithm={algorithm}>
-            <div className="container-fluid mt-3">
-                <div className="row bfs-layout">
+            <div className="container-fluid mt-3" style={{ height: "90vh" }}>
+                <div className="row h-100">
                     
-                    <div className="col-md-5 border graph-col">
+                    <div className="col-md-5 border d-flex flex-column h-100">
                         <GraphSandbox />
                     </div>
 
-                    <div className="col-md-6 border p-3">
+                    <div className="col-md-6 border p-3 h-100 overflow-auto">
 
                         <div className="d-flex mb-3">
                             <button

@@ -1,11 +1,11 @@
-import MSTAdapter from "../../components/visualization/adaptors/MSTAdapter"
+import MSTAdapter from "../../components/graphPanel/visualizationLogic/algoRules/MST/MSTAdapter"
 // import MSTAlgorithm from "../MST/mstAlgorithm"
 import MSTAlgorithm from "../MST"
-import MSTDataVisualization from "../../components/controls/data_containers/MSTData"
-import MSTControls from "../../components/controls/MSTControls"
-import { mstStyle } from "../../components/visualization/visualizationStyle/mstStyle"
+import MSTDataVisualization from "../../components/controlsPanel/dataContainers/MSTData"
+import MSTControls from "../../components/controlsPanel/subtaskControls/MST_Controls"
+import { mstStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/mstStyle"
 import  mstDataStyle  from "../../pdf/dataStyles/mstDataStyle"
-import { kruskalMstQuizConfig, primsMstQuizConfig } from "../../components/interactive/generation/MST/mstQuizConfig"
+import { kruskalMstQuizConfig, primsMstQuizConfig } from "../../components/interactivePanel/quizGeneration/MST/mstQuizConfig"
 
 
 export const MSTDefinition = {

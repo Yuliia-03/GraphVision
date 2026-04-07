@@ -1,10 +1,10 @@
-import DAGAdapter from "../../components/visualization/adaptors/DAGAdapter"
+import DAGAdapter from "../../components/graphPanel/visualizationLogic/algoRules/DAG/DAGAdapter"
 import DAGAlgorithm from '../DAG'
-import DAGDataVisualization from "../../components/controls/data_containers/DAGData"
-import DAGControls from "../../components/controls/DAGControls"
-import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
+import DAGDataVisualization from "../../components/controlsPanel/dataContainers/DAGData"
+import DAGControls from "../../components/controlsPanel/subtaskControls/DAG_Controls"
+import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"
 import  AlgoDataStyle  from "../../pdf/dataStyles/algorithmDataStyle"
-import { DAGQuizConfig } from "../../components/interactive/generation/DAG/dagQuizConfig"
+import { DAGQuizConfig } from "../../components/interactivePanel/quizGeneration/DAG/dagQuizConfig"
 
 export const DAGDefinition = {
 

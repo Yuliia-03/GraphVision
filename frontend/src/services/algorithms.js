@@ -49,4 +49,11 @@ export const Algorithms = {
         allowsUndirected: false,
         requiresWeighted: false
     },
+    Default: {
+        name: "default",
+        allowSelfLoops: true,
+        allowsDirected: true,
+        allowsUndirected: true,
+        requiresWeighted: false
+    }
 };

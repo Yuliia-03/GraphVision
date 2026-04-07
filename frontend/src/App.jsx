@@ -1,16 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import BFSPage from "./pages/BFSPage";
-import DFSPage from "./pages/DFSPage";
-import MSTPage from "./pages/MSTPage";
-import TOPPage from "./pages/TOPPage";
-import DAGPage from "./pages/DAGPage";
-import SCCPage from "./pages/SCCPage";
+import Home from "./pages/Home/Home";
+import BFSPage from "./pages/Algorithms/BFS/BFSPage";
+import DFSPage from "./pages/Algorithms/DFS/DFSPage";
+import MSTPage from "./pages/Algorithms/MST/MSTPage";
+import TOPPage from "./pages/Algorithms/TOP/TOPPage";
+import DAGPage from "./pages/Algorithms/DAG/DAGPage";
+import SCCPage from "./pages/Algorithms/SCC/SCCPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import Toolbar from "./components/layout/Toolbar";
-import GraphSandbox from './components/graph/Sandbox';
+import Toolbar from "./pages/Toolbar";
+import GraphSandbox from './components/graphPanel/Sandbox/Sandbox';
+import SavedGraphsPage from "./pages/SavedGraphs/SavedGraphsPage";
 
 const elements = [
     { data: { id: "A" }, position: { x: 100, y: 100 } },
@@ -30,6 +31,7 @@ function App() {
         { <Route path="/top" element={<TOPPage />} />  }
         { <Route path="/dag" element={<DAGPage />} />  }
         { <Route path="/scc" element={<SCCPage />} />  }
+        { <Route path="/save_graph" element={<SavedGraphsPage />} />  }
       </Routes>
     </Router>
   );

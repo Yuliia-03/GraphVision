@@ -1,11 +1,10 @@
-import DFSAdapter from "../../components/visualization/adaptors/DFSAdapter"
-// import DFSAlgorithm from '../DFS'
+import DFSAdapter from "../../components/graphPanel/visualizationLogic/algoRules/DFS/DFSAdapter"
 import DFSAlgorithm from "../DFS/dfsAlgorithm"
-import DFSDataVisualization from "../../components/controls/data_containers/DFSData"
-import DFSControls from "../../components/controls/DFSControls"
-import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
+import DFSDataVisualization from "../../components/controlsPanel/dataContainers/DFSData"
+import DFSControls from "../../components/controlsPanel/subtaskControls/DFS_Controls"
+import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"
 import  AlgoDataStyle  from "../../pdf/dataStyles/algorithmDataStyle"
-import { dfsQuizConfig } from "../../components/interactive/generation/DFS/dfsQuizConfig"
+import { dfsQuizConfig } from "../../components/interactivePanel/quizGeneration/DFS/dfsQuizConfig"
 
 export const DFSDefinition = {
 

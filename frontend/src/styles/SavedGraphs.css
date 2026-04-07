@@ -1,0 +1,213 @@
+/* -----------------------------
+   SAVED GRAPHS PAGE
+----------------------------- */
+.saved-page {
+    padding: 2rem;
+    color: #1f2937;
+    font-family: 'Inter', sans-serif;
+}
+
+/* HEADER */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* CREATE BUTTON - Primary */
+.create-btn {
+    background: #6366f1; /* soft indigo */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.create-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+}
+
+/* GRID */
+.saved-graphs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+/* CARD */
+.saved-graph-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    transition: 0.2s;
+    position: relative;
+}
+
+.saved-graph-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.saved-graph-card h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.saved-graph-card p {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-top: 0.3rem;
+}
+
+/* DELETE BUTTON - Card */
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #f87171; /* soft red */
+    border: none;
+    color: white;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.delete-btn:hover {
+    background: #ef4444;
+    transform: translateY(-1px);
+}
+
+/* -----------------------------
+   MODAL
+----------------------------- */
+.graph-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.graph-modal-content {
+    background: white;
+    width: 95%;
+    max-width: 900px;
+    height: 80%;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+/* MODAL HEADER */
+.graph-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.graph-title-input {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    border: none;
+    border-bottom: 2px solid #d1d5db;
+    outline: none;
+    padding: 0.2rem 0.3rem;
+}
+
+.graph-title-input:focus {
+    border-bottom-color: #6366f1;
+}
+
+/* MODAL ACTION BUTTONS */
+.actions button {
+    margin-left: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+
+/* Save button - primary */
+.actions button:nth-child(1) { 
+    background: #4ade80; /* soft green */
+    color: #065f46;
+}
+
+.actions button:nth-child(1):hover {
+    background: #22c55e;
+    transform: translateY(-1px);
+}
+
+/* Cancel button - neutral */
+.actions button:nth-child(2) {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.actions button:nth-child(2):hover {
+    background: #d1d5db;
+    transform: translateY(-1px);
+}
+
+/* Close button - accent */
+.actions button:nth-child(3) {
+    background: #fbbf24; /* amber */
+    color: #78350f;
+}
+
+.actions button:nth-child(3):hover {
+    background: #f59e0b;
+    transform: translateY(-1px);
+}
+
+/* -----------------------------
+   GRAPH CONTAINER
+----------------------------- */
+.graph-viewer-container {
+    flex: 1;
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+/* Inline node/edge input fields */
+input.inline-edit {
+    position: absolute;
+    z-index: 10;
+    padding: 4px 6px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    outline: none;
+    background: white;
+}
+
+input.inline-edit:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+}

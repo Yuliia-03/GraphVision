@@ -1,41 +1,56 @@
-/* Загальний popup фон */
 .quiz-popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6); /* напівпрозорий чорний */
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent dark */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
 }
 
-/* Вікно з контентом */
 .quiz-window {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   width: 90%;
   max-width: 1200px;
   height: 80%;
   display: flex;
   overflow: hidden;
   font-family: "Segoe UI", Roboto, sans-serif;
+  position: relative; /* for close button */
 }
 
-/* Контейнер для графа і питань */
+.quiz-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 1.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.quiz-close-btn:hover {
+  color: #4f46e5;
+}
+
 .quiz-layout {
   display: flex;
   width: 100%;
   height: 100%;
 }
 
-/* Ліва частина — граф */
+/* Left Panel (GraphViewer) */
 .left {
   width: 60%;
-  background: #f7f9fc; /* світлий фон */
+  background: #f7f9fc;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -44,7 +59,6 @@
   position: relative;
 }
 
-/* GraphViewer займає всю доступну площу */
 .left > * {
   width: 100%;
   height: 100%;
@@ -53,31 +67,46 @@
   box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
 }
 
-/* Права частина — питання */
+/* Right Panel (Questions) */
 .right {
   width: 40%;
-  padding: 30px;
+  padding: 60px 30px 30px 30px; /* top padding to avoid close button overlap */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   background: #fff;
+  overflow-y: auto;
+  position: relative;
 }
 
-/* Стиль заголовка питання */
+/* Scrollbar Styling */
+.right::-webkit-scrollbar {
+  width: 8px;
+}
+
+.right::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 108, 255, 0.4);
+  border-radius: 4px;
+}
+
+.right::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+}
+
 .right h4 {
   margin-bottom: 20px;
   font-size: 1.5rem;
   color: #333;
+  margin-top: 0;
 }
 
-/* Відповіді */
 .right form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Варіанти */
 .right label {
   background: #f1f4f8;
   padding: 12px 16px;
@@ -93,22 +122,23 @@
   background: #e0e7ff;
 }
 
-/* Радіо-кнопки */
 .right input[type="radio"] {
-  accent-color: #4f46e5; /* красивий фіолетовий */
+  accent-color: #4f46e5;
 }
 
+/* Hint Section */
 .quiz-actions {
   display: flex;
-  flex-direction: column; /* stack vertically */
-  gap: 10px; /* space between hint and button */
+  flex-direction: column;
+  gap: 10px;
   margin-top: 10px;
 }
+
 .hint-toggle {
   display: inline-block;
   margin: 8px 0;
   cursor: pointer;
-  color: #2563eb; /* nice blue */
+  color: #2563eb;
   font-size: 0.9rem;
   font-weight: 500;
   text-decoration: underline;
@@ -116,13 +146,14 @@
 }
 
 .hint-toggle:hover {
-  color: #1e40af; /* darker blue */
+  color: #1e40af;
   text-decoration: none;
 }
 
 .hint-toggle:active {
   transform: scale(0.97);
 }
+
 .hint-box {
   margin-top: 6px;
   padding: 8px 12px;
@@ -132,7 +163,7 @@
   color: #444;
   border-radius: 4px;
 }
-/* Кнопка Continue */
+
 .right button {
   margin-top: 25px;
   padding: 12px 24px;
@@ -149,17 +180,28 @@
   background: #3730a3;
 }
 
-/* Адаптив для маленьких екранів */
 @media (max-width: 900px) {
-  .window {
+  .quiz-window {
     flex-direction: column;
     height: 90%;
   }
+
+  .quiz-layout {
+    flex-direction: column;
+    height: 100%;
+  }
+
   .left, .right {
     width: 100%;
     height: 50%;
   }
+
   .right {
-    padding: 20px;
+    padding: 50px 20px 20px 20px; 
+  }
+
+  .quiz-close-btn {
+    top: 5px;
+    right: 5px;
   }
 }

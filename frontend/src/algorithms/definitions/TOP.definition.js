@@ -1,10 +1,10 @@
-import TOPAdapter from "../../components/visualization/adaptors/TOPAdapter"
+import TOPAdapter from "../../components/graphPanel/visualizationLogic/algoRules/TOP/TOPAdapter"
 import DAGAlgorithm from '../DAG'
-import TOPDataVisualization from "../../components/controls/data_containers/TOPData"
-import TOPControls from "../../components/controls/TOPControls"
-import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
+import TOPDataVisualization from "../../components/controlsPanel/dataContainers/TOPData"
+import TOPControls from "../../components/controlsPanel/subtaskControls/TOP_Controls"
+import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"
 import  AlgoDataStyle  from "../../pdf/dataStyles/algorithmDataStyle"
-import { DAGQuizConfig } from "../../components/interactive/generation/DAG/dagQuizConfig"
+import { DAGQuizConfig } from "../../components/interactivePanel/quizGeneration/DAG/dagQuizConfig"
 
 export const TOPDefinition = {
 
