@@ -7,12 +7,14 @@ class Graph(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=100, default="")
     is_sample = models.BooleanField(default=False)
+    directed = models.BooleanField(default=True)
+    weighted = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} (id={self.id})"
 
 class Node(models.Model):
-    node_id = models.CharField(max_length=50)   # frontend ID
+    node_id = models.CharField(max_length=50)
     graph = models.ForeignKey(Graph, related_name="nodes", on_delete=models.CASCADE)
     x = models.FloatField()
     y = models.FloatField()

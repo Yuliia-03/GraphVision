@@ -7,38 +7,41 @@ Creates a graph and its associated nodes and edges in the database.
 The operation is wrapped in a database transaction to ensure atomicity.
 If any step fails, all changes are rolled back to maintain consistency.
 """
-def create_graph(user, name, description, nodes, edges):
+from django.db import transaction
 
+def create_graph(user, name, description, nodes, edges, directed, weighted):
     with transaction.atomic():
 
         graph = Graph.objects.create(
             owner=user,
             name=name,
-            description=description
+            description=description,
+            directed = directed,
+            weighted = weighted
         )
 
-        node_map = {}
-
-        for node in nodes:
-
-            n = Node.objects.create(
-                graph=graph,
-                node_id=node["id"],
-                label=node.get("label", ""),
-                x=node["x"],
-                y=node["y"]
-            )
-
-            node_map[node["id"]] = n
-
-        for edge in edges:
-
-            Edge.objects.create(
-                graph=graph,
-                edge_id=edge["id"],
-                source=node_map[edge["source"]],
-                target=node_map[edge["target"]],
-                weight=edge.get("weight")
-            )
+        create_graph_structure(graph, nodes, edges)
 
     return graph
+
+def create_graph_structure(graph, nodes, edges):
+    node_map = {}
+
+    for node in nodes:
+        n = Node.objects.create(
+            graph=graph,
+            node_id=node["id"],
+            label=node.get("label", ""),
+            x=node["x"],
+            y=node["y"]
+        )
+        node_map[node["id"]] = n
+
+    for edge in edges:
+        Edge.objects.create(
+            graph=graph,
+            edge_id=edge["id"],
+            source=node_map[edge["source"]],
+            target=node_map[edge["target"]],
+            weight=edge.get("weight")
+        )

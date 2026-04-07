@@ -46,4 +46,5 @@ class GraphSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Graph
-        fields = ["name", "nodes", "edges"]
+        fields = ["id", "name", "description", "nodes", "edges", "directed", "weighted"]
+        read_only_fields = ["owner"]

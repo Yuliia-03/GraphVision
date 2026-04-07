@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from api.views import SignUpView, LogInView, SaveGraph, SampleGraphs
+from api.views import SignUpView, LogInView, SaveGraph, SampleGraphs, GraphDetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +27,8 @@ urlpatterns = [
 
     path('get_samples/', SampleGraphs.as_view(), name='token_refresh'),
     path('save_graph/', SaveGraph.as_view(), name='token_refresh'),
+
+    path("get_graph/<int:graph_id>/", GraphDetail.as_view(), name="graph-detail"),
+    path("edit_graph/<int:graph_id>/", GraphDetail.as_view(), name="edit_graph"),
+    path("delete_graph/<int:graph_id>/", GraphDetail.as_view(), name="delete_graph"),
 ]
