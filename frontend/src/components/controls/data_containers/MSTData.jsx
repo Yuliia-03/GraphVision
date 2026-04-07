@@ -1,4 +1,4 @@
-import '../../../styles/data_container/mst-data-panel.css'
+import '../../../styles/data_container/mstDataPanel.css'
 
 export default function MSTDataVisualization({step}) {
 

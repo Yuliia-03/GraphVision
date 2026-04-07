@@ -1,4 +1,4 @@
-import '../../../styles/data_container/algorithm-data-panel.css'
+import '../../../styles/data_container/algorithmDataPanel.css'
 
 export default function DFSDataVisualization({step}) {
 
