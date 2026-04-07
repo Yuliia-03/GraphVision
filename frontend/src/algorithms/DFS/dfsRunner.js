@@ -31,19 +31,27 @@ export default class DFSRunner {
         this.events[event].forEach(cb => cb(payload));
     }
 
-    run(source) {
+    run(source, externalVisited = new Set()) {
         const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
-
+        
+        this.steps = [];
         this.stack = [];
-        this.visited = new Set();
+        this.visited = new Set(externalVisited);
         this.moments = [];
+
+        if (this.visited.has(source)) return;
 
         let shouldStop = false;
         const stop = () => (shouldStop = true);
 
         // init
         this.stack.push(source);
+
+        // if (externalVisited.has(source)) return;
+
         this.visited.add(source);
+        console.log("dfs")
+        console.group(source)
         this.emit("init", { source });
 
         while (this.stack.length > 0 && !shouldStop) {
@@ -78,6 +86,8 @@ export default class DFSRunner {
                 if (!this.visited.has(to) && !shouldStop) {
 
                     this.stack.push(to);
+
+                    // if (externalVisited.has(to)) return;
                     this.visited.add(to);
 
                     // track discoveries

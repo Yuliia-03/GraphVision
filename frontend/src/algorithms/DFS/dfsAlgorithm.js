@@ -22,19 +22,19 @@ export default class DFSAlgorithm {
         }
     }
 
-    run(params) {
+    run(params, externalVisited = []) {
         const runner = new DFSRunner(
             this.nodes,
             this.edges,
             this.graphConfig
         );
-
+        this.stepBuilder.steps = []
         this.stepBuilder.attach(runner);
 
         const taskStrategy = this.createTaskStrategy(params);
         taskStrategy.attach(runner);
 
-        runner.run(params.startNode);
+        runner.run(params.startNode, externalVisited);
 
         const result = taskStrategy.getResult?.(runner, params) || null;
 

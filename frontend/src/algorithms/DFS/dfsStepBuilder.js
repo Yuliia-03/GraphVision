@@ -5,6 +5,7 @@ export class DFSStepBuilder {
     }
 
     attach(runner) {
+        this.steps = [];
 
         runner.on("init", ({ source }) => {
             this.steps.push({
