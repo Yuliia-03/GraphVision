@@ -21,7 +21,8 @@ export default class DAGAlgorithm extends BaseAlgorithm{
             recStack: [...this.recStack],
             visited: [...this.visited],
             topoOrder: [...this.topoOrder],
-            neighbours: data.neighbours ?? null
+            neighbours: data.neighbours ?? null,
+            cycle: data.cycle ?? null
         });
     }
 
@@ -62,6 +63,9 @@ export default class DAGAlgorithm extends BaseAlgorithm{
                 topoOrder: [...this.topoOrder.reverse()],
                 final: [...this.topoOrder.reverse()],
             });
+            this.recordMoment("topoCompleted", {
+                topoOrder: [...this.topoOrder]
+            });
             console.log(this.steps)
             return {
                 steps: this.steps,
@@ -94,17 +98,17 @@ export default class DAGAlgorithm extends BaseAlgorithm{
 
         for (const { to } of neighbours) {
 
-
-                this.addStep(`Current node neighbours ${neighbours.map(e => e.to) || undefined}`, {
-                    current: source,
-                    inStack: [...this.recStack],
-                    topoOrder: [...this.topoOrder],
-                    neighbours: neighbours.map(e => e.to)
-                });
-                this.recordMoment("exploringNeighbours", {
-                    currentNode: source,
-                    neighbours: neighbours.map(e => e.to)
-                });
+            this.addStep(`Current node neighbours ${neighbours.map(e => e.to) || undefined}`, {
+                current: source,
+                inStack: [...this.recStack],
+                topoOrder: [...this.topoOrder],
+                edges: neighbours.map(e => `${source}-${e.to}`),
+                neighbours: neighbours.map(e => e.to)
+            });
+            this.recordMoment("exploringNeighbours", {
+                currentNode: source,
+                neighbours: neighbours.map(e => e.to)
+            });
             if (!this.visited.has(to)) {
                 if (this.recDFSCycle(graph, to)) {
                     return true;
@@ -113,7 +117,6 @@ export default class DAGAlgorithm extends BaseAlgorithm{
                 const index = this.recStack.indexOf(to);
                 this.cycle = this.recStack.slice(index);
                 this.cycle.push(to)
-                console.log(this.cycle)
                 return true;
             }
 

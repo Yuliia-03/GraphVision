@@ -1,5 +1,5 @@
-import {buildAdjacencyList} from "./adjacencyList"
-import BaseAlgorithm from "./BaseAlgorithm";
+import {buildAdjacencyList} from "../adjacencyList"
+import BaseAlgorithm from "../BaseAlgorithm";
 
 
 export default class DFSAlgorithm extends BaseAlgorithm{
@@ -18,7 +18,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         this.paths = {};
     }
 
-    _runDFS(source, {
+    _runDFS(source, phase, {
         onInit = () => {},
         onPop = () => {},
         onInspect = () => {},
@@ -62,7 +62,11 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                 if (shouldStop) break;
 
                 const newEdge = `${current}-${to}`;
-                this.current_edges.push(newEdge);
+                if (phase == "first-dfs"){
+                    this.current_edges.push(newEdge);
+                } else {
+                    this.current_edges.push(`${to}-${current}`)
+                }
                 this.current_neighbours.push(to);
 
                 onEdges({ current, newEdge });
@@ -87,15 +91,15 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         return this.steps;
     }
 
-    dfsTraversal(source) {
+    dfsTraversal(source, phase) {
         this.steps = [];
 
-        this._runDFS(source, {
+        this._runDFS(source, phase, {
             onInit: ({ source }) => {
                 this.addStep(`Initialize stack with ${source}`, {
                     current: undefined,
                     inStack: [...this.stack],
-                    visited: []
+                    visited: [...this.visited]
                 });
             },
 
@@ -149,76 +153,11 @@ export default class DFSAlgorithm extends BaseAlgorithm{
 
         return this.steps;
     }
-
-    dfsPath(source, target) {
-        const parent = {};
-        this.steps = [];
-
-        this._runDFS(source, {
-            onInit: ({ source }) => {
-                parent[source] = source;
-
-                this.addStep(`Initialize stack with ${source}`, {
-                    inStack: [...this.stack],
-                    visited: [...this.visited]
-                });
-            },
-
-            onDiscover: ({ current, to, stop }) => {
-                parent[to] = current;
-
-                if (to === target) {
-                    stop();
-                }
-
-                this.addStep(`Add ${to} to stack`, {
-                    current,
-                    visited: [...this.visited],
-                    edges: [...this.current_edges],
-                    neighbours: [...this.current_neighbours],
-                    inStack: [...this.stack],
-                });
-            }
-        });
-
-        if (!parent[target]) {
-            this.addStep("Target not reachable", { isFinal: true, visited: [...this.visited]});
-            return this.steps;
-        }
-
-        const path = this.buildPath(parent, source, target);
-
-        this.addStep(`Path found ${path}`, {
-            result: path,
-            isFinal: true,
-            visited: [...this.visited],
-        });
-
-        return this.steps;
-    }
-
-    buildPath(parent, source, target) {
-        const path = [];
-        let node = target;
-
-        while (parent[node] !== node) {
-            path.push(Number(node));
-            node = parent[node];
-        }
-
-        path.push(Number(source));
-        return path.reverse();
-    }
-
-    run(params) {
+    
+    run(params, phase) {
         const { startNode, targetNode, task } = params;
 
-        switch (task) {
-            case "path":
-                return this.dfsPath(startNode, targetNode);
-            default:
-                return this.dfsTraversal(startNode);
-        }
+        return this.dfsTraversal(startNode, phase);
     }
 
     getResult() {

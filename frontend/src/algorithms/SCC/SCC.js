@@ -1,6 +1,6 @@
-import {buildAdjacencyList} from "./adjacencyList"
-import BaseAlgorithm from "./BaseAlgorithm";
-import DFSAlgorithm from "./DFS";
+import {buildAdjacencyList} from "../adjacencyList"
+import BaseAlgorithm from "../BaseAlgorithm";
+import DFSAlgorithm from "./SCC-DFS";
 
 export default class SCCAlgorithm extends BaseAlgorithm{
 
@@ -38,19 +38,32 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                 const newSteps = dfs.run({
                     startNode: id,
                     task: "dfs"
-                });
+                }, "first-dfs");
 
-                this.addStep(`First DFS starting at ${id}`, { phase: "firstDFS-start" });
+                // this.addStep(`First DFS starting at ${id}`, { phase: "firstDFS-start" });
+                this.addStep(`First DFS starting at ${id}`, {
+                    phase: "firstDFS-start",
+                    // current: id,
+                    visited: [...visited],
+                    inStack: [],
+                    neighbours: [],
+                    phase: "firstDFS",
+                    finishOrder: finishOrder
+                });
 
                 newSteps.forEach(step => {
                     this.steps.push({
                         ...step,
-                        phase: "firstDFS"
+                        phase: "firstDFS",
+                        finishOrder: finishOrder
                     });
                 });
                 const result = dfs.getResult();
                 result.forEach(n => visited.add(n));
                 finishOrder = [...result, ...finishOrder];
+
+                this.steps[this.steps.length - 1].message = `No more reachable nodes strating from ${id}. Update finish time`;
+                this.steps[this.steps.length - 1].finishOrder = finishOrder;
             }
         }
 
@@ -58,6 +71,8 @@ export default class SCCAlgorithm extends BaseAlgorithm{
     }
 
     secondDFS(firstOrder, reversedEdges) {
+
+        // this.cy.json({ elements: { nodes, edges: reversedEdges } });
 
         const dfs = new DFSAlgorithm(this.nodes, reversedEdges, { directed: true });
         const visited = new Set();
@@ -70,19 +85,31 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                 const newSteps = dfs.run({
                     startNode: node,
                     task: "dfs"
-                });
+                }, "seconds-dfs");
 
-                this.addStep(`Second DFS starting at ${node}`, { phase: "secondDFS-start" });
+                this.addStep(`Second DFS starting at ${node}`, 
+                { 
+                    phase: "secondDFS-start",
+                    visited: [...visited],
+                    inStack: [],
+                    neighbours: [],
+                    phase: "secondDFS",
+                    components: [...components]
+                 });
 
                 newSteps.forEach(step => {
                     this.steps.push({
                         ...step,
-                        phase: "secondDFS"
+                        phase: "secondDFS",
+                        components: [...components]
                     });
                 });
                 const result = dfs.getResult();
                 result.forEach(n => visited.add(n));
                 components.push(result);
+
+                this.steps[this.steps.length - 1].message += `. New component ${result}`;
+                this.steps[this.steps.length - 1].components = [...components];
             }
         }
 
@@ -104,8 +131,10 @@ export default class SCCAlgorithm extends BaseAlgorithm{
         this.addStep('Transpose graph!', {phase: "transposition", edges: reversedEdges})
         this.components = this.secondDFS(firstTraversal, reversedEdges);
 
-        //console.log(this.steps)
-        return this.components;
+        return {
+            steps: this.steps,
+            moments: this.components
+        }
     }
 
     run(params) {
