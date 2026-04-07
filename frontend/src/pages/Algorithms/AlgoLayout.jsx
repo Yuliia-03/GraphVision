@@ -1,16 +1,15 @@
 
-import { GraphProvider } from "../contexts/GraphContext";
-import GraphSandbox from "../components/graph/Sandbox";
-import { AlgorithmDefinition } from "../algorithms/definitions";
-import ExamplePopup from "../components/examples/ExamplePopup";
+import { GraphProvider } from "../../contexts/GraphContext";
+import GraphSandbox from "../../components/graph/Sandbox";
+import { AlgorithmDefinition } from "../../algorithms/definitions";
 import { useState } from "react";
-import { createInteractiveControls } from "../components/controls/InteractiveControl";
+
 export default function AlgoPage({ algorithm }) {
     
     const algoDef = AlgorithmDefinition[algorithm];
     const [mode, setMode] = useState("explore");
-    const [showExample, setShowExample] = useState(false);
-
+    // const [showExample, setShowExample] = useState(false);
+    
     return (
         <GraphProvider algorithm={algorithm}>
             <div className="container-fluid mt-3">
@@ -37,12 +36,12 @@ export default function AlgoPage({ algorithm }) {
                                 Interactive
                             </button>
 
-                            <button
+                            {/* <button
                                 className="btn btn-sm btn-secondary ms-auto"
                                 onClick={() => setShowExample(true)}
                             >
                                 Example
-                            </button>
+                            </button> */}
                         </div>
 
                         {mode === "explore" && (
@@ -52,18 +51,19 @@ export default function AlgoPage({ algorithm }) {
                         )}
 
                         {mode === "interact" && (
-                            createInteractiveControls(algoDef.AlgorithmControl)
+                            <algoDef.AlgorithmControl mode="interactive"
+                            />
                         )}
                         
                     </div>
                 </div>
 
-                {showExample && (
+                {/* {showExample && (
                     <ExamplePopup
                         algorithm={algorithm}
                         onClose={() => setShowExample(false)}
                     />
-                )}
+                )} */}
                 
             </div>
         </GraphProvider>
