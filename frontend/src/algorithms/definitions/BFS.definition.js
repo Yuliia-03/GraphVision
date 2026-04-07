@@ -1,13 +1,14 @@
 import BFSAdapter from "../../components/visualization/adaptors/BFSAdapter"
-import BFSAlgorithm from '../BFS'
+// import BFSAlgorithm from '../BFS'
+import BFSAlgorithm from '../BFS/bfsAlgorithm'
 import BFSDataVisualization from "../../components/controls/data_containers/BFSData"
 import BFSControls from "../../components/controls/BFSControls"
 import { bfsStyle } from "../../components/visualization/visualizationStyle/bfsStyle"
-import  bfsDataCss  from "../../components/visualization/visualizationStyle/bfsDataCss"
+import  AlgoDataStyle  from "../../pdf/dataStyles/algorithmDataStyle"
 import BFSExample from "../../components/examples/BFSExample"
 import { bfsQuizConfig } from "../../components/interactive/generation/BFS/BFSQuizConfig"
 
-export const BFSDefinition = {
+export const BFSDefinition = { 
 
     id: "BFS",
 
@@ -19,7 +20,7 @@ export const BFSDefinition = {
     ExampleContent: BFSExample,
     QuizzConfig: bfsQuizConfig,
     style: bfsStyle,
-    dataCss: bfsDataCss,
+    dataCss: AlgoDataStyle,
 
     canRun: (params) => {
         if (!params.task) return false;
