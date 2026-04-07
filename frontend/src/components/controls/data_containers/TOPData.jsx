@@ -1,29 +1,50 @@
-import '../../../styles/data_container/bfs.css'
+import '../../../styles/data_container/algorithm-data-panel.css'
 
-export default function TOPDataVisualization({step}) {
+export default function DAGDataVisualization({ step }) {
 
     if (!step) return null;
 
     return (
-
         <div id="data-panel" className="bfs-data-panel">
 
-            <div className="block"> 
+            <div className="block">
                 <p>Action: {step.message || ""}</p>
-
-                <p>Current: {step.current || ""}</p>
+                {
+                    step.current && 
+                    <p>Current: {step.current || ""}</p>
+                }
+                
             </div>
 
-            <div className="block">
-                <p>Stack </p>
-                <p>{step.inStack}</p>
-            </div>
-            <div className="block">
-                <p>Topological list </p>
-                <p>{step.topoOrder}</p>
-            </div>
-        
+            {step.inStack && (
+                <div className="block">
+                    <p>Stack</p>
+                    <div className="node-list queue">
+                        {step.inStack.map((node, i) => (
+                            <span
+                                key={node}
+                                className={`node-chip ${i === step.inStack.length - 1 ? "front" : ""}`}
+                            >
+                                {node}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {step.topoOrder && (
+                <div className="block">
+                    <p>Topological Order</p>
+                    <div className="node-list visited">
+                        {step.topoOrder.map(node => (
+                            <span key={node} className="node-chip visited">
+                                {node}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+
         </div>
     );
-
 }

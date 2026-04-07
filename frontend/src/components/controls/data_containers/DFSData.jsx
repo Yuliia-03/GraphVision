@@ -1,4 +1,4 @@
-import '../../../styles/data_container/bfs.css'
+import '../../../styles/data_container/algorithm-data-panel.css'
 
 export default function DFSDataVisualization({step}) {
 
@@ -43,12 +43,32 @@ export default function DFSDataVisualization({step}) {
                 <div className="block result">
                     <h3>Result</h3>
 
-                    {typeof step.result === "string" && (
+                    {/* {typeof step.result === "string" && (
                         <p>{step.result}</p>
                     )}
 
                     {Array.isArray(step.result) && (
                         <p>{step.result.join(" → ")}</p>
+                    )} */}
+                    {step.result.type === "traversal" && (
+                        <>
+                            <>
+                                <p>DFS:</p>
+                                <p>{step.result.dfs}</p>
+                            </>
+
+                            <>
+                                <p>All possible DFS:</p>
+                                <ul>
+                                    {step.result.allTraversals.map((path, i) => (
+                                        <li key={i}>
+                                        {path.join(" -> ")}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                            </>
+                        </>
                     )}
                 </div>
             )}

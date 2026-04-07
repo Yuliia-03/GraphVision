@@ -1,4 +1,4 @@
-import '../../../styles/data_container/mst.css'
+import '../../../styles/data_container/mst-data-panel.css'
 
 export default function MSTDataVisualization({step}) {
 
@@ -10,37 +10,6 @@ export default function MSTDataVisualization({step}) {
 
             <div className="block "> 
                 <p>Action: {step.message || ""}</p>
-            </div>
-
-            <div className='block inline'>
-                {/* <p>Current edge: </p> */}
-                <div className="node-list">
-                    {step.currentEdge ? 
-                        (
-                            <>
-                            <p>Current edge: </p>
-                            <span className="edge-chip active">
-                                {step.currentEdge}
-                            </span>
-                            </>
-                        ):
-                        (
-                            <>
-                                {step.currentNode ? 
-                                    (
-                                        <>
-                                        <p>Current node: </p>
-                                        <span className="edge-chip active">
-                                            {step.currentNode}
-                                        </span>
-                                        </>
-                                    ):
-                                    <p>-</p>
-                                }
-                            </>
-                        )
-                    }
-                </div>
             </div>
 
             <div className="block inline">

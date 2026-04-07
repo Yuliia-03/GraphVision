@@ -1,4 +1,4 @@
-import '../../../styles/data_container/bfs.css'
+import '../../../styles/data_container/algorithm-data-panel.css'
 
 export default function BFSDataVisualization({step}) {
 
@@ -56,7 +56,7 @@ export default function BFSDataVisualization({step}) {
                             <>
                                 <p>All possible BFS:</p>
                                 <ul>
-                                    {step.result.paths.map((path, i) => (
+                                    {step.result.allTraversals.map((path, i) => (
                                         <li key={i}>
                                         {path.join(" -> ")}
                                         </li>
