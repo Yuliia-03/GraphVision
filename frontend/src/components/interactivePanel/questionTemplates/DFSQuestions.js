@@ -30,12 +30,6 @@ export const dfsQuestionTemplates = [
         hint: "A node is added to the visited set as soon as it is discovered (when pushed onto the stack), not when it is popped."
     },
     {
-        id: 6,
-        type: "valid_traversal",
-        text: "Which of the following are valid DFS traversals?",
-        hint: "DFS explores as deep as possible before backtracking. The order depends on which neighbor is chosen first."
-    },
-    {
         id: 7,
         type: "backtracking",
         text: "If DFS reaches node {node} and all its neighbors are already visited, what happens next?",

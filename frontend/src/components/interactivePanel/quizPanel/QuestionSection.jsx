@@ -5,8 +5,21 @@ export default function QuestionSection({question,onAnswer}){
 
     const [selected, setSelected] = useState();
     const [showHint, setShowHint] = useState(false);
+    const [feedback, setFeedback] = useState(null);
 
     const isArray = (array) => Array.isArray(array);
+
+    const handleSubmit = () => {
+        const isCorrect = selected === question.answer;
+
+        if (!isCorrect) {
+            setFeedback("❌ Incorrect. Try again!");
+            return;
+        }
+
+        setFeedback(null);
+        onAnswer(true);
+    };
 
     return(
 
@@ -44,7 +57,13 @@ export default function QuestionSection({question,onAnswer}){
                     </div>
                 )}
 
-                <button onClick={() => onAnswer(selected == question.answer)}>
+                {feedback && (
+                    <div className="feedback error">
+                        {feedback}
+                    </div>
+                )}
+
+                <button onClick={handleSubmit}>
                     Continue
                 </button>
             </div>

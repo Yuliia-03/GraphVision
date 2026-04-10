@@ -29,12 +29,12 @@ export const questionTemplates = [
         "text": "After BFS processes node {node}, which nodes are in the visited set?",
         "hint": "A node is added to the visited set as soon as it is discovered (when it is added to the queue), not when it is processed."
     },
-    {
-        "id": 6,
-        "type": "valid_traversal",
-        "text": "Which of the following are valid BFS traversals?",
-        "hint": "In BFS, nodes are visited level by level. All neighbors of a node are explored before moving deeper."
-    },
+    // {
+    //     "id": 6,
+    //     "type": "valid_traversal",
+    //     "text": "Which of the following are valid BFS traversals?",
+    //     "hint": "In BFS, nodes are visited level by level. All neighbors of a node are explored before moving deeper."
+    // },
     // {
     //     "id": 7,
     //     "type": "structural_change",

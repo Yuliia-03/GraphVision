@@ -1,8 +1,15 @@
 import '../../../styles/data_container/algorithmDataPanel.css'
+import { useGraph } from '../../../contexts/GraphContext';
+
 
 export default function BFSDataVisualization({step}) {
 
     if (!step) return null;
+    const { nodes } = useGraph();
+
+    const idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
+    const mapLabels = (arr) => arr.map(id => idToLabel[id] || id);
+    const getLabel = (id) => idToLabel[id] || id;
 
     return (
 
@@ -13,13 +20,13 @@ export default function BFSDataVisualization({step}) {
                     <div className="block"> 
                         <p>Action: {step.message || ""}</p>
 
-                        <p>Current: {step.current || ""}</p>
+                        <p>Current: {getLabel(step.current) || ""}</p>
                     </div>
 
                     <div className="block">
                         <p>Queue</p>
                         <div className="node-list queue">
-                            {step.inQueue.map((node, i) => (
+                            {mapLabels(step.inQueue).map((node, i) => (
                                 <span key={node}
                                     className={`node-chip ${i === 0 ? "front" : ""}`}>
                                     {node}
@@ -31,7 +38,7 @@ export default function BFSDataVisualization({step}) {
                     <div className="block">
                         <p>Visited</p>
                         <div className="node-list visited">
-                            {step.visited.map(node => (
+                            {mapLabels(step.visited).map(node => (
                                 <span key={node} className="node-chip visited">
                                     {node}
                                 </span>
@@ -50,7 +57,7 @@ export default function BFSDataVisualization({step}) {
                         <>
                             <>
                                 <p>BFS:</p>
-                                <p>{step.result.bfs}</p>
+                                <p>{mapLabels(step.result.bfs).join(" -> ")}</p>
                             </>
 
                             <>
@@ -58,7 +65,7 @@ export default function BFSDataVisualization({step}) {
                                 <ul>
                                     {step.result.allTraversals.map((path, i) => (
                                         <li key={i}>
-                                        {path.join(" -> ")}
+                                        {mapLabels(path).join(" -> ")}
                                         </li>
                                     ))}
                                 </ul>
@@ -68,10 +75,17 @@ export default function BFSDataVisualization({step}) {
                     )}
 
                     {step.result.type === "shortest" && (
-                        <>
-                            <p>BFS:</p>
-                            <p>{step.result.path.join(" -> ")}</p>
-                        </>
+                        step.result.path ? (
+                            <>
+                                <p>BFS:</p>
+                                <p>{mapLabels(step.result.path).join(" -> ")}</p>
+                            </>
+
+                        ) : (
+                            <>
+                                <p>No path found!</p>
+                            </>
+                        )
                     )}
                     {step.result.type === "distances" && (
                         <>
@@ -79,7 +93,7 @@ export default function BFSDataVisualization({step}) {
                         <ul>
                             {Object.entries(step.result.paths).map(([node, path]) => (
                             <li key={node}>
-                                <strong>{node}:</strong> {path.join(" → ")}
+                                <strong>{getLabel(node)}:</strong> {mapLabels(path).join(" → ")}
                             </li>
                             ))}
                         </ul>

@@ -1,14 +1,25 @@
 export class BFSStepBuilder {
 
-    constructor() {
+    constructor(nodes) {
+        this.nodes = nodes;
         this.steps = [];
+
+        this.idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
+    }
+
+    getLabel(id) {
+        return this.idToLabel[id] || id;
+    }
+
+    mapLabels(arr) {
+        return arr.map(id => this.getLabel(id));
     }
 
     attach(runner) {
 
         runner.on("init", ({ source }) => {
             this.steps.push({
-                message: `Initialize queue with ${source}`,
+                message: `Initialize queue with ${this.getLabel(source)}`,
                 inQueue: [...runner.queue],
                 visited: [],
                 edgesLeadingToNew: []
@@ -17,7 +28,7 @@ export class BFSStepBuilder {
 
         runner.on("pop", ({ current }) => {
             this.steps.push({
-                message: `Pop ${current} from queue`,
+                message: `Pop ${this.getLabel(current)} from queue`,
                 current,
                 visited: [...runner.visited],
                 inQueue: [...runner.queue],
@@ -27,7 +38,7 @@ export class BFSStepBuilder {
 
         runner.on("edge", ({ current, to }) => {
             this.steps.push({
-                message: `Inspect edge ${current}-${to}`,
+                message: `Inspect edge ${this.getLabel(current)}-${this.getLabel(to)}`,
                 current,
                 visited: [...runner.visited],
                 inQueue: [...runner.queue],
@@ -38,7 +49,7 @@ export class BFSStepBuilder {
 
         runner.on("discover", ({ current, to }) => {
             this.steps.push({
-                message: `Add ${to} to queue`,
+                message: `Add ${this.getLabel(to)} to queue`,
                 current,
                 visited: [...runner.visited],
                 inQueue: [...runner.queue],

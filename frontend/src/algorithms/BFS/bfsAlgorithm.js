@@ -13,7 +13,7 @@ export default class BFSAlgorithm {
 
         this.task = options.task || "traversal";
 
-        this.stepBuilder = options.stepBuilder || new BFSStepBuilder();
+        this.stepBuilder = options.stepBuilder || new BFSStepBuilder(nodes);
     }
 
     createTaskStrategy(params) {

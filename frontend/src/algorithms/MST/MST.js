@@ -1,5 +1,5 @@
-import BaseAlgorithm from "./BaseAlgorithm";
-import {buildAdjacencyList} from "./adjacencyList"
+import BaseAlgorithm from "../BaseAlgorithm";
+import {buildAdjacencyList} from "../adjacencyList"
 
 export class DisjointSet {
     constructor(nodes) {
@@ -53,7 +53,23 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         this.inQueue = new Set()
         this.ignoredEdges = new Set()
         this.moments = []
+        this.idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
+    
     }
+
+    getLabel(id) {
+        return this.idToLabel[id] || id;
+    }
+
+    // const edgeIdsToLabels = (edges) => edges?.map(edge => {
+    //     if (typeof edge === "string" && edge.includes("-")) {
+    //         const [fromId, toId] = edge.split("-");
+    //         const fromLabel = idToLabel[fromId] ?? fromId;
+    //         const toLabel = idToLabel[toId] ?? toId;
+    //         return `${fromLabel}-${toLabel}`;
+    //     }
+    //     return edge;
+    // });
 
     kruskals() {
     const uf = new DisjointSet(this.nodes.map(n => n.data.id));
@@ -64,7 +80,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         const { source, target, weight, id } = currentEdge;
 
         // Step: edge is being considered
-        this.addStep(`Choose edge ${id}`, {
+        this.addStep(`Choose edge ${this.getLabel(source)}-${this.getLabel(target)}`, {
             currentEdge: id,
             weight: this.weight,
             visitedEdges: [...this.visitedEdges],
@@ -88,7 +104,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
             this.connectedNodes.add(target);
 
             // Step: edge added to MST
-            this.addStep(`Add edge ${id}`, {
+            this.addStep(`Add edge ${this.getLabel(source)}-${this.getLabel(target)}`, {
                 currentEdge: id,
                 weight: this.weight,
                 visitedEdges: [...this.visitedEdges],
@@ -103,7 +119,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         } else {
             // Step: edge skipped (cycle)
             this.visitedEdges.add(id);
-            this.addStep(`Skip edge ${id} (cycle)`, {
+            this.addStep(`Skip edge ${this.getLabel(source)}-${this.getLabel(target)} (cycle)`, {
                 currentEdge: id,
                 weight: this.weight,
                 visitedEdges: [...this.visitedEdges],
@@ -136,7 +152,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         this.currentNode = source
         this.inQueue = new Set()
 
-        this.addStep(`Initialise with source node ${source}`, {
+        this.addStep(`Initialise with source node ${this.getLabel(source)}`, {
             currentNode: this.currentNode,
             weight: 0,
             mstTree: [],
@@ -153,7 +169,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         this.inQueue = neighbours;
         this.connectedNodes.add(this.currentNode);
 
-        this.addStep(`Mark ${this.currentNode} as visited and add adjacent edges to the queue`, {
+        this.addStep(`Mark ${this.getLabel(this.currentNode)} as visited and add adjacent edges to the queue`, {
             currentNode: this.currentNode,
             weight: 0,
             mstTree: [...this.visitedEdges],
@@ -185,7 +201,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
 
             this.inQueue.sort((a,b) => a.weight - b.weight);
 
-            this.addStep(`New edges to add to the queue: ${[...newEdges].map((edge) => edge.id)}`, {
+            this.addStep(`New edges to add to the queue: ${[...newEdges].map((edge) => `${this.getLabel(edge.from)}-${this.getLabel(edge.to)}` )}`, {
                 currentNode: this.currentNode,
                 weight: this.weight,
                 mstTree: [...this.mstTree],
@@ -221,7 +237,7 @@ export default class MSTAlgorithm extends BaseAlgorithm{
             this.currentNode = nextNode
             this.connectedNodes.add(this.currentNode );
 
-            this.addStep(`Visit node ${this.currentNode} to MST. Inspect it's adjacent edges `, {
+            this.addStep(`Visit node ${this.getLabel(this.currentNode)} to MST. Inspect it's adjacent edges `, {
                 currentNode: this.currentNode,
                 weight: this.weight,
                 mstTree: [...this.mstTree],

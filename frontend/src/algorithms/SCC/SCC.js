@@ -41,7 +41,7 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                 }, "first-dfs");
 
                 // this.addStep(`First DFS starting at ${id}`, { phase: "firstDFS-start" });
-                this.addStep(`First DFS starting at ${id}`, {
+                this.addStep(`First DFS starting at ${node.data.label}`, {
                     phase: "firstDFS-start",
                     // current: id,
                     visited: [...visited],
@@ -87,7 +87,7 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                     task: "dfs"
                 }, "seconds-dfs");
 
-                this.addStep(`Second DFS starting at ${node}`, 
+                this.addStep(`Second DFS starting at ${dfs.getLabel(node)}`, 
                 { 
                     phase: "secondDFS-start",
                     visited: [...visited],
@@ -108,7 +108,7 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                 result.forEach(n => visited.add(n));
                 components.push(result);
 
-                this.steps[this.steps.length - 1].message += `. New component ${result}`;
+                this.steps[this.steps.length - 1].message += `. New component ${dfs.mapLabels(result)}`;
                 this.steps[this.steps.length - 1].components = [...components];
             }
         }

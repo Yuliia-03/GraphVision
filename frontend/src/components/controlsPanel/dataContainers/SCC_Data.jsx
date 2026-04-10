@@ -1,8 +1,16 @@
 import '../../../styles/data_container/algorithmDataPanel.css'
+import { useGraph } from '../../../contexts/GraphContext';
 
 export default function SCC_DataVisualization({ step }) {
 
     if (!step) return null;
+
+    const { nodes } = useGraph();
+    const idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
+    const mapLabels = (arr) => arr.map(id => idToLabel[id] || id);
+    const getLabel = (id) => idToLabel[id] || id;
+    
+    
 
     return (
         <div id="data-panel" className="bfs-data-panel">
@@ -10,7 +18,7 @@ export default function SCC_DataVisualization({ step }) {
             {/* Action & Current Node */}
             <div className="block">
                 <p>Action: {step.message || ""}</p>
-                <p>Current: {step.current || ""}</p>
+                <p>Current: {getLabel(step.current) || ""}</p>
             </div>
 
             {/* Stack */}
@@ -18,7 +26,7 @@ export default function SCC_DataVisualization({ step }) {
                 <div className="block">
                     <p>Stack</p>
                     <div className="node-list queue">
-                        {step.inStack.map((node, i) => (
+                        {mapLabels(step.inStack).map((node, i) => (
                             <span
                                 key={node}
                                 className={`node-chip ${i === step.inStack.length - 1 ? "front" : ""}`}
@@ -35,7 +43,7 @@ export default function SCC_DataVisualization({ step }) {
                 <div className="block">
                     <p>Visited</p>
                     <div className="node-list visited">
-                        {step.visited.map(node => (
+                        {mapLabels(step.visited).map(node => (
                             <span key={node} className="node-chip visited">
                                 {node}
                             </span>
@@ -49,7 +57,7 @@ export default function SCC_DataVisualization({ step }) {
                 <div className="block">
                     <p>Finish time</p>
                     <div className="node-list visited">
-                        {step.finishOrder.map(node => (
+                        {mapLabels(step.finishOrder).map(node => (
                             <span key={node} className="node-chip visited">
                                 {node}
                             </span>
@@ -64,7 +72,7 @@ export default function SCC_DataVisualization({ step }) {
                     <p>Components</p>
                     {step.components.map((component, idx) => (
                         <div key={idx} className="node-list visited">
-                            {component.map(node => (
+                            {mapLabels(component).map(node => (
                                 <span key={node} className="node-chip visited">
                                     {node}
                                 </span>

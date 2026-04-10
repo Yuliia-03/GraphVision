@@ -1,5 +1,5 @@
 import TOPAdapter from "../../components/graphPanel/visualizationLogic/algoRules/TOP/TOPAdapter"
-import DAGAlgorithm from '../DAG'
+import DAGAlgorithm from '../DAG_TopOrder/DAG'
 import TOPDataVisualization from "../../components/controlsPanel/dataContainers/TOPData"
 import TOPControls from "../../components/controlsPanel/subtaskControls/TOP_Controls"
 import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"

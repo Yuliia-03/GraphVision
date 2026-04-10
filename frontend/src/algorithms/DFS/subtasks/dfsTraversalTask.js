@@ -1,4 +1,3 @@
-import {getAllDFSTraversals} from './getAllTraversals'
 export class DFSTraversalTask {
 
     constructor(params) {
@@ -19,6 +18,11 @@ export class DFSTraversalTask {
 
         runner.on("discover", ({ current, to }) => {
             this.parent[to] = current;
+            // console.log(to, current)
+        });
+        runner.on("visited", ({ current, to }) => {
+            this.parent[to] = current;
+            console.log(to, current)
         });
     }
 
@@ -26,22 +30,23 @@ export class DFSTraversalTask {
 
         const { startNode } = this.params;
 
-        const allTraversals = getAllDFSTraversals(
-            runner.nodes,
-            runner.edges,
-            runner.directed,
-            startNode
-        );
-
         const treeEdges = Object.entries(this.parent)
                 .filter(([n, p]) => n !== p)
                 .map(([n, p]) => `${p}-${n}`);
+        
+        if (!runner.directed) {
+            const reversed = treeEdges.map(e => {
+                const [u, v] = e.split("-");
+                return `${v}-${u}`;
+            });
+
+            treeEdges.push(...reversed);
+        }
 
         return {
             type: "traversal",
-            dfs: this.order.join(" -> "),
-            treeEdges,
-            allTraversals
+            dfs: this.order,
+            treeEdges
         };
     }
 }

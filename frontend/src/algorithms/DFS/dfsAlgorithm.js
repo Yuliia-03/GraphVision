@@ -10,7 +10,7 @@ export default class DFSAlgorithm {
         this.edges = edges;
         this.graphConfig = graphConfig;
 
-        this.stepBuilder = options.stepBuilder || new DFSStepBuilder();
+        this.stepBuilder = options.stepBuilder || new DFSStepBuilder(nodes);
     }
 
     createTaskStrategy(params) {

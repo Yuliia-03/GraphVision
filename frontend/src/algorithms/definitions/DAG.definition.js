@@ -1,5 +1,5 @@
 import DAGAdapter from "../../components/graphPanel/visualizationLogic/algoRules/DAG/DAGAdapter"
-import DAGAlgorithm from '../DAG'
+import DAGAlgorithm from '../DAG_TopOrder/DAG'
 import DAGDataVisualization from "../../components/controlsPanel/dataContainers/DAGData"
 import DAGControls from "../../components/controlsPanel/subtaskControls/DAG_Controls"
 import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"

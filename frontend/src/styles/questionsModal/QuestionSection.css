@@ -11,3 +11,16 @@
   font-size: 1.05rem;
   font-weight: 600;
 }
+
+.feedback {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.feedback.error {
+    background-color: #ffe5e5;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+}

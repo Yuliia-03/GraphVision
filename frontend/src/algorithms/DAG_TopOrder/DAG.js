@@ -1,5 +1,5 @@
-import {buildAdjacencyList} from "./adjacencyList"
-import BaseAlgorithm from "./BaseAlgorithm";
+import {buildAdjacencyList} from "../adjacencyList"
+import BaseAlgorithm from "../BaseAlgorithm";
 
 
 
@@ -12,6 +12,13 @@ export default class DAGAlgorithm extends BaseAlgorithm{
         this.topoOrder = [];
         this.moments = [];
         this.cycle = [];
+
+        this.idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
+    
+    }
+
+    getLabel(id) {
+        return this.idToLabel[id] || id;
     }
 
     recordMoment(type, data = {}) {
@@ -34,7 +41,7 @@ export default class DAGAlgorithm extends BaseAlgorithm{
 
         for (const node of this.nodes) {
             if(!this.visited.has(node.data.id)) {
-                this.addStep(`Start to explore new component with node ${node.data.id}`, {
+                this.addStep(`Start to explore new component with node ${node.data.label}`, {
                     inStack: [...this.recStack],
                     topoOrder: [...this.topoOrder]
                 });
@@ -85,7 +92,7 @@ export default class DAGAlgorithm extends BaseAlgorithm{
         this.visited.add(source);
 
 
-        this.addStep(`Add new node ${source}`, {
+        this.addStep(`Add new node ${this.getLabel(source)}`, {
             current: source,
             inStack: [...this.recStack],
             topoOrder: [...this.topoOrder]
@@ -98,7 +105,7 @@ export default class DAGAlgorithm extends BaseAlgorithm{
 
         for (const { to } of neighbours) {
 
-            this.addStep(`Current node neighbours ${neighbours.map(e => e.to) || undefined}`, {
+            this.addStep(`Current node neighbours ${neighbours.map(e => this.getLabel(e.to)) || undefined}`, {
                 current: source,
                 inStack: [...this.recStack],
                 topoOrder: [...this.topoOrder],

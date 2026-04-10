@@ -40,7 +40,7 @@ export class BFSTraversalTask {
 
         return {
             type: "traversal",
-            bfs: this.order.join(" -> "),
+            bfs: this.order,
             treeEdges,
             allTraversals
         };

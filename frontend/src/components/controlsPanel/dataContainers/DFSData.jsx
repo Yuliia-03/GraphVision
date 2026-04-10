@@ -1,8 +1,15 @@
 import '../../../styles/data_container/algorithmDataPanel.css'
+import { useGraph } from '../../../contexts/GraphContext';
 
 export default function DFSDataVisualization({step}) {
 
     if (!step) return null;
+    const { nodes } = useGraph();
+    
+    const idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
+    const mapLabels = (arr) => arr.map(id => idToLabel[id] || id);
+    const getLabel = (id) => idToLabel[id] || id;
+    
 
     return (
 
@@ -13,12 +20,12 @@ export default function DFSDataVisualization({step}) {
                     <div className="block"> 
                         <p>Action: {step.message || ""}</p>
 
-                        <p>Current: {step.current || ""}</p>
+                        <p>Current: {getLabel(step.current) || ""}</p>
                     </div>
 
                     <div className="block">
                         <p>Stack </p><div className="node-list queue">
-                            {step.inStack.map((node, i) => (
+                            {mapLabels(step.inStack).map((node, i) => (
                                 <span key={node}
                                     className={`node-chip ${i == step.inStack.length - 1 ? "front" : ""}`}>
                                     {node}
@@ -29,7 +36,7 @@ export default function DFSDataVisualization({step}) {
                     <div className="block">
                         <p>Visited </p>
                         <div className="node-list visited">
-                            {step.visited.map(node => (
+                            {mapLabels(step.visited).map(node => (
                                 <span key={node} className="node-chip visited">
                                     {node}
                                 </span>
@@ -43,35 +50,42 @@ export default function DFSDataVisualization({step}) {
                 <div className="block result">
                     <h3>Result</h3>
 
-                    {/* {typeof step.result === "string" && (
-                        <p>{step.result}</p>
-                    )}
-
-                    {Array.isArray(step.result) && (
-                        <p>{step.result.join(" → ")}</p>
-                    )} */}
                     {step.result.type === "traversal" && (
                         <>
                             <>
                                 <p>DFS:</p>
-                                <p>{step.result.dfs}</p>
+                                <p>{mapLabels(step.result.dfs).join("->")}</p>
                             </>
 
                             <>
-                                <p>All possible DFS:</p>
-                                <ul>
-                                    {step.result.allTraversals.map((path, i) => (
-                                        <li key={i}>
-                                        {path.join(" -> ")}
-                                        </li>
-                                    ))}
-                                </ul>
-
+                                
+                                <div className="note mt-3">
+                                    <p>
+                                        <strong>Note:</strong> DFS traversal depends on the order in which neighbors are processed.
+                                        In this implementation, nodes are marked as visited when they are added to the stack,
+                                        so each node appears only once and stack order strictly determines traversal.
+                                    </p>
+                                </div>
                             </>
                         </>
                     )}
+
+                    {step.result.type === "path" && (
+                        step.result.path ? (
+                            <>
+                                <p>DFS:</p>
+                                <p>{mapLabels(step.result.path).join(" -> ")}</p>
+                            </>
+
+                        ) : (
+                            <>
+                                <p>No path found!</p>
+                            </>
+                        )
+                    )}
                 </div>
             )}
+
         
         </div>
     );

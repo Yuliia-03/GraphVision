@@ -79,6 +79,7 @@ export default class DFSRunner {
 
                 const edge = `${current}-${to}`;
                 this.currentEdges.push(edge);
+                if (!this.directed) this.currentEdges.push(`${to}-${current}`);
                 this.currentNeighbours.push(to);
 
                 this.emit("edge", { current, to });
@@ -87,7 +88,6 @@ export default class DFSRunner {
 
                     this.stack.push(to);
 
-                    // if (externalVisited.has(to)) return;
                     this.visited.add(to);
 
                     // track discoveries
@@ -95,6 +95,7 @@ export default class DFSRunner {
                     moment.edgesLeadingToNew.push(edge);
 
                     this.emit("discover", { current, to, stop });
+                    
                 }
             }
 

@@ -82,6 +82,10 @@ export function ButtonPanel({params= {}, mode = "explore"}){
             node.classes("sandbox-node");
         });
 
+        cyRef.current.edges().forEach(edge => {
+            edge.classes("edge");
+        });
+
     }, [edges, graphConfig, algorithm, params.task]);
 
     const run = () => {

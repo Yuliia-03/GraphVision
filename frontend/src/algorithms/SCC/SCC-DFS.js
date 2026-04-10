@@ -13,10 +13,19 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         this.current_edges = [];
         this.current_neighbours = [];
 
-        //this.dfs = "";
         this.dfs = [];
         this.paths = {};
+        this.idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
+
     }
+    
+    getLabel(id) {
+        return this.idToLabel[id] || id;
+    }
+    mapLabels(arr) {
+        return arr.map(id => this.idToLabel[id] || id)
+    }
+    
 
     _runDFS(source, phase, {
         onInit = () => {},
@@ -30,10 +39,6 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
 
         this.dfs = [];
-        // this.stack = [];
-        // this.visited = new Set();
-        // this.current_edges = [];
-        // this.current_neighbours = [];
 
         let shouldStop = false;
         const stop = () => { shouldStop = true; };
@@ -47,8 +52,6 @@ export default class DFSAlgorithm extends BaseAlgorithm{
             
             const current = this.stack.pop();
 
-            // this.dfs += this.dfs.length ? ` -> ${current}` : `${current}`;
-            
             this.dfs.push(current);
             onPop({ current });
 
@@ -96,7 +99,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
 
         this._runDFS(source, phase, {
             onInit: ({ source }) => {
-                this.addStep(`Initialize stack with ${source}`, {
+                this.addStep(`Initialize stack with ${this.getLabel(source)}`, {
                     current: undefined,
                     inStack: [...this.stack],
                     visited: [...this.visited]
@@ -104,7 +107,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
             },
 
             onPop: ({ current }) => {
-                this.addStep(`Pop ${current} from stack`, {
+                this.addStep(`Pop ${this.getLabel(current)} from stack`, {
                     current,
                     visited: [...this.visited],
                     inStack: [...this.stack],
@@ -113,7 +116,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
             },
 
             onInspect: ({ current }) => {
-                this.addStep(`Inspect neighbours of ${current}`, {
+                this.addStep(`Inspect neighbours of ${this.getLabel(current)}`, {
                     current,
                     visited: [...this.visited],
                     neighbours: [],
@@ -122,7 +125,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
             },
 
             onDiscover: ({ current, to }) => {
-                this.addStep(`Add ${to} to stack`, {
+                this.addStep(`Add ${this.getLabel(to)} to stack`, {
                     current,
                     visited: [...this.visited],
                     edges: [...this.current_edges],
@@ -132,7 +135,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
             },
 
             onEdges: ({ current, newEdge }) => {
-                this.addStep(`Inspect edge ${newEdge}`, {
+                this.addStep(`Inspect edge ${newEdge.split("-").map(id => this.getLabel(id)).join("-")}`, {
                     current,
                     visited: [...this.visited],
                     edges: [...this.current_edges],
