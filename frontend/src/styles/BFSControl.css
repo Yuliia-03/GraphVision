@@ -1,75 +1,48 @@
+/* PANEL */
+.config-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f1f5f9;
+}
 
-.algo-controls,
-.control-panel {
-    background: #f8fafc; 
-    border-radius: 14px;
-    padding: 1rem;
-    border: 1px solid #e5e7eb;
-    color: #0f172a;
-    margin: 1rem;
+/* HEADER */
+.config-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e4ecf3;
+
+}
+
+.config-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+
+  padding: 8px;
+  border-radius: 10px;
+  background: #f8fafc;
+  overflow: visible;
 }
 
 .config-panel {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 1rem;
-    border: 1px solid #e5e7eb;
+  position: relative;
+  z-index: 1;
 }
 
-.config-panel h3 {
-    margin: 0 0 0.8rem 0;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: #2563eb;
-}
+.config-panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 3px;
+  border-radius: 2px;
+  background: #2563eb;
 
-
-.controls {
-    display: flex;
-    gap: 0.6rem;
-    align-items: center;
-}
-
-.controls button {
-    padding: 0.45rem 0.9rem;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    background: #ffffff;
-    color: #0f172a;
-    border: 1px solid #cbd5f5;
-    cursor: pointer;
-    transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.controls button:hover:not(:disabled) {
-    background: #f1f5f9;
-    transform: translateY(-1px);
-}
-
-.controls button.primary {
-    background: #2563eb;
-    border-color: #2563eb;
-    color: #ffffff;
-}
-
-.controls button.primary:hover {
-    background: #1d4ed8;
-}
-
-.controls button:disabled {
-    background: #f1f5f9;
-    color: #94a3b8;
-    border-color: #e5e7eb;
-    cursor: not-allowed;
-}
-
-.step-indicator {
-    font-size: 0.75rem;
-    color: #475569;
-    font-family: "JetBrains Mono", monospace;
-    align-self: flex-end;
-    margin-top: 0.3rem;
-}
+  }

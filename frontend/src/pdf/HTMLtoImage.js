@@ -2,8 +2,15 @@ import { createRoot } from "react-dom/client";
 import { createElement } from "react";
 import { flushSync } from "react-dom";
 import { toJpeg } from "html-to-image";
+import { GraphProvider } from "../contexts/GraphContext";
 
-export async function captureDataPanel(Component, step, cssText, stepIndex) {
+export async function captureDataPanel(
+    Component,
+    step,
+    cssText,
+    stepIndex,
+    graphProps // 👈 NEW
+) {
     const host = document.createElement("div");
     host.style.position = "fixed";
     host.style.left = "-9999px";
@@ -24,23 +31,40 @@ export async function captureDataPanel(Component, step, cssText, stepIndex) {
 
     flushSync(() => {
         root.render(
-            createElement(Component, {
-                step,
-                key: stepIndex
-            })
+            createElement(
+                GraphProvider,
+                { algorithm: graphProps.algorithm }, // 👈 CRUCIAL
+                createElement(Component, {
+                    step,
+                    key: stepIndex
+                })
+            )
         );
     });
 
-    const img = await toJpeg(mount, {
-        backgroundColor: "#ffffff",
-        quality: 0.85,
-        pixelRatio: 3,
-        skipFonts: true,
-        cacheBust: true
-    });
+    try {
+        const img = await toJpeg(mount, {
+    backgroundColor: "#ffffff",
+    quality: 0.9,
+    pixelRatio: 2,
 
-    root.unmount();
-    host.remove();
+    // 🔥 KEY FIXES
+    skipFonts: true,
+    cacheBust: false,
+    includeQueryParams: false,
 
-    return img;
+    // 🚀 HUGE: ignore external stylesheets
+    filter: (node) => {
+        // remove <link> (bootstrap)
+        if (node.tagName === "LINK") return false;
+
+        return true;
+    }
+});
+
+        return img;
+    } finally {
+        root.unmount();
+        host.remove();
+    }
 }

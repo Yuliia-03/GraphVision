@@ -1,64 +1,80 @@
+/* ===== ROW LAYOUT ===== */
 .select-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 auto;
+  position: relative; /* 🔥 important */
 }
 
-.select-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #475569;
+/* ===== LABEL ===== */
+.select-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
 }
 
+/* ===== SELECT BUTTON ===== */
 .select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  min-width: 120px;
+  max-width: 220px;
 
-    width: 100%;
-    padding: 0.55rem 0.75rem;
-    margin-bottom: 1rem;
-    padding-right: 2.2rem;
+  padding: 6px 28px 6px 10px;
+  font-size: 12px;
 
-    border-radius: 12px;
-    border: 1px solid #cbd5f5;
-    background-color: #ffffff;
-    color: #0f172a;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
 
-    font-size: 0.85rem;
-    font-family: "Inter", system-ui, sans-serif;
-    cursor: pointer;
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  cursor: pointer;
 
-    background-image:
-        linear-gradient(45deg, transparent 50%, #64748b 50%),
-        linear-gradient(135deg, #64748b 50%, transparent 50%);
-    background-position:
-        calc(100% - 1rem) calc(50% - 2px),
-        calc(100% - 0.75rem) calc(50% - 2px);
-    background-size:
-        6px 6px,
-        6px 6px;
-    background-repeat: no-repeat;
-
-    transition:
-        border-color 0.15s ease,
-        box-shadow 0.15s ease,
-        background-color 0.15s ease;
+  position: relative;
+  z-index: 1;
 }
 
+/* hover */
 .select:hover {
-    background-color: #f8fafc;
-    border-color: #94a3b8;
+  border-color: #c7d2fe;
+  background: #ffffff;
 }
 
-.select:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+/* open state */
+.select.open {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.select option[value=""] {
-    color: #94a3b8;
+/* ===== DROPDOWN ===== */
+.custom-select {
+  position: relative;
+}
+
+.dropdown {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+
+  max-height: 240px;        /* ✅ dynamic height */
+  overflow-y: auto;         /* ✅ scroll if long */
+
+  font-size: 12px;          /* ✅ match select */
+  padding: 4px;             /* ✅ spacing */
+}
+
+.dropdown-item {
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+
+  white-space: nowrap;       /* ✅ prevent weird wrapping */
+}
+
+.dropdown-item:hover {
+  background: #f1f5f9;
+}
+
+.dropdown-item:hover {
+  background: #f1f5f9;
 }

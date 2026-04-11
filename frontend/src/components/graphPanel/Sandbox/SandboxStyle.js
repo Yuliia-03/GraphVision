@@ -25,12 +25,27 @@ export function getSandboxStyles(directed, weighted) {
                 backgroundColor: "orange"
             }
         },
+        
         {
             selector: "edge",
             style: {
                 width: 2,
                 targetArrowShape: directed ? "triangle" : "none",
                 curveStyle: "bezier"
+            }
+        },
+        {
+            selector: "edge.edge-normal",
+            style: {
+                targetArrowShape: directed ? "triangle" : "none",
+                sourceArrowShape: "none"
+            }
+        },
+        {
+            selector: "edge.edge-reversed",
+            style: {
+                targetArrowShape: "none",
+                sourceArrowShape: directed ? "triangle" : "none"
             }
         }
     ];

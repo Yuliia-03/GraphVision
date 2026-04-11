@@ -40,14 +40,25 @@ export class BFSShortestTask {
 
         path.push(params.startNode);
 
-        const treeEdges = Object.entries(this.parent)
-            .filter(([n, p]) => n !== p)
-            .map(([n, p]) => `${p}-${n}`);
+        const edges = [];
+        for (let i = 0; i < path.length - 1; i++) {
+        const from = path[i];
+        const to = path[i + 1];
+
+        edges.push(`${from}-${to}`);
+
+        // ✅ use graphConfig
+        if (!runner.graphConfig.directed) {
+            edges.push(`${to}-${from}`);
+        }
+    }
+
+
 
         return {
             type: "shortest",
             path: path.reverse(),
-            treeEdges
+            treeEdges: edges
         };
     }
 }

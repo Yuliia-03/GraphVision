@@ -34,14 +34,24 @@ export class BFSTraversalTask {
             startNode
         );
 
-        const treeEdges = Object.entries(this.parent)
-            .filter(([node, p]) => node !== p)
-            .map(([node, p]) => `${p}-${node}`);
+        const edges = [];
+
+    Object.entries(this.parent)
+        .filter(([node, p]) => node !== p)
+        .forEach(([node, p]) => {
+            edges.push(`${p}-${node}`);
+
+            // ✅ add reverse if undirected
+            if (!runner.directed) {
+                edges.push(`${node}-${p}`);
+            }
+        });
+
 
         return {
             type: "traversal",
             bfs: this.order,
-            treeEdges,
+            treeEdges: edges,
             allTraversals
         };
     }

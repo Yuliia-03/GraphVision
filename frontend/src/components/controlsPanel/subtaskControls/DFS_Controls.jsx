@@ -27,29 +27,31 @@ export default function DFSControls({mode = "explore" }) {
     return (
     <div className="algo-controls">
         <div className="config-panel">
+            <h3 className="config-title">Depth-First Search</h3>
+        
+            <div className="config-row">
+                <SelectTask
+                    value={params.task}
+                    onChange={task => update({ task })}
+                    options={taskOptions}
+                    disabled={mode === "interactive"}
+                />
 
-        <h3>DFS Configuration</h3>
-        <SelectTask
-            value={params.task}
-            onChange={task => update({ task })}
-            options={taskOptions}
-            disabled={mode === "interactive"}
-        />
+                <SelectNode
+                    label="Starting node"
+                    value={params.startNode}
+                    onChange={startNode => update({ startNode })}
+                />
 
-        <SelectNode
-            label="Starting node"
-            value={params.startNode}
-            onChange={startNode => update({ startNode })}
-        />
-
-        {params.task === "path" && (
-            <SelectNode
-            label="Target node"
-            value={params.targetNode}
-            exclude={params.startNode}
-            onChange={targetNode => update({ targetNode })}
-            />
-        )}
+                {params.task === "path" && (
+                    <SelectNode
+                    label="Target node"
+                    value={params.targetNode}
+                    exclude={params.startNode}
+                    onChange={targetNode => update({ targetNode })}
+                    />
+                )}
+            </div>
         </div>
         <ButtonPanel params = {params} mode = {mode} />
     </div>

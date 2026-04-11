@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGraph } from "../../../contexts/GraphContext";
 import { addEdge } from './graphConfigurations'
 import Modal from "./AlertModal";
-
+import '../../../styles/GraphConfig.css'
 export default function GraphConfig() {
 
     const { rules, graphConfig, setGraphConfig, setEdges, edges } = useGraph();
@@ -42,38 +42,42 @@ export default function GraphConfig() {
 
 
     return (
-        <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-            <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Graph Rule">
-                {modalMsg}
-            </Modal>
+        <div className="graph-config">
 
-            <label>
-                <input
-                    type="checkbox"
-                    checked={graphConfig.directed}
-                    onChange={e => handleDirectedChange(e.target.checked)}
-                />
-                Directed
-            </label>
+    <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Graph Rule">
+        {modalMsg}
+    </Modal>
 
-            <label>
-                <input
-                    type="checkbox"
-                    checked={rules.name === "default" ? graphConfig.weighted : rules.requiresWeighted}
-                    onChange={(e) => {
-                        if(rules.name == "default") {
-                            handleWeightChange(e.target.checked)
-                        } else {
-                            showModal(
-                            rules.requiresWeighted
-                                ? `${rules.name} is possible only on weighted graphs`
-                                : `${rules.name} is possible only on unweighted graphs`
-                            )
-                        }
-                    }}
-                />
-                Weighted
-            </label>
-        </div>
+    <label className="toggle">
+        <input
+            type="checkbox"
+            checked={graphConfig.directed}
+            onChange={e => handleDirectedChange(e.target.checked)}
+        />
+        <span className="slider" />
+        <span className="label">Directed</span>
+    </label>
+
+    <label className="toggle">
+        <input
+            type="checkbox"
+            checked={rules.name === "default" ? graphConfig.weighted : rules.requiresWeighted}
+            onChange={(e) => {
+                if (rules.name === "default") {
+                    handleWeightChange(e.target.checked);
+                } else {
+                    showModal(
+                        rules.requiresWeighted
+                            ? `${rules.name} is possible only on weighted graphs`
+                            : `${rules.name} is possible only on unweighted graphs`
+                    );
+                }
+            }}
+        />
+        <span className="slider" />
+        <span className="label">Weighted</span>
+    </label>
+
+</div>
     );
 }

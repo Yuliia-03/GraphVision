@@ -94,13 +94,15 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                     inStack: [],
                     neighbours: [],
                     phase: "secondDFS",
-                    components: [...components]
+                    components: [...components],
+                    transposed: true
                  });
 
                 newSteps.forEach(step => {
                     this.steps.push({
                         ...step,
                         phase: "secondDFS",
+                        transposed: true,
                         components: [...components]
                     });
                 });
@@ -128,7 +130,7 @@ export default class SCCAlgorithm extends BaseAlgorithm{
 
         const firstTraversal = this.firstDFS();
         const reversedEdges = this.reverseEdges();
-        this.addStep('Transpose graph!', {phase: "transposition", edges: reversedEdges})
+        this.addStep('Transpose graph!', {phase: "transposition", edges: reversedEdges, transposed: true})
         this.components = this.secondDFS(firstTraversal, reversedEdges);
 
         return {

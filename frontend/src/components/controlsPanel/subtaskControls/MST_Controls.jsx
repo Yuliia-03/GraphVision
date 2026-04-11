@@ -10,26 +10,34 @@ export default function MSTControls({mode = "explore" }) {
     const [params, setParams] = useState({});
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     return (
-        <div>
-            <SelectTask
-                value={params.task}
-                onChange={task => update({ task })}
-                options={[
-                { value: "prims", label: "Prim's Algorithm" },
-                { value: "kruskals", label: "Kruskal's Algorithm" }
-                ]}
-            />
+        <div className="algo-controls">
+            <div className="config-panel">
+                <h3 className="config-title">MST</h3>
 
-            {params.task === "prims" && (
-                <SelectNode
-                label="Source node"
-                value={params.startNode}
-                onChange={startNode => update({ startNode })}
-                />
-            )}
+                <div className="config-row">
+                    <SelectTask
+                        value={params.task}
+                        onChange={task => update({ task })}
+                        options={[
+                            { value: "prims", label: "Prim's Algorithm" },
+                            { value: "kruskals", label: "Kruskal's Algorithm" }
+                        ]}
+                    />
 
-            
-            <ButtonPanel params = {params} mode = {mode} />
+                    {params.task === "prims" && (
+                        <div className="form-row">
+                            <SelectNode 
+                                label="Starting node"
+                                value={params.startNode}
+                                onChange={startNode => update({ startNode })}
+                            />
+                        </div>
+                    )}
+
+                </div>
+            </div>
+
+            <ButtonPanel params={params} mode={mode} />
         </div>
     );
 }

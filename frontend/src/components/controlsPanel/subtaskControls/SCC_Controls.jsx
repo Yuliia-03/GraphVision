@@ -9,16 +9,21 @@ export default function SCC_Controls({mode = "explore" }) {
     const update = (patch) => setParams(p => ({ ...p, ...patch }));
     
     return (
-        <div>
-            <SelectTask
-                value={params.task}
-                onChange={task => update({ task })}
-                options={[
-                    // { value: "tarajan", label: "Tarjan's Algorithm" },
-                    { value: "kosaraju", label: "Kosaraju's Algorithm" }
-                ]}
-            />
+        <div className="algo-controls">
+            <div className="config-panel">
+                <h3 className="config-title">Strongly Connected Components</h3>
 
+                <div className="config-row">
+                    <SelectTask
+                        value={params.task}
+                        onChange={task => update({ task })}
+                        options={[
+                            // { value: "tarajan", label: "Tarjan's Algorithm" },
+                            { value: "kosaraju", label: "Kosaraju's Algorithm" }
+                        ]}
+                    />
+                </div>
+            </div>
             <ButtonPanel params = {params} mode = {mode} />
         </div>
     );

@@ -31,3 +31,13 @@
     height: 100%;
     pointer-events: none;
 }
+
+.edge-normal {
+  target-arrow-shape: triangle;
+  source-arrow-shape: none;
+}
+
+.edge-reversed {
+  target-arrow-shape: none;
+  source-arrow-shape: triangle;
+}

@@ -130,8 +130,14 @@ export function ButtonPanel({params= {}, mode = "explore"}){
         cyRef.current.nodes().forEach(node => {
             node.classes("sandbox-node");
         });
-        cyRef.current.edges().forEach(node => {
-            node.classes("edge");
+        cyRef.current.edges().forEach(edge => {
+            edge.classes("edge");
+
+            edge.style({
+                "source-arrow-shape": "none",
+                "target-arrow-shape": graphConfig.directed ? "triangle" : "none"
+            });
+
         });
     };
 

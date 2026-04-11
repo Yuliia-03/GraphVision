@@ -1,0 +1,52 @@
+.graph-config {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #374151;
+}
+
+.toggle input {
+  display: none;
+}
+
+.slider {
+  width: 34px;
+  height: 18px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  position: relative;
+  transition: 0.2s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: 0.2s;
+}
+
+.toggle input:checked + .slider {
+  background: #2563eb;
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(16px);
+}
+
+.toggle .label {
+  color: #6b7280;
+}

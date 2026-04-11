@@ -27,23 +27,6 @@ export default class AlgorithmVisualizer{
 
     renderStep(step) {
 
-        if(step.phase === "transposition"){
-
-            this.cy.edges().forEach(edge => {
-
-                const source = edge.source().id()
-                const target = edge.target().id()
-
-                edge.move({
-                    source: target,
-                    target: source
-                })
-
-            })
-
-            return
-        }
-
         this.cy.nodes().forEach(node => {
             Object.values(this.algorithmStates.nodes).forEach(cls => {
 
@@ -70,10 +53,36 @@ export default class AlgorithmVisualizer{
             });
 
         })
+        
+        this.cy.edges().forEach(edge => {
+
+            if (step.transposed) {
+                edge.style({
+                    "source-arrow-shape": "triangle",
+                    "target-arrow-shape": "none"
+                });
+            } 
+            else if (step.message == "SCC result" || step.phase== "firstDFS"){
+                edge.style({
+                    "source-arrow-shape": "none",
+                    "target-arrow-shape": "triangle"
+                });
+            }
+        });
+
 
         this.cy.edges().forEach(edge => {
 
-            const edgeId = edge.id();
+            const source = edge.source().id();
+            const target = edge.target().id();
+
+            let edgeId = `${source}-${target}`;
+
+            if (step.transposed) {
+                edgeId = `${target}-${source}`;
+            }
+
+
             const state = this.adaptor.getEdgeState(edgeId, step);
 
             

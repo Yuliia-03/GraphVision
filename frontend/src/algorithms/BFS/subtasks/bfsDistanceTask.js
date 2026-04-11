@@ -31,7 +31,7 @@ export class BFSDistanceTask {
         return path.reverse();
     }
 
-    getResult(_, params) {
+    getResult(runner, params) {
 
         const { startNode } = params;
 
@@ -41,15 +41,24 @@ export class BFSDistanceTask {
             paths[node] = this.buildPath(node, startNode);
         });
 
-        const treeEdges = Object.entries(this.parent)
-            .filter(([node, p]) => node !== p)
-            .map(([node, p]) => `${p}-${node}`);
+        const edges = [];
+
+    Object.entries(this.parent)
+        .filter(([node, p]) => node !== p)
+        .forEach(([node, p]) => {
+            edges.push(`${p}-${node}`);
+
+            // ✅ add reverse if undirected
+            if (!runner.directed) {
+                edges.push(`${node}-${p}`);
+            }
+        });
 
         return {
             type: "distances",
             distances: this.dist,
             paths,
-            treeEdges
+            treeEdges: edges
         };
     }
 }
