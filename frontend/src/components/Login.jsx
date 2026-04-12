@@ -1,9 +1,8 @@
 import { useState } from "react";
-import '../styles/Login.css'
-import {login} from '../services/api.js'
+import "../styles/Login.css";
+import { login } from "../services/api.js";
 
-export default function Login ({onClose, onSuccess }) {
-
+export default function Login({ onClose, onSuccess }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -17,7 +16,6 @@ export default function Login ({onClose, onSuccess }) {
         try {
             await login(email, password);
             onSuccess();
-            //onClose();
         } catch (err) {
             setError(err.message || "Login failed");
         } finally {
@@ -25,33 +23,41 @@ export default function Login ({onClose, onSuccess }) {
         }
     };
 
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+                
+                <button className="close-btn" onClick={onClose}>
+                    ×
+                </button>
 
-
-    return(
-        <div className="popup">
-            <div className="window">
-
+                <h3>Welcome back</h3>
+                <p className="subtitle">Sign in to continue</p>
 
                 <form onSubmit={handleSubmit}>
-                    <h3>Login</h3>
-                    <input type="text" placeholder="Email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                    <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
-                    {error && <p className="error">{error}</p>}
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+
+                    {error && <div className="error">{error}</div>}
+
                     <button type="submit" disabled={loading}>
-                        {loading ? "Logging in..." : "Log in"}
+                        {loading ? "Signing in..." : "Sign in"}
                     </button>
                 </form>
-
-                <button
-                    type="button"
-                    className="btn-close close-x"
-                    aria-label="Close"
-                    onClick={onClose}
-                />
-
             </div>
         </div>
     );
-
-
-};
+}

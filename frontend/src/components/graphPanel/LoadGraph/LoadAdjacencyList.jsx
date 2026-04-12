@@ -13,7 +13,7 @@ export default function LoadAdjacencyList({onClose}) {
     const directed = graphConfig.directed;
     const weighted = rules.requiresWeighted;
 
-    const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
+    // const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
 
     const [adjList, setAdjList] = useState(Array.from({ length: size }, () =>[]));
     const [labels, setLabels] = useState(Array.from({ length: size }, (_, i) => i));
@@ -95,17 +95,19 @@ export default function LoadAdjacencyList({onClose}) {
 
 
 
-    return(
-        <div className="adj-list-panel">
+    return (
+    <div className="adj-list-panel">
 
+        <div className="adj-list-header">
+            <h3>Adjacency List</h3>
 
-            <div className="adj-list-header">
-                
-                <h3>Adjacency List</h3>
-
-                <div className="adj-size">
-                    <label>Size:</label>
-                    <input className="adj-node-input" type="number" min={1} value={size}
+            <div className="adj-size">
+                <label className="size-input">
+                    Size:
+                    <input
+                        type="number"
+                        min={1}
+                        value={size}
                         onChange={(e) => {
                             const n = Number(e.target.value);
                             setSize(n);
@@ -113,59 +115,64 @@ export default function LoadAdjacencyList({onClose}) {
                             setLabels(Array.from({ length: n }, (_, i) => i));
                         }}
                     />
-                </div>
+                </label>
+            </div>
+        </div>
 
+        {/* ✅ EVERYTHING SCROLLABLE GOES HERE */}
+        <div className="adj-table-wrapper">
+
+            <div className="adj-config">
+                <GraphConfig />
             </div>
 
-            
-            <GraphConfig />
-        
             <table className="adj-table">
                 <thead>
                     <tr>
-                    <th>Node</th>
-                    <th></th>
-                    <th>Neighbors (comma-separated)</th>
+                        <th>Node</th>
+                        <th></th>
+                        <th>Neighbors (comma-separated)</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {adjList.map((neighbours, i) => (
-                    <tr key={i}>
-                        <td>
-                        <input
-                            className="adj-node-input"
-                            value={labels[i]}
-                            onChange={(e) => {
-                                const copy = [...labels];
-                                copy[i] = e.target.value;
-                                setLabels(copy);
-                            }}
-                            style={{ width: 40 }}
-                        />
-                        </td>
+                        <tr key={i}>
+                            <td>
+                                <input
+                                    className="adj-node-input"
+                                    value={labels[i]}
+                                    onChange={(e) => {
+                                        const copy = [...labels];
+                                        copy[i] = e.target.value;
+                                        setLabels(copy);
+                                    }}
+                                />
+                            </td>
 
-                        <td className="adj-arrow">→</td>
+                            <td className="adj-arrow">→</td>
 
-                        <td className="adj-neighbors">
-
-                            <NeighborsInput
-                            i = {i}
-                            neighbours = {neighbours}
-                            labels={labels}
-                            onCommit={handleNeighborsChange}
-                            weighted={weighted}
-                            />
-                        </td>
-                    </tr>
+                            <td className="adj-neighbors">
+                                <NeighborsInput
+                                    i={i}
+                                    neighbours={neighbours}
+                                    labels={labels}
+                                    onCommit={handleNeighborsChange}
+                                    weighted={weighted}
+                                />
+                            </td>
+                        </tr>
                     ))}
                 </tbody>
             </table>
-
-            <div className="adj-actions">
-                <button onClick={loadGraph}>Load Graph</button>
-            </div>
-
+            {/* ✅ ALWAYS VISIBLE */}
+        <div className="adj-actions">
+            <button onClick={loadGraph}>Load Graph</button>
         </div>
-    );
+        </div>
+
+        
+
+    </div>
+);
 }

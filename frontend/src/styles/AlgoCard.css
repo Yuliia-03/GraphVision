@@ -1,22 +1,31 @@
-
-.card {
-    border: 1px solid rgb(62, 66, 140);
+.algo-card {
+    background: var(--panel-bg);
+    color: var(--text-color);
+    border: 1px solid var(--panel-border);
     padding: 2rem;
-    margin: 0rem auto;
+    margin: 0 auto;
     border-radius: 0.75rem;
 
     width: 100%;
-
     max-width: 320px;
     min-height: 240px;
 
     display: flex;
     flex-direction: column;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.algo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px var(--shadow);
+    border-color: var(--accent);
 }
 
 .header {
     height: 3rem;
-    background-color: rgb(132, 104, 164);
+    /* background-color: rgb(132, 104, 164);
+    background: var(--accent); */
     border-radius: 0.5rem;
     margin-left: -1rem;
     margin-right: -1rem;
@@ -32,5 +41,5 @@
 .description {
     margin-top: 8px;
     font-size: 14px;
-    color: #666;
+    color: var(--muted-text);
 }

@@ -4,19 +4,20 @@
     gap: 1rem;
     padding: 1.2rem;
     margin-top: 1.5rem;
-    background: #ffffff;
-    border-radius: 14px;
-    border: 1px solid #e5e7eb;
-    color: #1e293b;
-    font-family: "Inter", system-ui, sans-serif;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    color: var(--text-color);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    font-family: "Inter", system-ui, sans-serif;
 }
 
 .block {
-    border: 1px solid #e2e8f0;
+    
     border-radius: 12px;
     padding: 0.9rem 1.1rem;
-    background: #f8fafc;
+    border: 1px solid var(--panel-border);
+    background: var(--block-bg);
 }
 
 .block p {
@@ -28,19 +29,19 @@
 /* Section title (Action, Queue, Visited) */
 .block p:first-child {
     font-weight: 600;
-    color: #2563eb;
+    color: var(--primary);
 }
 
 .block.result {
-    border: 1px solid #38bdf8;
-    background: #f0f9ff;
+    border: 1px solid var(--info);
+    background: var(--block-bg);
 }
 
 .block.result h3 {
     margin: 0 0 0.6rem 0;
     font-size: 1.05rem;
     letter-spacing: 0.5px;
-    color: #0284c7;
+    color: var(--info);
     text-transform: uppercase;
 }
 
@@ -48,12 +49,12 @@
     margin-bottom: 0.35rem;
     font-size: 0.85rem;
     font-family: "JetBrains Mono", monospace;
-    color: #065f46;
+    color: s var(--chip-border);
 }
 
 .block.result p:nth-of-type(2) {
     font-family: "JetBrains Mono", monospace;
-    color: #be123c;
+    color: #d02d56;
 }
 
 .node-list {
@@ -68,15 +69,15 @@
     border-radius: 999px;
     font-size: 0.8rem;
     font-family: "JetBrains Mono", monospace;
-    background: #e2e8f0;
-    color: #0f172a;
-    border: 1px solid #cbd5f5;
+    background: var(--chip-bg);
+    color: var(--text-color);
+    border: 1px solid var(--chip-border);
     transition: transform 0.15s ease, background 0.15s ease;
 }
 
 .queue .node-chip.front {
-    background: #2563eb;
-    color: #ffffff;
+    background: var(--primary);
+    /* color: white; */
     font-weight: 600;
     transform: scale(1.05);
 }

@@ -51,15 +51,15 @@ export default function GraphLoading({ fetchGraphs, onClose }) {
     };
 
     if (loading) return <p>Loading graphs...</p>;
-    if (error) return <p>{error}</p>;
+    if (error) return <p>No graphs found</p>;
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {graphs.map((graph) => (
                 <button
                     key={graph.name}
                     onClick={() => loadGraph(graph)}
-                    style={{ padding: "8px 12px", cursor: "pointer" }}
+                    className="graph-load-btn"
                 >
                     Load {graph.name}
                 </button>

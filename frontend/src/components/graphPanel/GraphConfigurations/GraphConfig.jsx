@@ -3,11 +3,13 @@ import { useGraph } from "../../../contexts/GraphContext";
 import { addEdge } from './graphConfigurations'
 import Modal from "./AlertModal";
 import '../../../styles/GraphConfig.css'
+import { useTheme } from "../../../contexts/ThemeContext";
 export default function GraphConfig() {
 
-    const { rules, graphConfig, setGraphConfig, setEdges, edges } = useGraph();
+    const { rules, graphConfig, setGraphConfig, setEdges, edges, cyRef } = useGraph();
     const [modalMsg, setModalMsg] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
+    const {theme} = useTheme();
 
     const showModal = (msg) => {
         setModalMsg(msg);
@@ -15,27 +17,36 @@ export default function GraphConfig() {
     };
 
     const handleDirectedChange = (checked) => {
-        if (!rules.allowsDirected && checked) {
-            showModal(`${rules.name} is possible only on undirected graphs`);
-            return;
-        }
+    if (!rules.allowsDirected && checked) {
+        showModal(`${rules.name} is possible only on undirected graphs`);
+        return;
+    }
 
-        if (!rules.allowsUndirected && !checked) {
-            showModal(`${rules.name} is possible only on directed graphs`);
-            return;
-        }
+    if (!rules.allowsUndirected && !checked) {
+        showModal(`${rules.name} is possible only on directed graphs`);
+        return;
+    }
 
-        setGraphConfig(cfg => ({ ...cfg, directed: checked }));
+    setGraphConfig(cfg => ({ ...cfg, directed: checked }));
 
-        if (!checked) {
-            setEdges(edges =>
-                edges.reduce(
-                    (acc, edge) => addEdge(acc, edge, false, rules.allowSelfLoops),
-                    []
-                )
-            );
-        }
-    };
+    cyRef.current.edges().forEach(edge => {
+        edge.classes("edge");
+
+        edge.style({
+            "source-arrow-shape": "none",
+            "target-arrow-shape": checked ? "triangle" : "none"
+        });
+    });
+
+    if (!checked) {
+        setEdges(edges =>
+            edges.reduce(
+                (acc, edge) => addEdge(acc, edge, false, rules.allowSelfLoops),
+                []
+            )
+        );
+    }
+};
     const handleWeightChange = (checked) => {
         setGraphConfig(cfg => ({ ...cfg, weighted: checked }));
     }
@@ -44,7 +55,7 @@ export default function GraphConfig() {
     return (
         <div className="graph-config">
 
-    <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Graph Rule">
+    <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Graph Rule" theme={theme}>
         {modalMsg}
     </Modal>
 

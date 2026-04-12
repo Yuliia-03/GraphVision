@@ -2,15 +2,13 @@
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-
+/* 
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -moz-osx-font-smoothing: grayscale; */
 }
 
 a {
@@ -27,6 +25,17 @@ body {
     padding: 0;
     width: 100%;
     min-height: 100vh;
+
+  background: var(--bg);
+  color: var(--text);
+
+}
+
+html {
+
+  background: var(--bg);
+  color: var(--text);
+
 }
 
 h1 {
@@ -54,14 +63,98 @@ button:focus-visible {
 }
 
 @media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
     a:hover {
         color: #747bff;
     }
     button {
         background-color: #f9f9f9;
-    }
+    } 
+}
+:root {
+  --bg: #0b0f19;
+  --panel: #0f172a;
+  --text: #e5e7eb;
+  --border: rgba(255,255,255,0.08);
+  --accent: #3b82f6;
+
+  /* color: var(--text); */
+  /* background-color: var(--bg); */
+  --btn-disabled-bg: #111827;
+    --btn-disabled-text: #6b7280;
+    --btn-disabled-border: #1f2937;
+    --btn-border: #2a3441;
+
+
+    --panel-bg: #0f172a;
+    --panel-border: #1e293b;
+    --block-bg: #111827;
+    --text-color: #e2e8f0;
+
+    --primary: #60a5fa;
+    --info: #38bdf8;
+    --success: #34d399;
+
+    --chip-bg: #1f2937;
+    --chip-border: #374151;
+    --btn-hover-bg: #1f2937;
+
+    --warning-bg: #fef3c7;
+    --warning-text: #92400e;
+
+    --success-bg: #dcfce7;
+    --success-text: #166534;
+
+    --danger-text: #f76187;
+
+    --chip-border: #e5e7eb;
+
+}
+
+html[data-theme="light"] {
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+  --text: #0f172a;
+  --border: rgba(0,0,0,0.08);
+  --accent: #2563eb;
+
+    --btn-disabled-bg: #f1f5f9;
+    --btn-disabled-text: #94a3b8;
+    --btn-disabled-border: #e2e8f0;
+    --btn-border: #dbe4ee;
+
+    --panel-bg: #ffffff;
+    --panel-border: #e5e7eb;
+    --block-bg: #f8fafc;
+    --text-color: #1e293b;
+
+    --primary: #2563eb;
+    --info: #0284c7;
+    --success: #065f46;
+
+    --chip-bg: #e2e8f0;
+    --chip-border: #cbd5e1;
+    --btn-hover-bg: #f1f5f9;
+
+    --warning-bg: #fef3c7;
+    --warning-text: #92400e;
+
+    --success-bg: #dcfce7;
+    --success-text: #166534;
+
+    --danger-text: #be123c;
+
+  /* color: var(--text); */
+  /* background-color: var(--bg); */
+}
+
+
+html[data-theme="dark"] body, 
+html[data-theme="light"] body {
+  background: var(--panel);
+  color: var(--text);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
 }

@@ -15,7 +15,9 @@ import SavedGraphsPage from "./pages/SavedGraphs/SavedGraphsPage";
 function App() {
   return (
     <Router>
+      <div className="app-shell">
       <Toolbar />
+      <div className="app-content">
       <Routes>
         { <Route path="/" element={<Home />} />  }
         { <Route path="/bfs" element={<BFSPage />} />}
@@ -26,6 +28,8 @@ function App() {
         { <Route path="/scc" element={<SCCPage />} />  }
         { <Route path="/save_graph" element={<SavedGraphsPage />} />  }
       </Routes>
+      </div>
+      </div>
     </Router>
   );
 }

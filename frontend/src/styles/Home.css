@@ -1,7 +1,11 @@
-.top{
-    padding-top: 5%;
+.top {
+    padding-top: 3rem;
 }
 
 .h1 {
     text-align: center;
 }
+
+/* .background {
+    color: var(--panel);
+} */

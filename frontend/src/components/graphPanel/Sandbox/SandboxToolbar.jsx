@@ -1,37 +1,46 @@
-
 import GraphConfig from "../GraphConfigurations/GraphConfig";
-import '../../../styles/SandboxToolbar.css'
+import "../../../styles/SandboxToolbar.css";
 import { isLoggedIn } from "../../../services/api";
 
-export default function SandboxToolbar({mode, setMode, onClear, onLoad, onSave = () => {}}) {
+export default function SandboxToolbar({
+    mode,
+    setMode,
+    onClear,
+    onLoad,
+    onSave = () => {}
+}) {
 
     const loggedIn = isLoggedIn();
 
     return (
-       <div className="controls">
-    
-    {/* LEFT: actions */}
-    <button className={mode === "add" ? "primary" : ""} onClick={() => setMode("add")}>
-        Add
-    </button>
+        <div className="tabs sandbox-toolbar">
 
-    <button className={mode === "delete" ? "primary" : ""} onClick={() => setMode("delete")}>
-        Delete
-    </button>
+            <div className="mode-tabs">
+                <button
+                    className={mode === "add" ? "active" : ""}
+                    onClick={() => setMode("add")}
+                >
+                    Add
+                </button>
 
-    {loggedIn && <button onClick={onSave}>Save</button>}
-    <button onClick={onLoad}>Load</button>
-    <button onClick={onClear}>Clear</button>
+                <button
+                    className={mode === "delete" ? "active" : ""}
+                    onClick={() => setMode("delete")}
+                >
+                    Delete
+                </button>
+            </div>
 
-    {/* PUSH RIGHT */}
-    <div className="spacer" />
+            {loggedIn && <button onClick={onSave}>Save</button>}
+            <button onClick={onLoad}>Load</button>
+            <button onClick={onClear}>Clear</button>
 
-    {/* RIGHT: config */}
-    <div className="toolbar-group">
-        <GraphConfig />
-    </div>
+            <div className="spacer" />
 
-</div>
+            <div className="toolbar-group">
+                <GraphConfig />
+            </div>
+
+        </div>
     );
 }
-

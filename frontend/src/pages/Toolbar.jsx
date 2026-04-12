@@ -3,8 +3,10 @@ import { isLoggedIn, logout } from "../services/api.js";
 import "../styles/Toolbar.css";
 import Login from "../components/Login.jsx";
 import SignUp from "../components/Signup.jsx";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function Toolbar() {
+    const {theme, toggleTheme} = useTheme();
     const [isAuth, setIsAuth] = useState(isLoggedIn);
     const [login, showLogin] = useState(false);
     const [signup, showSignup] = useState(false);
@@ -37,12 +39,19 @@ export default function Toolbar() {
 
     return (
         <>
-            <header className="toolbar">
-                <div className="toolbar-left">
-                    <a className="logo" href="/">AlgoViz</a>
-                </div>
+            <header className={`toolbar ${theme}`}>
+            <div className="toolbar-left">
+                <a className="logo" href="/">AlgoViz</a>
+            </div>
 
-                <div className="toolbar-right" ref={menuRef}>
+            <div className="toolbar-right" ref={menuRef}>
+
+                <button
+                    className="theme-toggle-global"
+                    onClick={toggleTheme}
+                >
+                    {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
+                </button>
                     {isAuth ? (
                         <div className="profile-wrapper">
                             <button onClick={goToSavedGraphs}>📊 Saved Graphs</button>

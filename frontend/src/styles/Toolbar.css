@@ -75,7 +75,7 @@
 
 .toolbar-right button:nth-child(1) {
     background-color: #10b981; /* professional green for Saved Graphs */
-    color: white;
+    /* color: white; */
 }
 
 .toolbar-right button:nth-child(1):hover {
@@ -114,12 +114,12 @@
 
     .toolbar-right button {
         background-color: #6366f1;
-        color: white;
+        /* color: white; */
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .toolbar-right button:nth-child(1) {
         background-color: #10b981;
-        color: white;
+        /* color: white; */
     }
 }

@@ -5,14 +5,14 @@ import { AlgorithmDefinition } from '../../algorithms/definitions';
 import { useEffect, useState, useRef } from "react";
 import { exportAlgorithmPDF } from '../../pdf/SetPDF';
 import QuizModal from "../interactivePanel/quizPanel/QuizModal"
-
+import { useTheme } from '../../contexts/ThemeContext';
 import buildQuiz from '../interactivePanel/buildQuiz'
 
 export function ButtonPanel({params= {}, mode = "explore"}){
 
     const { nodes, edges, graphConfig, cyRef, algorithm, setNodes } = useGraph();
     const algoDef = AlgorithmDefinition[algorithm];
-
+const { theme } = useTheme();
     const [steps, setSteps] = useState([]);
     const [stepIndex, setStepIndex] = useState(0);
     const visualizer = useRef(null);
@@ -176,7 +176,7 @@ export function ButtonPanel({params= {}, mode = "explore"}){
     }
 
     return(
-        <div className="control-panel">
+        <div className={`control-panel ${theme}`}>
             <div className="controls">
                 
                 <button

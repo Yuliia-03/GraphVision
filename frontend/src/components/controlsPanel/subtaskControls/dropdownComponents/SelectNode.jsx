@@ -61,7 +61,7 @@ export function SelectNode({ label, value, onChange, exclude }) {
       {open && coords &&
         createPortal(
           <div
-            className="dropdown"
+            className="bfs-select-dropdown"
             style={{
               position: "absolute",
               top: coords.top,
@@ -76,7 +76,7 @@ export function SelectNode({ label, value, onChange, exclude }) {
               options.map(opt => (
                 <div
                   key={opt.value}
-                  className={`dropdown-item ${
+                  className={`bfs-select-item ${
                     value === opt.value ? "active" : ""
                   }`}
                   onClick={() => {

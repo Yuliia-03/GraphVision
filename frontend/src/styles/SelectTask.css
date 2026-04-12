@@ -1,17 +1,18 @@
-/* ===== ROW LAYOUT ===== */
+
+/* ===== ROW ===== */
 .select-group {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 0 1 auto;
-  position: relative; /* 🔥 important */
+  position: relative;
 }
 
 /* ===== LABEL ===== */
 .select-group label {
   font-size: 11px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text);
+  opacity: 0.7;
 }
 
 /* ===== SELECT BUTTON ===== */
@@ -23,58 +24,73 @@
   font-size: 12px;
 
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
 
-  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  background: var(--panel);
+  color: var(--text);
+
   cursor: pointer;
-
-  position: relative;
-  z-index: 1;
 }
 
 /* hover */
 .select:hover {
-  border-color: #c7d2fe;
-  background: #ffffff;
+  border-color: var(--accent);
 }
 
-/* open state */
+/* open */
 .select.open {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
+.bfs-select-dropdown {
+  position: absolute;
 
-/* ===== DROPDOWN ===== */
-.custom-select {
-  position: relative;
-}
+  background: var(--panel);
+  color: var(--text);
 
-.dropdown {
-  background: white;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
   border-radius: 10px;
 
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.25);
 
-  max-height: 240px;        /* ✅ dynamic height */
-  overflow-y: auto;         /* ✅ scroll if long */
+  max-height: 240px;
+  overflow-y: auto;
 
-  font-size: 12px;          /* ✅ match select */
-  padding: 4px;             /* ✅ spacing */
+  font-size: 12px;
+  padding: 4px;
+
+  z-index: 999999;
 }
 
-.dropdown-item {
+.bfs-select-item {
+  display: block;
   padding: 8px 10px;
-  border-radius: 6px;
+
   cursor: pointer;
 
-  white-space: nowrap;       /* ✅ prevent weird wrapping */
+  color: var(--text);
+  background: transparent;
 }
 
-.dropdown-item:hover {
-  background: #f1f5f9;
+.bfs-select-item:hover {
+  background: var(--accent);
+  color: white;
+}
+.custom-dropdown,
+.bfs-select-dropdown {
+  isolation: isolate;
+}
+.bfs-select-item {
+  color: var(--text) !important;
+  background: transparent !important;
+}
+.custom-dropdown * {
+  all: revert;
+  color: var(--text) !important;
 }
 
-.dropdown-item:hover {
-  background: #f1f5f9;
+.bfs-select-item:hover {
+  background-color: var(--accent) !important;
+  border-radius: 10px;
+
 }

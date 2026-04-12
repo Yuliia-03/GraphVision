@@ -5,18 +5,16 @@ import { GraphProvider } from "../../contexts/GraphContext";
 import GraphSandbox from "../../components/graphPanel/Sandbox/Sandbox";
 import { AlgorithmDefinition } from "../../algorithms/definitions";
 import { useState, useRef, useEffect } from "react";
-
+import { useTheme } from "../../contexts/ThemeContext";
 export default function AlgoPage({ algorithm }) {
     const algoDef = AlgorithmDefinition[algorithm];
-
+    const { theme } = useTheme();
     const [mode, setMode] = useState("explore");
-    const [theme, setTheme] = useState("dark");
-    const [leftWidth, setLeftWidth] = useState(68); // percentage
+    const [leftWidth, setLeftWidth] = useState(68);
 
     const containerRef = useRef(null);
     const isDragging = useRef(false);
 
-    // Handle dragging splitter
     const onMouseMove = (e) => {
         if (!isDragging.current) return;
 
@@ -48,25 +46,6 @@ export default function AlgoPage({ algorithm }) {
     return (
         <GraphProvider algorithm={algorithm}>
             <div className={`algo-app ${theme}`}>
-
-                {/* TOP BAR */}
-                <div className="top-bar">
-                    {/* <div className="tabs">
-                        <button onClick={() => setMode("explore")} className={mode === "explore" ? "active" : ""}>
-                            Explore
-                        </button>
-                        <button onClick={() => setMode("interact")} className={mode === "interact" ? "active" : ""}>
-                            Interactive
-                        </button>
-                    </div> */}
-
-                    <button
-                        className="theme-toggle"
-                        onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}
-                    >
-                        {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
-                    </button>
-                </div>
 
                 <div className="workspace" ref={containerRef}>
 

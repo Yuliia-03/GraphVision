@@ -65,11 +65,11 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                 if (shouldStop) break;
 
                 const newEdge = `${current}-${to}`;
-                if (phase == "first-dfs"){
+                // if (phase == "first-dfs"){
                     this.current_edges.push(newEdge);
-                } else {
-                    this.current_edges.push(`${to}-${current}`)
-                }
+                // } else {
+                //     this.current_edges.push(`${to}-${current}`)
+                // }
                 this.current_neighbours.push(to);
 
                 onEdges({ current, newEdge });

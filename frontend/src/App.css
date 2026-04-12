@@ -40,7 +40,8 @@
 .read-the-docs {
     color: #888;
 }
-body {
-  background: #f9fafb;
-  font-family: Inter, system-ui, sans-serif;
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
 }

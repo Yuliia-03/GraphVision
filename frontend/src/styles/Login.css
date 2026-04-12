@@ -1,95 +1,169 @@
-
-.popup {
+.modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.55);
-    backdrop-filter: blur(6px);
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    padding: 1.5rem;
+
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+
     z-index: 1000;
 }
 
-.window {
-    background: #ffffff;
-    padding: 2rem 2.2rem;
-    width: 360px;
-    border-radius: 18px;
-    border: 1px solid #3a7cff;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+.modal {
     position: relative;
-    font-family: "Inter", system-ui, sans-serif;
-    animation: fadeIn 0.25s ease-out;
+
+    width: 380px;
+    max-height: 35vh;          /* KEY FIX */
+    overflow: auto;            /* allows scroll if needed */
+
+    padding: 1.5rem 1.5rem 1.25rem;
+
+    border-radius: 16px;
+
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+
+    animation: pop 0.18s ease-out;
 }
 
-.window h3 {
-    margin: 0 0 1.5rem 0;
-    font-weight: 600;
+/* TITLE */
+.modal h3 {
+    margin: 0;
     font-size: 1.4rem;
-    color: #1e293b;
-    text-align: center;
+    font-weight: 650;
+    color: var(--text);
 }
 
-.window input {
-    width: 100%;
-    padding: 0.75rem 0.9rem;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    border: 1px solid #cbd5e1;
-    background: #f8fafc;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-    color: #1e293b;
-}
-
-.window input:focus {
-    outline: none;
-    border-color: #2563eb;
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* Button */
-.window button[type="submit"] {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 10px;
-    border: none;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.window button[type="submit"]:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
-}
-
-.window button[type="submit"]:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-.error {
-    background: #fee2e2;
-    color: #b91c1c;
-    padding: 0.6rem 0.8rem;
-    border-radius: 8px;
+.subtitle {
+    margin: -0.5rem 0 0 0;
     font-size: 0.85rem;
-    margin-bottom: 1rem;
-    border: 1px solid #fecaca;
+    opacity: 0.65;
+    color: var(--text);
 }
 
-.close-x {
+/* CLOSE BUTTON (FIXED POSITION) */
+.close-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
+    top: 10px;
+    right: 10px;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 10px;
+    border: 1px solid var(--panel-border);
+
+    background: var(--block-bg);
+    color: var(--text);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    transition: 0.15s ease;
+}
+
+.close-btn:hover {
+    transform: scale(1.05);
+    border-color: var(--primary);
+}
+
+/* FORM */
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* INPUTS */
+.modal input {
+    padding: 0.75rem 0.9rem;
+
+    border-radius: 12px;
+
+    border: 1px solid var(--panel-border);
+    background: var(--block-bg);
+
+    color: var(--text);
+
+    font-size: 0.95rem;
+
+    outline: none;
+
+    transition: 0.15s ease;
+}
+
+.modal input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+/* BUTTON */
+.modal button[type="submit"] {
+    margin-top: 0.25rem;
+
+    padding: 0.75rem;
+
     border: none;
-    color: #1e293b;
+    border-radius: 12px;
+
+    background: var(--primary);
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+}
+
+.modal button[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 25px rgba(37, 99, 235, 0.25);
+}
+
+.modal button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ERROR */
+.error {
+    padding: 0.6rem 0.75rem;
+
+    border-radius: 10px;
+
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+
+    color: #ef4444;
+    font-size: 0.85rem;
+}
+
+/* ANIMATION */
+@keyframes pop {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

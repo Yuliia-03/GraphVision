@@ -1,15 +1,38 @@
 .adj-list-panel {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    height: 60vh; /* fixed height */
+
     padding: 1.4rem;
-    background: #ffffff;
+    gap: 1rem;
+
+    background: var(--panel-bg);
     border-radius: 14px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--panel-border);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
     font-family: "Inter", system-ui, sans-serif;
+    color: var(--text-color);
+
+    overflow: hidden; /* ✅ IMPORTANT */
 }
 
+/* Prevent shrinking */
+.adj-list-header,
+.adj-config,
+.adj-actions {
+    flex-shrink: 0;
+}
+
+/* Scroll area */
+.adj-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; /* ✅ CRITICAL for flexbox scrolling */
+    padding-right: 4px;
+}
+
+/* Header */
 .adj-list-header {
     display: flex;
     justify-content: space-between;
@@ -18,7 +41,7 @@
 
 .adj-list-header h3 {
     margin: 0;
-    color: #2563eb;
+    color: var(--primary);
 }
 
 .adj-size {
@@ -27,7 +50,9 @@
     gap: 0.4rem;
 }
 
+/* Table */
 .adj-table {
+    width: 100%;
     border-collapse: separate;
     border-spacing: 0.6rem;
 }
@@ -35,47 +60,75 @@
 .adj-table th {
     font-size: 0.8rem;
     text-transform: uppercase;
-    color: #64748b;
+    color: var(--text-color);
+    opacity: 0.7;
 }
 
+/* Inputs */
 .adj-node-input {
     width: 44px;
     padding: 0.35rem;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    background: #f8fafc;
+
+    border: 1px solid var(--panel-border);
+    background: var(--block-bg);
+
     font-family: "JetBrains Mono", monospace;
     text-align: center;
-    color: #2563eb;
+
+    color: var(--primary);
 }
 
+.adj-node-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Arrow */
 .adj-arrow {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.9rem;
-    color: #2563eb;
+    color: var(--primary);
 }
 
 .adj-neighbors {
     min-width: 220px;
 }
 
+/* Button area */
 .adj-actions {
     display: flex;
     justify-content: flex-end;
+    border-top: 1px solid var(--panel-border);
+    padding-top: 0.8rem;
 }
 
 .adj-actions button {
     padding: 0.45rem 1rem;
     border-radius: 10px;
-    border: none;
+    border: 1px solid var(--btn-border);
+
     font-weight: 600;
-    background: #2563eb;
+
+    background: var(--primary);
     color: white;
+
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
 }
 
 .adj-actions button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+    background: var(--accent);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.adj-actions button:disabled {
+    background: var(--btn-disabled-bg);
+    color: var(--btn-disabled-text);
+    border-color: var(--btn-disabled-border);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }

@@ -1,52 +1,168 @@
+/* =========================
+   OVERLAY
+========================= */
 .graph-menue-popup {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.55);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     z-index: 1000;
+    padding: 20px;
 }
 
-.window{
-    position: relative;
-    background: #fff;
-    padding: 2rem 2rem;
-    border-radius: 1rem;
-    width: 30%;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+/* =========================
+   MODAL CONTAINER
+========================= */
+.window {
+    width: 50%;
+    min-width: 440px;
+    max-width: 520px;
+
+    max-height: 700px;
+
+    background: var(--panel);
+    color: var(--text-color);
+
+    border-radius: 14px;
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 12px 35px var(--shadow);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    padding: 40px;
 }
 
-.close-x {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.back-button {
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+/* =========================
+   HEADER
+========================= */
+.modal-header {
+    height: 46px;
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    padding: 0 12px;
+
+    border-bottom: 1px solid var(--panel-border);
+    background: var(--panel);
 }
 
-.back-button i {
-    font-size: 1.75rem;
-    line-height: 1;
-    color: #6c757d;
+/* shared button style */
+.back-button,
+.close-x {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    color: var(--muted-text);
+    background: transparent;
+    border: none;
+
+    transition: 0.15s ease;
 }
 
-.back-button:hover i {
-    color: #495057;
+.back-button:hover,
+.close-x:hover {
+    background: var(--btn-hover-bg);
+    color: var(--text-color);
 }
 
-.window h3 {
-    margin-right: 30px;
+/* =========================
+   BODY
+========================= */
+.modal-body {
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* =========================
+   TITLE
+========================= */
+.modal-body h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* =========================
+   MENU
+========================= */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-button {
+    padding: 10px 12px;
+
+    border-radius: 10px;
+    border: 1px solid var(--btn-border);
+
+    background: var(--panel-bg);
+    color: var(--text-color);
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+}
+
+.menu-button:hover {
+    background: var(--btn-hover-bg);
+    transform: translateY(-1px);
+}
+
+/* =========================
+   LIST BUTTONS
+========================= */
+.graph-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.graph-load-btn {
+    padding: 10px 12px;
+
+    border-radius: 10px;
+    border: 1px solid var(--panel-border);
+
+    background: var(--panel-bg);
+    color: var(--text-color);
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+}
+
+.graph-load-btn:hover {
+    background: var(--btn-hover-bg);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 600px) {
+    .window {
+        width: 90%;
+    }
 }

@@ -1,20 +1,22 @@
 import { useState } from "react";
-import '../../../styles/LoadMatrix.css'
+import "../../../styles/LoadMatrix.css";
 import { addEdge } from "../GraphConfigurations/graphConfigurations";
 import { useGraph } from "../../../contexts/GraphContext";
-
 import GraphConfig from "../GraphConfigurations/GraphConfig";
 
-export default function LoadMatrix({onClose,}) {
-
-    const { rules, graphConfig, setNodes, setEdges  } = useGraph();
+export default function LoadMatrix({ onClose }) {
+    const { rules, graphConfig, setNodes, setEdges } = useGraph();
 
     const directed = graphConfig.directed;
     const weighted = rules.requiresWeighted;
-    const [size, setSize] = useState(3);
-    const [matrix, setMatrix] = useState(Array.from({ length: 3 }, () => Array(3).fill(0)));
-    const [labels, setLabels] = useState(Array.from({ length: 3 }, (_, i) => i));
 
+    const [size, setSize] = useState(3);
+    const [matrix, setMatrix] = useState(
+        Array.from({ length: 3 }, () => Array(3).fill(0))
+    );
+    const [labels, setLabels] = useState(
+        Array.from({ length: 3 }, (_, i) => i)
+    );
 
     const updateCell = (i, j, val) => {
         const copy = matrix.map((row) => [...row]);
@@ -27,7 +29,6 @@ export default function LoadMatrix({onClose,}) {
 
         setMatrix(copy);
     };
-
 
     const loadGraph = () => {
         const nodes = [];
@@ -50,7 +51,6 @@ export default function LoadMatrix({onClose,}) {
 
         for (let i = 0; i < size; i++) {
             for (let j = 0; j < size; j++) {
-
                 if (matrix[i][j] !== 0) {
                     edges = addEdge(
                         edges,
@@ -61,7 +61,8 @@ export default function LoadMatrix({onClose,}) {
                                 ...(weighted ? { weight: matrix[i][j] } : {})
                             }
                         },
-                        directed, rules.allowSelfLoops
+                        directed,
+                        rules.allowSelfLoops
                     );
                 }
             }
@@ -71,16 +72,19 @@ export default function LoadMatrix({onClose,}) {
         onClose();
     };
 
-
-    
-    return(
+    return (
         <div className="matrix-panel">
+
+            {/* HEADER */}
             <div className="matrix-header">
                 <h3>Adjacency Matrix</h3>
 
-                <label>
+                <label className="size-input">
                     Size:
-                    <input className="matrix-label" type="number" min={1} value={size}
+                    <input
+                        type="number"
+                        min={1}
+                        value={size}
                         onChange={(e) => {
                             const n = Number(e.target.value);
                             setSize(n);
@@ -91,80 +95,88 @@ export default function LoadMatrix({onClose,}) {
                 </label>
             </div>
 
-            <GraphConfig />
+            {/* GRAPH CONFIG */}
+            <div className="matrix-config">
+                <GraphConfig />
+            </div>
 
-            <table className="matrix-table">
-                <thead>
-                    <tr>
-                    <th></th>
-                    {labels.map((label, j) => (
-                        <th key={j}>
-                        <input
-                            className="matrix-label"
-                            value={label}
-                            onChange={(e) => {
-                            const copy = [...labels];
-                            copy[j] = e.target.value;
-                            setLabels(copy);
-                            }}
-                            style={{ width: 40 }}
-                        />
-                        </th>
-                    ))}
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {matrix.map((row, i) => (
-                    <tr key={i}>
-                        <th>
-                        <input
-                            className="matrix-label"
-                            value={labels[i]}
-                            onChange={(e) => {
-                            const copy = [...labels];
-                            copy[i] = Number(e.target.value);
-                            setLabels(copy);
-                            }}
-                            style={{ width: 40 }}
-                        />
-                        </th>
-
-                        {row.map((val, j) => (
-                        <td key={j} className="matrix-cell">
-                            {weighted ? (
-                                <input
-                                    type="number"
-                                    min="0"
-                                    value={val}
-                                    onChange={(e) =>
-                                        updateCell(i, j, Number(e.target.value))
-                                    }
-                                    style={{ width: 50 }}
-                                    readOnly={!rules.allowSelfLoops && i === j}
+            {/* SCROLLABLE MATRIX */}
+            <div className="matrix-table-wrapper">
+                <div className="matrix-inner">
+                <table className="matrix-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            {labels.map((label, j) => (
+                                <th key={j}>
+                                    <input
+                                        className="matrix-label"
+                                        value={label}
+                                        onChange={(e) => {
+                                            const copy = [...labels];
+                                            copy[j] = e.target.value;
+                                            setLabels(copy);
+                                        }}
                                     />
-                            ) : (
-                                <input
-                                    type="checkbox"
-                                    checked={val !== 0}
-                                    onChange={(e) =>
-                                        updateCell(i, j, e.target.checked ? 1 : 0)
-                                    }
-                                    disabled={!rules.allowSelfLoops && i === j}
-                                />
-                            )}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
 
-                        </td>
+                    <tbody>
+                        {matrix.map((row, i) => (
+                            <tr key={i}>
+                                <th>
+                                    <input
+                                        className="matrix-label"
+                                        value={labels[i]}
+                                        onChange={(e) => {
+                                            const copy = [...labels];
+                                            copy[i] = e.target.value;
+                                            setLabels(copy);
+                                        }}
+                                    />
+                                </th>
+
+                                {row.map((val, j) => (
+                                    <td
+  key={j}
+  className={`matrix-cell ${i === j ? "diagonal" : ""}`}
+>
+  <div className="cell-inner">
+    {weighted ? (
+      <input
+        type="number"
+        value={val}
+        onChange={(e) =>
+          updateCell(i, j, Number(e.target.value))
+        }
+        readOnly={!rules.allowSelfLoops && i === j}
+      />
+    ) : (
+      <input
+        type="checkbox"
+        checked={val !== 0}
+        onChange={(e) =>
+          updateCell(i, j, e.target.checked ? 1 : 0)
+        }
+        disabled={!rules.allowSelfLoops && i === j}
+      />
+    )}
+  </div>
+</td>
+                                ))}
+                            </tr>
                         ))}
-                    </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+                </div>
+            </div>
 
+            {/* ACTIONS */}
             <div className="matrix-actions">
                 <button onClick={loadGraph}>Load Graph</button>
             </div>
-
         </div>
     );
 }
