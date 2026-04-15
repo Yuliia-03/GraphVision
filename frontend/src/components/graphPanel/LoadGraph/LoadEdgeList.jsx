@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../../styles/LoadEdgeList.css";
+import "../../../styles/LoadGraph/LoadEdgeList.css";
 import { useGraph } from "../../../contexts/GraphContext.jsx";
 import GraphConfig from "../GraphConfigurations/GraphConfig.jsx";
 
@@ -78,28 +78,29 @@ export default function LoadEdgeList({ onClose }) {
 
     return (
         <div className="edge-panel">
-            {/* HEADER */}
-            <div className="edge-header">
+            
+            <div className="matrix-header">
                 <div>
                     <h3>Edge List</h3>
-                    {/* <p className="subtext">Define graph connections</p> */}
+                    
                 </div>
 
-                <div className="edge-count">
-                    <label className="size-input">Edges
+                <div className="size-input">
+
+                <label className="node-input">
+                    Edges:
+                </label>
                     <input
                         type="number"
                         min={1}
                         value={edgesN}
                         onChange={(e) => updateEdgeCount(Number(e.target.value))}
                     />
-                    </label>
                 </div>
             </div>
 
             <GraphConfig />
 
-            {/* SCROLL AREA */}
             <div className="edge-scroll">
                 <div className="edge-list">
                     {edgeList.map((edge, i) => (
@@ -146,7 +147,6 @@ export default function LoadEdgeList({ onClose }) {
                 </div>
             </div>
 
-            {/* ACTIONS */}
             <div className="edge-actions">
                 <button onClick={loadGraph}>Load Graph</button>
             </div>

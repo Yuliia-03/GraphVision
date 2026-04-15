@@ -12,7 +12,6 @@ export default class dagAdapter {
             nodeRules.inList("inStack", "inStack"),
 
             nodeRules.inList("final", "final"),
-            //nodeRules.isCurrent(),
         ]
 
         this.dagEdgeRules = [

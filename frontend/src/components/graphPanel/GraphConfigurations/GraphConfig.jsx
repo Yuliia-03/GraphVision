@@ -17,38 +17,39 @@ export default function GraphConfig() {
     };
 
     const handleDirectedChange = (checked) => {
-    if (!rules.allowsDirected && checked) {
-        showModal(`${rules.name} is possible only on undirected graphs`);
-        return;
-    }
+        if (!rules.allowsDirected && checked) {
+            showModal(`${rules.name} is possible only on undirected graphs`);
+            return;
+        }
 
-    if (!rules.allowsUndirected && !checked) {
-        showModal(`${rules.name} is possible only on directed graphs`);
-        return;
-    }
+        if (!rules.allowsUndirected && !checked) {
+            showModal(`${rules.name} is possible only on directed graphs`);
+            return;
+        }
 
-    setGraphConfig(cfg => ({ ...cfg, directed: checked }));
+        setGraphConfig(cfg => ({ ...cfg, directed: checked }));
 
-    cyRef.current.edges().forEach(edge => {
-        edge.classes("edge");
+        cyRef.current.edges().forEach(edge => {
+            edge.classes("edge");
 
-        edge.style({
-            "source-arrow-shape": "none",
-            "target-arrow-shape": checked ? "triangle" : "none"
+            edge.style({
+                "source-arrow-shape": "none",
+                "target-arrow-shape": checked ? "triangle" : "none"
+            });
         });
-    });
 
-    if (!checked) {
-        setEdges(edges =>
-            edges.reduce(
-                (acc, edge) => addEdge(acc, edge, false, rules.allowSelfLoops),
-                []
-            )
-        );
-    }
-};
+        if (!checked) {
+            setEdges(edges =>
+                edges.reduce(
+                    (acc, edge) => addEdge(acc, edge, false, rules.allowSelfLoops),
+                    []
+                )
+            );
+        }
+    };
     const handleWeightChange = (checked) => {
         setGraphConfig(cfg => ({ ...cfg, weighted: checked }));
+
     }
 
 

@@ -1,3 +1,4 @@
+
 export const mstStyle = (directed = false) => [
     {
         selector: "node",
@@ -85,6 +86,8 @@ export const mstStyle = (directed = false) => [
         style: {
         width: 2,
         'line-color': '#000000',
+        'line-outline-width': 3,
+        'line-outline-color': '#ffffff',
         targetArrowShape: directed ? "triangle" : "none",
         'target-arrow-color': directed ? '#000000' : undefined,
         curveStyle: "bezier"

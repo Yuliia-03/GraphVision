@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../../styles/LoadGraphMenue.css";
+import "../../../styles/LoadGraph/LoadGraphMenue.css";
 import LoadMatrix from "./LoadMatrix";
 import LoadAdjacencyList from "./LoadAdjacencyList";
 import LoadEdgeList from "./LoadEdgeList";
@@ -56,7 +56,7 @@ export default function LoadGraph({ onClose }) {
                 {loggedIn && <button className="menu-button" onClick={() => setMode("import")}>
                     From Account
                 </button>
-}
+                }
             </div>
         )}
 

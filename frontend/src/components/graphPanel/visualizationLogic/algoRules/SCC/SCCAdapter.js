@@ -10,7 +10,6 @@ export default class SCCAdapter {
             nodeRules.inList("neighbours", "neighbours"),
             nodeRules.inList("topoOrder", "visited"),
             nodeRules.inList("inStack", "inStack"),
-            //nodeRules.isCurrent(),
         ]
 
         this.sccEdgeRules = [
@@ -35,7 +34,6 @@ export default class SCCAdapter {
             });
         }
 
-        // fallback to DFS highlighting
         return [...states, ...this.dfsAdapter.getNodeState(nodeId, step)];
     }
     

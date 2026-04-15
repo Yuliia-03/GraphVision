@@ -1,7 +1,7 @@
 import { useGraph } from "../../../contexts/GraphContext";
 import { useEffect, useState } from "react";
 import { formatGraphs } from "../../../utils/getGraphFormatter";
-
+import "../../../styles/LoadGraph/LoadGraph.css"
 export default function GraphLoading({ fetchGraphs, onClose }) {
     const { setNodes, setEdges, rules } = useGraph();
 
@@ -54,16 +54,16 @@ export default function GraphLoading({ fetchGraphs, onClose }) {
     if (error) return <p>No graphs found</p>;
 
     return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {graphs.map((graph) => (
-                <button
-                    key={graph.name}
-                    onClick={() => loadGraph(graph)}
-                    className="graph-load-btn"
-                >
-                    Load {graph.name}
-                </button>
-            ))}
-        </div>
-    );
+    <div className="graph-list-container">
+        {graphs.map((graph) => (
+            <button
+                key={graph.name}
+                onClick={() => loadGraph(graph)}
+                className="graph-load-btn"
+            >
+                Load {graph.name}
+            </button>
+        ))}
+    </div>
+);
 }

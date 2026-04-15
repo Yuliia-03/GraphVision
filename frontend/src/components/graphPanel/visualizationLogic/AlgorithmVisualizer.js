@@ -18,7 +18,6 @@ export default class AlgorithmVisualizer{
     setInitStyle() {
 
         this.cy.nodes().forEach(node => {
-            node.classes([]);
             node.addClass(this.algorithmStates.nodes.unseen);
         });
 

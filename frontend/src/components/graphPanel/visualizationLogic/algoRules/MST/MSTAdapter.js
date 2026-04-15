@@ -14,7 +14,7 @@ export default class MSTAdaptor {
             edgeRules.activeEdge("currentEdge", "current_edge"),
             edgeRules.activeEdge("inQueue", "prims_queue"),
             edgeRules.activeEdge("ignore", "prims_cycle"),
-            //edgeRules.activeEdge("cycle_edge")
+            
         ]
     }
 

@@ -1,4 +1,3 @@
-//import
 
 export const AlgorithmStates = {
 

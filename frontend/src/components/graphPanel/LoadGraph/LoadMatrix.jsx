@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../../styles/LoadMatrix.css";
+import "../../../styles/LoadGraph/LoadMatrix.css";
 import { addEdge } from "../GraphConfigurations/graphConfigurations";
 import { useGraph } from "../../../contexts/GraphContext";
 import GraphConfig from "../GraphConfigurations/GraphConfig";
@@ -75,32 +75,32 @@ export default function LoadMatrix({ onClose }) {
     return (
         <div className="matrix-panel">
 
-            {/* HEADER */}
             <div className="matrix-header">
                 <h3>Adjacency Matrix</h3>
+                <div className="size-input">
 
-                <label className="size-input">
+                <label className="node-input">
                     Size:
-                    <input
-                        type="number"
-                        min={1}
-                        value={size}
-                        onChange={(e) => {
-                            const n = Number(e.target.value);
-                            setSize(n);
-                            setMatrix(Array.from({ length: n }, () => Array(n).fill(0)));
-                            setLabels(Array.from({ length: n }, (_, i) => i));
-                        }}
-                    />
                 </label>
+
+                <input
+                    type="number"
+                    min={1}
+                    value={size}
+                    onChange={(e) => {
+                        const n = Number(e.target.value);
+                        setSize(n);
+                        setMatrix(Array.from({ length: n }, () => Array(n).fill(0)));
+                        setLabels(Array.from({ length: n }, (_, i) => i));
+                    }}
+                />
+                </div>
             </div>
 
-            {/* GRAPH CONFIG */}
             <div className="matrix-config">
                 <GraphConfig />
             </div>
 
-            {/* SCROLLABLE MATRIX */}
             <div className="matrix-table-wrapper">
                 <div className="matrix-inner">
                 <table className="matrix-table">
@@ -140,31 +140,31 @@ export default function LoadMatrix({ onClose }) {
 
                                 {row.map((val, j) => (
                                     <td
-  key={j}
-  className={`matrix-cell ${i === j ? "diagonal" : ""}`}
->
-  <div className="cell-inner">
-    {weighted ? (
-      <input
-        type="number"
-        value={val}
-        onChange={(e) =>
-          updateCell(i, j, Number(e.target.value))
-        }
-        readOnly={!rules.allowSelfLoops && i === j}
-      />
-    ) : (
-      <input
-        type="checkbox"
-        checked={val !== 0}
-        onChange={(e) =>
-          updateCell(i, j, e.target.checked ? 1 : 0)
-        }
-        disabled={!rules.allowSelfLoops && i === j}
-      />
-    )}
-  </div>
-</td>
+                                        key={j}
+                                        className={`matrix-cell ${i === j ? "diagonal" : ""}`}
+                                        >
+                                        <div className="cell-inner">
+                                            {weighted ? (
+                                            <input
+                                                type="number"
+                                                value={val}
+                                                onChange={(e) =>
+                                                updateCell(i, j, Number(e.target.value))
+                                                }
+                                                readOnly={!rules.allowSelfLoops && i === j}
+                                            />
+                                            ) : (
+                                            <input
+                                                type="checkbox"
+                                                checked={val !== 0}
+                                                onChange={(e) =>
+                                                updateCell(i, j, e.target.checked ? 1 : 0)
+                                                }
+                                                disabled={!rules.allowSelfLoops && i === j}
+                                            />
+                                            )}
+                                        </div>
+                                    </td>
                                 ))}
                             </tr>
                         ))}
@@ -173,7 +173,6 @@ export default function LoadMatrix({ onClose }) {
                 </div>
             </div>
 
-            {/* ACTIONS */}
             <div className="matrix-actions">
                 <button onClick={loadGraph}>Load Graph</button>
             </div>

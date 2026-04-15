@@ -2,7 +2,7 @@ import CytoscapeComponent from "react-cytoscapejs";
 import { useGraph } from "../../../contexts/GraphContext";
 import { getSandboxStyles } from "./SandboxStyle";
 
-export default function GraphViewer({ onReady }) {
+export default function GraphViewer({ onReady, externalCyRef }) {
     const { nodes, edges, graphConfig, cyRef, rules } = useGraph();
 
     const directed = graphConfig.directed;
@@ -11,7 +11,11 @@ export default function GraphViewer({ onReady }) {
     return (
         <CytoscapeComponent
             cy={(cy) => {
-                cyRef.current = cy;
+                if (externalCyRef) {
+                    externalCyRef.current = cy;
+                } else {
+                    cyRef.current = cy;
+                }
 
                 if (onReady) {
                     onReady(cy); 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import '../../../styles/LoadAdjacencyList.css'
+import '../../../styles/LoadGraph/LoadAdjacencyList.css'
 import { useGraph } from "../../../contexts/GraphContext.jsx";
 
 import GraphConfig from "../GraphConfigurations/GraphConfig.jsx";
@@ -12,8 +12,6 @@ export default function LoadAdjacencyList({onClose}) {
 
     const directed = graphConfig.directed;
     const weighted = rules.requiresWeighted;
-
-    // const setDirected = (value) => setGraphConfig((c) => ({ ...c, directed: value }));
 
     const [adjList, setAdjList] = useState(Array.from({ length: size }, () =>[]));
     const [labels, setLabels] = useState(Array.from({ length: size }, (_, i) => i));
@@ -98,12 +96,14 @@ export default function LoadAdjacencyList({onClose}) {
     return (
     <div className="adj-list-panel">
 
-        <div className="adj-list-header">
+        <div className="matrix-header">
             <h3>Adjacency List</h3>
 
-            <div className="adj-size">
-                <label className="size-input">
+            <div className="size-input">
+
+                <label className="node-input">
                     Size:
+                </label>
                     <input
                         type="number"
                         min={1}
@@ -115,11 +115,9 @@ export default function LoadAdjacencyList({onClose}) {
                             setLabels(Array.from({ length: n }, (_, i) => i));
                         }}
                     />
-                </label>
             </div>
         </div>
 
-        {/* ✅ EVERYTHING SCROLLABLE GOES HERE */}
         <div className="adj-table-wrapper">
 
             <div className="adj-config">
@@ -165,10 +163,10 @@ export default function LoadAdjacencyList({onClose}) {
                     ))}
                 </tbody>
             </table>
-            {/* ✅ ALWAYS VISIBLE */}
+        
+        </div>
         <div className="adj-actions">
             <button onClick={loadGraph}>Load Graph</button>
-        </div>
         </div>
 
         

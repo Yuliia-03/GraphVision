@@ -8,7 +8,7 @@ export default class BFSAdapter {
             nodeRules.inList("visited", "visited"),
             nodeRules.inList("inQueue", "inQueue"),
             nodeRules.inList("reached", "final"),
-            //nodeRules.isCurrent(),
+            
         ]
 
         this.bfsEdgeRules = [

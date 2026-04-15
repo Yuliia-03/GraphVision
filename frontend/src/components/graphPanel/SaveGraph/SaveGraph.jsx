@@ -1,5 +1,5 @@
 import { useState } from "react";
-import '../../../styles/LoadGraphMenue.css'
+import '../../../styles/LoadGraph/LoadGraphMenue.css'
 import { saveGraph } from "../../../services/api";
 import { useGraph } from "../../../contexts/GraphContext";
 
@@ -19,6 +19,7 @@ export default function SaveGraph ({onClose}) {
          e.preventDefault();
                 setError(null);
                 setLoading(true);
+                console.log(graphConfig.weighted)
         
                 try {
                     await saveGraph(
@@ -27,8 +28,8 @@ export default function SaveGraph ({onClose}) {
                             description, 
                             nodes: formatNodesForAPI(nodes), 
                             edges: formatEdgesForAPI(edges), 
-                            directed: graphConfig.directed, 
-                            weighted: graphConfig.weighted
+                            directed: !!graphConfig.directed, 
+                            weighted: !!graphConfig.weighted
                         });
                     onClose();
                 } catch (err) {
@@ -42,6 +43,20 @@ export default function SaveGraph ({onClose}) {
         <div className="graph-menue-popup">
             <div className="window">
 
+                <div className="modal-header">
+                    <button
+                        className="back-button"
+                        onClick={() => setMode("")}
+                        style={{ visibility:  "hidden" }}
+                    >
+                        ←
+                    </button>
+
+                    <button className="close-x" onClick={onClose}>
+                        ✕
+                    </button>
+                </div>
+
                 <form onSubmit={handleSave}>
                     <h3>Save Graph</h3>
                     <input type="text" placeholder="Title" id="title" onChange={(e) => setTitle(e.target.value)} required/>
@@ -51,13 +66,8 @@ export default function SaveGraph ({onClose}) {
                         {loading ? "Saving..." : "Save"}
                     </button>
                 </form>
-                <button
-                    type="button"
-                    className="btn-close close-x"
-                    aria-label="Close"
-                    onClick={onClose}
-                />
-
+                
+                
             </div>
         </div>
     );

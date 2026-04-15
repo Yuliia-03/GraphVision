@@ -1,12 +1,3 @@
-function generateComponentColors(n) {
-    const colors = [];
-    for (let i = 0; i < n; i++) {
-        // Generate distinct hue using HSL
-        const hue = (i * 360 / n) % 360;
-        colors.push(`hsl(${hue}, 70%, 50%)`);
-    }
-    return colors;
-}
 
 export const bfsStyle = (directed = false) => [
     {
@@ -52,7 +43,7 @@ export const bfsStyle = (directed = false) => [
     {
         selector: ".bfs-node-visited",
         style: {
-            'background-color': '#919191',  
+            'background-color': '#706f6f',  
         }
     },
     {
@@ -193,6 +184,9 @@ export const bfsStyle = (directed = false) => [
         style: {
         width: 2,
         'line-color': '#000000',
+
+        'line-outline-width': 3,
+        'line-outline-color': '#ffffff',
         targetArrowShape: directed ? "triangle" : "none",
         'target-arrow-color': directed ? '#000000' : undefined,
         curveStyle: "bezier"
@@ -209,12 +203,6 @@ export const bfsStyle = (directed = false) => [
         curveStyle: "bezier"
         }
     },
-    // componentColors.forEach((color, index) => {
-    //     styles.push({
-    //         selector: `.scc-component-${index}`,
-    //         style: { 'background-color': color }
-    //     });
-    // })
 
 
 ]

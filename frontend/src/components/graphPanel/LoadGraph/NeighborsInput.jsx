@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import '../../../styles/LoadAdjacencyList.css'
+import '../../../styles/LoadGraph/LoadAdjacencyList.css'
 
 
 export default function NeighborsInput({ i, neighbours, labels, onCommit, weighted }) {
