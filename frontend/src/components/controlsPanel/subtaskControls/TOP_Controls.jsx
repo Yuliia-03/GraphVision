@@ -5,7 +5,11 @@ export default function TOPControls({mode = "explore" }) {
 
 
     return (
-        <div>
+        <div className="algo-controls">
+            <div className="config-panel">
+                <h3 className="config-title">Topological Sort</h3>
+
+            </div>
             <ButtonPanel params = {{returnTopo: true}} mode = {mode} />
         </div>
     );
