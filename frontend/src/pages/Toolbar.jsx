@@ -32,7 +32,7 @@ export default function Toolbar() {
     };
 
     const goToSavedGraphs = () => {
-        window.location.href = "/save_graph";
+        window.location.href = "/saved_graph";
         setOpenMenu(false);
     };
 
