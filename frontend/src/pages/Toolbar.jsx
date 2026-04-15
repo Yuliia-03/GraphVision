@@ -5,6 +5,10 @@ import Login from "../components/Login.jsx";
 import SignUp from "../components/Signup.jsx";
 import { useTheme } from "../contexts/ThemeContext";
 
+import { useNavigate } from "react-router-dom";
+
+
+
 export default function Toolbar() {
     const {theme, toggleTheme} = useTheme();
     const [isAuth, setIsAuth] = useState(isLoggedIn);
@@ -13,6 +17,7 @@ export default function Toolbar() {
     const [openMenu, setOpenMenu] = useState(false);
 
     const menuRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -32,7 +37,7 @@ export default function Toolbar() {
     };
 
     const goToSavedGraphs = () => {
-        window.location.href = "/saved_graph";
+        navigate("/saved_graph");
         setOpenMenu(false);
     };
 
