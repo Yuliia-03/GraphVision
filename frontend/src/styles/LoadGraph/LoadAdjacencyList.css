@@ -1,7 +1,7 @@
 .adj-list-panel {
     display: flex;
     flex-direction: column;
-    height: 60vh; /* fixed height */
+    height: 60vh;
 
     padding: 1.4rem;
     gap: 1rem;
@@ -14,25 +14,23 @@
     font-family: "Inter", system-ui, sans-serif;
     color: var(--text-color);
 
-    overflow: hidden; /* ✅ IMPORTANT */
+    overflow: hidden; 
 }
 
-/* Prevent shrinking */
 .adj-list-header,
 .adj-config,
 .adj-actions {
     flex-shrink: 0;
+    
 }
 
-/* Scroll area */
 .adj-table-wrapper {
     flex: 1;
     overflow-y: auto;
-    min-height: 0; /* ✅ CRITICAL for flexbox scrolling */
+    min-height: 0; 
     padding-right: 4px;
 }
 
-/* Header */
 .adj-list-header {
     display: flex;
     justify-content: space-between;
@@ -48,9 +46,27 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+
+    padding: 0.4rem 0.6rem;
+    border-radius: 10px;
+
+    background: var(--block-bg);
+    border: 1px solid var(--panel-border);
 }
 
-/* Table */
+
+.adj-size input {
+    
+    width: 60px;
+    text-align: center;
+
+    border: none;
+    background: transparent;
+    color: var(--text);
+    outline: none;
+}
+
+
 .adj-table {
     width: 100%;
     border-collapse: separate;
@@ -64,19 +80,14 @@
     opacity: 0.7;
 }
 
-/* Inputs */
 .adj-node-input {
-    width: 44px;
-    padding: 0.35rem;
-    border-radius: 8px;
-
-    border: 1px solid var(--panel-border);
-    background: var(--block-bg);
-
-    font-family: "JetBrains Mono", monospace;
+    width: 70px;
     text-align: center;
 
-    color: var(--primary);
+    border: none;
+    background: transparent;
+    color: var(--text);
+    outline: none;
 }
 
 .adj-node-input:focus {
@@ -85,7 +96,6 @@
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
 }
 
-/* Arrow */
 .adj-arrow {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.9rem;

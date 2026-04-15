@@ -1,96 +1,92 @@
 
-/* ===== ROW ===== */
 .select-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
 }
 
-/* ===== LABEL ===== */
 .select-group label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text);
-  opacity: 0.7;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    opacity: 0.7;
 }
 
-/* ===== SELECT BUTTON ===== */
 .select {
-  min-width: 120px;
-  max-width: 220px;
+    min-width: 120px;
+    max-width: 220px;
 
-  padding: 6px 28px 6px 10px;
-  font-size: 12px;
+    padding: 6px 28px 6px 10px;
+    font-size: 12px;
 
-  border-radius: 8px;
-  border: 1px solid var(--border);
+    border-radius: 8px;
+    border: 1px solid var(--border);
 
-  background: var(--panel);
-  color: var(--text);
+    background: var(--panel);
+    color: var(--text);
 
-  cursor: pointer;
+    cursor: pointer;
 }
 
-/* hover */
 .select:hover {
-  border-color: var(--accent);
+    border-color: var(--accent);
 }
 
-/* open */
 .select.open {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
+
 .bfs-select-dropdown {
-  position: absolute;
+    position: absolute;
 
-  background: var(--panel);
-  color: var(--text);
+    background: var(--panel);
+    color: var(--text);
 
-  border: 1px solid var(--border);
-  border-radius: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
 
-  box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
 
-  max-height: 240px;
-  overflow-y: auto;
+    max-height: 240px;
+    overflow-y: auto;
 
-  font-size: 12px;
-  padding: 4px;
+    font-size: 12px;
+    padding: 4px;
 
-  z-index: 999999;
+    z-index: 999999;
 }
 
 .bfs-select-item {
-  display: block;
-  padding: 8px 10px;
+    display: block;
+    padding: 8px 10px;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  color: var(--text);
-  background: transparent;
+    color: var(--text);
+    background: transparent;
 }
 
 .bfs-select-item:hover {
-  background: var(--accent);
-  color: white;
+    background: var(--accent);
+    color: white;
 }
 .custom-dropdown,
 .bfs-select-dropdown {
-  isolation: isolate;
+    isolation: isolate;
 }
 .bfs-select-item {
-  color: var(--text) !important;
-  background: transparent !important;
+    color: var(--text) !important;
+    background: transparent !important;
 }
 .custom-dropdown * {
-  all: revert;
-  color: var(--text) !important;
+    all: revert;
+    color: var(--text) !important;
 }
 
 .bfs-select-item:hover {
-  background-color: var(--accent) !important;
-  border-radius: 10px;
+    background-color: var(--accent) !important;
+    border-radius: 10px;
 
 }

@@ -17,7 +17,6 @@
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
-/* HEADER */
 .edge-header {
     display: flex;
     justify-content: space-between;
@@ -36,7 +35,6 @@
     opacity: 0.6;
 }
 
-/* EDGE COUNT */
 .edge-count {
     display: flex;
     align-items: center;
@@ -50,30 +48,26 @@
 }
 
 .edge-count input {
-    width: 60px;
+    width: 50px;
     text-align: center;
 
-    border: none;
     background: transparent;
     color: var(--text);
     outline: none;
 }
 
-/* SCROLL AREA */
 .edge-scroll {
     flex: 1;
     overflow-y: auto;
     padding-right: 0.25rem;
 }
 
-/* LIST */
 .edge-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-/* EDGE ROW */
 .edge-row {
     margin-top: 1px;
     display: flex;
@@ -95,7 +89,6 @@
     transform: translateY(-1px);
 }
 
-/* INPUTS */
 .edge-row input {
     width: 80px;
 
@@ -117,12 +110,10 @@
     box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
 }
 
-/* SMALL WEIGHT INPUT */
 .edge-row .weight {
     width: 60px;
 }
 
-/* SYMBOLS */
 .pill {
     opacity: 0.5;
     font-family: monospace;
@@ -133,7 +124,6 @@
     font-weight: 700;
 }
 
-/* ACTIONS */
 .edge-actions {
     display: flex;
     justify-content: flex-end;

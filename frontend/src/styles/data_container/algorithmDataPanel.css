@@ -77,7 +77,6 @@
 
 .queue .node-chip.front {
     background: var(--primary);
-    /* color: white; */
     font-weight: 600;
     transform: scale(1.05);
 }

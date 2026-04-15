@@ -1,50 +1,48 @@
-/* PANEL */
+
 .config-panel {
-  background: var(--panel);
-  border-radius: 12px;
-  padding: 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border);
 }
 
-/* HEADER */
 .config-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
 }
 
 .config-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
 
-  padding: 8px;
-  border-radius: 10px;
+    padding: 8px;
+    border-radius: 10px;
 
-  /* 👇 subtle layered background */
-  background: color-mix(in srgb, var(--panel) 92%, black);
+    background: color-mix(in srgb, var(--panel) 92%, black);
 
-  overflow: visible;
+    overflow: visible;
 }
 
 .config-panel {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .config-panel::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.5rem;
-  bottom: 0.5rem;
-  width: 3px;
-  border-radius: 2px;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 3px;
+    border-radius: 2px;
 
-  background: var(--accent);
+    background: var(--accent);
 }

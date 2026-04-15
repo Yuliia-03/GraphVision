@@ -1,4 +1,4 @@
-/* PANEL */
+
 .matrix-panel {
     display: flex;
     flex-direction: column;
@@ -9,13 +9,12 @@
     overflow: hidden;
 }
 
-/* HEADER */
 .matrix-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 10px 14px;
+    padding: 10px 10px;
     border-bottom: 1px solid var(--panel-border);
 }
 
@@ -25,37 +24,35 @@
     margin: 0;
 }
 
-/* SIZE INPUT */
 .size-input {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.4rem;
+
+    padding: 0.4rem 0.6rem;
+    background: var(--block-bg);
+    border: 1px solid var(--panel-border);
     font-size: 13px;
+    border-radius: 10px;
     color: var(--muted-text);
-    max-width: 100px;
+    max-width: 110px;
 }
 
 .size-input input {
-    width: 42px;
-    height: 24px;
-
-    font-size: 12px;
+    width: 55px;
     text-align: center;
 
-    border-radius: 5px;
-    border: 1px solid var(--btn-border);
-
-    background: var(--panel-bg);
-    color: var(--text-color);
+    border: none;
+    background: transparent;
+    color: var(--text);
+    outline: none;
 }
 
-/* CONFIG */
 .matrix-config {
     padding: 8px 14px;
     border-bottom: 1px solid var(--panel-border);
 }
 
-/* SCROLL AREA (IMPORTANT: no flex here for sticky to work) */
 .matrix-table-wrapper {
     flex: 1;
     overflow: auto;
@@ -63,14 +60,12 @@
     padding: 20px;
 }
 
-/* TABLE */
 .matrix-table {
     border-collapse: collapse;
     width: max-content;
     table-layout: fixed;
 }
 
-/* HEADERS */
 .matrix-table th {
     width: 64px;
     min-width: 64px;
@@ -80,7 +75,6 @@
     
 }
 
-/* STICKY TOP ROW */
 .matrix-table thead th {
     position: sticky;
     top: 0;
@@ -92,7 +86,6 @@
     text-align: center;
 }
 
-/* STICKY FIRST COLUMN */
 .matrix-table tbody th {
     position: sticky;
 
@@ -104,7 +97,6 @@
     box-shadow: 2px 0 0 var(--panel-border);
 }
 
-/* TOP-LEFT CORNER (highest priority) */
 .matrix-table thead th:first-child {
     position: sticky;
     top: 0;
@@ -116,7 +108,6 @@
     background: var(--block-bg);
 }
 
-/* LABEL INPUTS */
 .matrix-label {
     width: 100%;
     height: 34px;
@@ -133,7 +124,6 @@
     color: var(--text-color);
 }
 
-/* CELLS */
 .matrix-cell {
     width: 80px;
     min-width: 80px;
@@ -143,7 +133,6 @@
     border-radius: 6px;
 }
 
-/* CENTER CONTENT */
 .cell-inner {
     width: 100%;
     height: 100%;
@@ -153,7 +142,6 @@
     justify-content: center;
 }
 
-/* NUMBER INPUT */
 .matrix-cell input[type="number"] {
     width: 60px;
     height: 36px;
@@ -168,7 +156,6 @@
     color: var(--text-color);
 }
 
-/* CHECKBOX */
 .matrix-cell input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -176,18 +163,15 @@
     cursor: pointer;
 }
 
-/* FOCUS */
 .matrix-cell input:focus {
     outline: none;
     border-color: var(--primary);
 }
 
-/* DIAGONAL */
 .matrix-cell.diagonal {
     background: var(--btn-disabled-bg);
 }
 
-/* ACTIONS */
 .matrix-actions {
     display: flex;
     justify-content: flex-end;
@@ -196,7 +180,6 @@
     border-top: 1px solid var(--panel-border);
 }
 
-/* BUTTON */
 .matrix-actions button {
     font-size: 13px;
     padding: 6px 12px;

@@ -1,15 +1,15 @@
-/* Container */
+
 .question-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 /* Question text */
 .question-section h4 {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 600;
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
 }
 
 .feedback {

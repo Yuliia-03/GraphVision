@@ -1,13 +1,10 @@
-/* -----------------------------
-   SAVED GRAPHS PAGE
------------------------------ */
+
 .saved-page {
     padding: 2rem;
     color: var(--text-color);
     font-family: 'Inter', sans-serif;
 }
 
-/* HEADER */
 .page-header {
     display: flex;
     justify-content: space-between;
@@ -15,7 +12,6 @@
     margin-bottom: 1rem;
 }
 
-/* CREATE BUTTON */
 .create-btn {
     background: var(--primary);
     color: white;
@@ -33,14 +29,12 @@
     transform: translateY(-2px);
 }
 
-/* GRID */
 .saved-graphs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1rem;
 }
 
-/* CARD */
 .saved-graph-card {
     background: var(--panel-bg);
     padding: 1rem;
@@ -70,7 +64,6 @@
     margin-top: 0.3rem;
 }
 
-/* DELETE BUTTON */
 .delete-btn {
     position: absolute;
     top: 8px;
@@ -91,9 +84,6 @@
     transform: translateY(-1px);
 }
 
-/* -----------------------------
-   MODAL
------------------------------ */
 .graph-modal {
     position: fixed;
     inset: 0;
@@ -118,7 +108,6 @@
     border: 1px solid var(--panel-border);
 }
 
-/* MODAL HEADER */
 .graph-modal-header {
     display: flex;
     justify-content: space-between;
@@ -126,7 +115,6 @@
     margin-bottom: 0.8rem;
 }
 
-/* INPUT */
 .graph-title-input {
     font-size: 1.2rem;
     font-weight: 600;
@@ -143,7 +131,6 @@
     border-bottom-color: var(--primary);
 }
 
-/* BUTTONS */
 .actions button {
     margin-left: 0.5rem;
     padding: 0.45rem 0.9rem;
@@ -162,7 +149,6 @@
     transform: translateY(-1px);
 }
 
-/* GRAPH CONTAINER */
 .graph-viewer-container {
     flex: 1;
     margin: 0.5rem 0;
@@ -173,7 +159,6 @@
     background: var(--block-bg);
 }
 
-/* INLINE INPUT */
 input.inline-edit {
     position: absolute;
     z-index: 10;

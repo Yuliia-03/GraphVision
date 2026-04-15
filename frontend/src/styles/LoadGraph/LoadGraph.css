@@ -1,0 +1,23 @@
+.graph-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    max-height: 300px;
+    overflow-y: auto;
+
+    padding-right: 4px;
+}
+
+.graph-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.graph-list-container::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 6px;
+}
+
+.graph-list-container {
+    max-height: 60vh;
+}

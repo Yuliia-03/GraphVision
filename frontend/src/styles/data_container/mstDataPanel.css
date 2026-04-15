@@ -49,7 +49,6 @@
   margin: 4px 0;
 }
 
-/* Make the "Current edge" block horizontal */
 .mst-data-panel .block.inline {
     display: flex;
     align-items: center;
