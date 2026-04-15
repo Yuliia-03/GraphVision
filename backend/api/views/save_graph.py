@@ -124,6 +124,8 @@ class GraphDetail(APIView):
 
             create_graph_structure(graph, nodes, edges)
 
+        graph.refresh_from_db()
+
         serializer = GraphSerializer(graph)
         return Response(serializer.data)
 

@@ -29,7 +29,7 @@ export default function SaveGraph ({onClose}) {
                             nodes: formatNodesForAPI(nodes), 
                             edges: formatEdgesForAPI(edges), 
                             directed: !!graphConfig.directed, 
-                            weighted: !!graphConfig.weighted
+                            weighted: !!graphConfig.weighted ?? false
                         });
                     onClose();
                 } catch (err) {

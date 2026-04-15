@@ -30,7 +30,7 @@ export default function SavedGraphContent() {
             setSelectedGraph({
                 id: formatted.id,
                 name: formatted.name,
-                description: formatted.description
+                description: fullGraph.description
             });
             setGraphConfig(cfg => ({ ...cfg, weighted: formatted.weighted, directed:  formatted.directed}));
 
@@ -77,7 +77,7 @@ export default function SavedGraphContent() {
                 nodes: formatNodesForAPI(nodes),
                 edges: formatEdgesForAPI(edges),
                 directed: graphConfig.directed,
-                weighted: graphConfig.weighted
+                weighted: !!graphConfig.weighted
             };
             console.log("SENDING:", graphData);
 
@@ -86,11 +86,16 @@ export default function SavedGraphContent() {
             if (selectedGraph.id) {
                 result = await editGraph(selectedGraph.id, graphData);
 
-                const formatted = formatGraphs([result])[0];
+                const updatedGraph = {
+                    ...selectedGraph,
+                    ...graphData
+                };
 
                 setGraphs(prev =>
-                    prev.map(g => (g.id === formatted.id ? formatted : g))
+                    prev.map(g => (g.id === selectedGraph.id ? updatedGraph : g))
                 );
+
+                setSelectedGraph(updatedGraph);
             } else {
                 await saveGraph({
                     name: graphData.name,
@@ -98,7 +103,7 @@ export default function SavedGraphContent() {
                     nodes: graphData.nodes,
                     edges: graphData.edges,
                     directed: graphConfig.directed,
-                    weighted: graphConfig.weighted
+                    weighted: !!graphConfig.weighted
                 });
 
                 const allGraphs = await getSavedGraphs();
@@ -106,11 +111,11 @@ export default function SavedGraphContent() {
 
                 const formatted = formatGraphs([newGraph])[0];
 
-                setGraphs(prev => [...prev, formatted]);
+                setGraphs(prev => [...prev, newGraph]);
                 setSelectedGraph({
                     id: formatted.id,
                     name: formatted.name,
-                    description: formatted.description
+                    description: newGraph.description
                 });
             }
 
@@ -155,7 +160,9 @@ export default function SavedGraphContent() {
                             Delete
                         </button>
                     </div>
+                    
                 ))}
+                
             </div>
 
             {selectedGraph && (
@@ -165,18 +172,37 @@ export default function SavedGraphContent() {
                         <div className="graph-modal-header">
 
                             {isEditing ? (
-                                <input
-                                    className="graph-title-input"
-                                    value={selectedGraph.name}
-                                    onChange={(e) =>
-                                        setSelectedGraph(prev => ({
-                                            ...prev,
-                                            name: e.target.value
-                                        }))
-                                    }
-                                />
+                                <div className="graph-meta-edit">
+                                    <input
+                                        className="graph-title-input"
+                                        value={selectedGraph.name}
+                                        onChange={(e) =>
+                                            setSelectedGraph(prev => ({
+                                                ...prev,
+                                                name: e.target.value
+                                            }))
+                                        }
+                                    />
+
+                                    <textarea
+                                        className="graph-description-input"
+                                        placeholder="Update description here..."
+                                        value={selectedGraph.description}
+                                        onChange={(e) =>
+                                            setSelectedGraph(prev => ({
+                                                ...prev,
+                                                description: e.target.value
+                                            }))
+                                        }
+                                    />
+                                </div>
                             ) : (
-                                <h3>{selectedGraph.name}</h3>
+                                <div className="graph-meta-view">
+                                    <h3>{selectedGraph.name}</h3>
+                                    <p className="graph-description-text">
+                                        {selectedGraph.description || "No description"}
+                                    </p>
+                                </div>
                             )}
 
                             <div className="actions">

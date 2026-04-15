@@ -175,3 +175,36 @@ input.inline-edit:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
 }
+
+.graph-meta-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.graph-description-input {
+    font-size: 0.9rem;
+    border: none;
+    border-bottom: 1px solid var(--btn-border);
+    outline: none;
+    padding: 0.2rem 0.3rem;
+    background: transparent;
+    color: var(--text-color);
+    resize: none;
+    min-height: 40px;
+}
+
+.graph-description-input:focus {
+    border-bottom-color: var(--primary);
+}
+
+.graph-meta-view {
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-description-text {
+    font-size: 0.85rem;
+    color: var(--muted-text);
+    margin-top: 0.2rem;
+}
