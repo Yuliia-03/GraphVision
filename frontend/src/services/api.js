@@ -5,26 +5,16 @@ const API_BASE_URL = "http://127.0.0.1:8000";
 const ACCESS_TOKEN = "access_token";
 const REFRESH_TOKEN = "refresh_token";
 
-/* =========================
-   AXIOS INSTANCE
-========================= */
 const api = axios.create({
     baseURL: API_BASE_URL,
 });
 
-/* =========================
-   LOGOUT
-========================= */
 export const logout = () => {
     console.log("LOGOUT CALLED");
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
 };
 
-/* =========================
-   REQUEST INTERCEPTOR
-   (attach access token)
-========================= */
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
 
@@ -35,16 +25,12 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-/* =========================
-   RESPONSE INTERCEPTOR
-   (auto refresh + retry)
-========================= */
+
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
-        // If 401 and not already retried
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
@@ -79,9 +65,6 @@ api.interceptors.response.use(
     }
 );
 
-/* =========================
-   AUTH
-========================= */
 export const login = async (email, password) => {
     const res = await api.post("/login/", { email, password });
 
@@ -100,17 +83,11 @@ export const isLoggedIn = () => {
     return !!localStorage.getItem(ACCESS_TOKEN);
 };
 
-/* =========================
-   PUBLIC
-========================= */
 export const getSamples = async () => {
     const res = await api.get("/get_samples/");
     return res.data;
 };
 
-/* =========================
-   GRAPH API (AUTH REQUIRED)
-========================= */
 export const saveGraph = async (data) => {
     const res = await api.post("/save_graph/", data);
     return res.data;
