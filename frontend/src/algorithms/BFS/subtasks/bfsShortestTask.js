@@ -41,18 +41,16 @@ export class BFSShortestTask {
         path.push(params.startNode);
 
         const edges = [];
-        for (let i = 0; i < path.length - 1; i++) {
-        const from = path[i];
-        const to = path[i + 1];
+        
+        Object.entries(this.parent)
+        .filter(([node, p]) => node !== p && path.includes(node))
+        .forEach(([node, p]) => {
+            edges.push(`${p}-${node}`);
 
-        edges.push(`${from}-${to}`);
-
-        // ✅ use graphConfig
-        if (!runner.graphConfig.directed) {
-            edges.push(`${to}-${from}`);
-        }
-    }
-
+            if (!runner.directed) {
+                edges.push(`${node}-${p}`);
+            }
+        });
 
 
         return {
