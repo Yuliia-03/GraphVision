@@ -13,25 +13,25 @@ import Toolbar from "./pages/Toolbar";
 import SavedGraphsPage from "./pages/SavedGraphs/SavedGraphsPage";
 
 function App() {
-  return (
-    <Router>
-      <div className="app-shell">
-      <Toolbar />
-      <div className="app-content">
-      <Routes>
-        { <Route path="/" element={<Home />} />  }
-        { <Route path="/bfs" element={<BFSPage />} />}
-        { <Route path="/dfs" element={<DFSPage />} />  }
-        { <Route path="/mst" element={<MSTPage />} />  }
-        { <Route path="/top" element={<TOPPage />} />  }
-        { <Route path="/dag" element={<DAGPage />} />  }
-        { <Route path="/scc" element={<SCCPage />} />  }
-        { <Route path="/save_graph" element={<SavedGraphsPage />} />  }
-      </Routes>
-      </div>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+        <div className="app-shell">
+        <Toolbar />
+        <div className="app-content">
+        <Routes>
+            { <Route path="/" element={<Home />} />  }
+            { <Route path="/bfs" element={<BFSPage />} />}
+            { <Route path="/dfs" element={<DFSPage />} />  }
+            { <Route path="/mst" element={<MSTPage />} />  }
+            { <Route path="/top" element={<TOPPage />} />  }
+            { <Route path="/dag" element={<DAGPage />} />  }
+            { <Route path="/scc" element={<SCCPage />} />  }
+            { <Route path="/save_graph" element={<SavedGraphsPage />} />  }
+        </Routes>
+        </div>
+        </div>
+        </Router>
+    );
 }
 
 export default App;

@@ -27,16 +27,13 @@ export default function SignUp({ onClose, onSuccess }) {
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
 
-                {/* CLOSE */}
                 <button className="close-btn" onClick={onClose}>
                     ×
                 </button>
 
-                {/* HEADER */}
                 <h3>Create account</h3>
                 <p className="subtitle">Sign up to get started</p>
 
-                {/* FORM */}
                 <form onSubmit={handleSubmit}>
                     <input
                         type="email"
