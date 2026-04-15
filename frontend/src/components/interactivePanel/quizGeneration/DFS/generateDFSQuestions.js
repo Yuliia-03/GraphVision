@@ -57,7 +57,6 @@ export default function generateDFSQuestions(steps, moments) {
         });
     };
 
-    // same logic: find all "Pop" steps
     const popIndices = steps
         .map((s, i) => s.message?.startsWith("Pop") ? i : -1)
         .filter(i => i !== -1);
@@ -68,24 +67,22 @@ export default function generateDFSQuestions(steps, moments) {
         if (!moment) return;
 
         const node = moment.node;
+        const askBefore = Math.random() < 0.5
 
-        const prevNode = moments[k - 1]?.node;
-
-        // BEFORE processing (like BFS)
-        build(popIndex - 1, pick([1, 2, 4], "before"), {
-            node,
-            stack: moment.stackAfter,
-            extra: moment.discovered?.[0] || "X"
-        }, k);
-
-        // AFTER processing (DFS-specific set)
-        build(popIndex, pick([3, 5, 7], "after"), {
-            node,
-            stack: moment.stackAfter
-        }, k);
+        if (askBefore) {
+            build(popIndex - 1, pick([1, 2, 4], "before"), {
+                node,
+                stack: moment.stackAfter,
+                extra: moment.discovered?.[0] || "X"
+            }, k);
+        } else {
+            build(popIndex, pick([3, 5, 7], "after"), {
+                node,
+                stack: moment.stackAfter
+            }, k);
+        }
     });
 
-    // final traversal question
     const finalIndex = steps.findIndex(s => s.isFinal);
 
     if (finalIndex !== -1) {

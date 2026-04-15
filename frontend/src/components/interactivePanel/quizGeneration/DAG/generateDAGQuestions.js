@@ -63,20 +63,14 @@ export default function generateDAGQuestions(steps, moments, algo = "dag") {
 
         let validIds = possibleIds.filter(id => {
 
-            // avoid repeating same question
             if (id === lastId) return false;
 
-            // avoid topo questions too early
             if ([6].includes(id) && (!m.topoOrder || m.topoOrder.length === 0)) {
                 return false;
             }
-
-            // final topo only at end
             if (id === 9 && m.type !== "topoCompleted") {
                 return false;
             }
-
-            // stack questions require at least 1 node
             if ([2, 5, 7].includes(id) && (!m.recStack || m.recStack.length === 0)) {
                 return false;
             }
@@ -105,7 +99,7 @@ export default function generateDAGQuestions(steps, moments, algo = "dag") {
         const data = {
             node: m.currentNode,
             recStack: m.recStack,
-            topoOrder: m.topoOrder,
+            topoOrder: template.id == 9 ? m.topoOrder : m.topoOrder?.slice(0,-1),
             visited: m.visited,
             cycle: m.cycle
         };

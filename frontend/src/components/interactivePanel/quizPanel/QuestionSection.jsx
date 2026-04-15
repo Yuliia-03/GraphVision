@@ -9,8 +9,15 @@ export default function QuestionSection({question,onAnswer}){
 
     const isArray = (array) => Array.isArray(array);
 
+    const key = (x) => {
+        if (x == null) return "";
+        if (Array.isArray(x)) return x.join(",");
+        if (typeof x === "object") return JSON.stringify(x);
+        return String(x);
+    };
+
     const handleSubmit = () => {
-        const isCorrect = selected === question.answer;
+        const isCorrect = key(selected) === key(question.answer);
 
         if (!isCorrect) {
             setFeedback("❌ Incorrect. Try again!");
@@ -26,7 +33,7 @@ export default function QuestionSection({question,onAnswer}){
 
         <div className="question-section">
 
-            <h4>{question.text}</h4>
+            <h4 style={{ whiteSpace: "pre-line" }}>{question.text}</h4>
 
             <form>
                 {question.options?.map((opt, i) => 

@@ -67,17 +67,20 @@ export default function generateBFSQuestions(steps, moments) {
 
         const node = moment.node
 
-        const prevNode = moments[k - 1]?.node
+        // decide: before OR after
+        const askBefore = Math.random() < 0.5
 
-        build(popIndex-1, pick([1,2,4], "before"), {
-            node: node,   
-            queue: moment.queueAfter,
-            extra: moment.discovered?.[0] || "X"
-        }, k)
-
-        build(popIndex, pick([3,5], "after"), {
-            node
-        }, k)
+        if (askBefore) {
+            build(popIndex - 1, pick([1, 2, 4], "before"), {
+                    node,
+                    queue: moment.queueAfter,
+                    extra: moment.discovered?.[0] || "X"
+                }, k);
+        } else {
+            build(popIndex, pick([3, 5], "after"),{ 
+                node,
+                }, k );
+        }
     })
 
     const finalIndex = steps.findIndex(s => s.isFinal)

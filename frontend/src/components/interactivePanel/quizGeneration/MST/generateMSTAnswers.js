@@ -181,7 +181,8 @@ export default function generateMSTAnswers(questions, steps, moments, edges) {
             }
 
             // cycle detection
-            case 7: {
+            case 7:
+            case 12: {
                 answer = "Skip the edge";
 
                 options = [
@@ -279,6 +280,21 @@ export default function generateMSTAnswers(questions, steps, moments, edges) {
                     "Because it does not connect any new node"
                 ]);
 
+                break;
+            }
+            case 16: {
+                const n = Number(q.data?.n);
+
+                answer = n - 1;
+
+                const optionsSet = [];
+
+                optionsSet.push(answer); 
+                optionsSet.push(n); 
+                optionsSet.push(n - 2);
+                optionsSet.push(Math.floor(n / 2));
+
+                options = shuffle(unique(optionsSet));
                 break;
             }
 

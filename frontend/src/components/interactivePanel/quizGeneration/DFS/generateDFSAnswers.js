@@ -12,7 +12,6 @@ function generateDFSQuizOptions(allTraversals) {
         const newSeq = [...option[randIndex]];
 
         if (newSeq.length > 2) {
-            // break DFS by swapping middle nodes (more realistic than endpoints)
             const i = 1;
             const j = newSeq.length - 2;
             [newSeq[i], newSeq[j]] = [newSeq[j], newSeq[i]];
@@ -63,7 +62,7 @@ export default function generateDFSAnswers(questions, steps, moments, edges) {
 
         switch (q.id) {
 
-            // ✅ 1. stack_after_processing
+            // 1. stack_after_processing
             case 1:
                 answer = stackAfter;
 
@@ -80,7 +79,7 @@ export default function generateDFSAnswers(questions, steps, moments, edges) {
                 ]));
                 break;
 
-            // ✅ 2. discover_nodes
+            // 2. discover_nodes
             case 2:
                 answer = moment.discovered;
 
@@ -96,7 +95,7 @@ export default function generateDFSAnswers(questions, steps, moments, edges) {
                 ]));
                 break;
 
-            // ✅ 3. next_action (DFS = TOP of stack)
+            // 3. next_action (DFS = TOP of stack)
             case 3:
 
                 if (stackAfter.length > 0) {
@@ -135,7 +134,7 @@ export default function generateDFSAnswers(questions, steps, moments, edges) {
                 ]));
                 break;
 
-            // ✅ 4. edges leading to new nodes
+            // 4. edges leading to new nodes
             case 4:
                 answer = moment.edgesLeadingToNew;
 
@@ -160,7 +159,7 @@ export default function generateDFSAnswers(questions, steps, moments, edges) {
                 ]));
                 break;
 
-            // ✅ 5. visited_set
+            //  5. visited_set
             case 5:
                 answer = [...moment.visitedAfter];
 
@@ -176,18 +175,6 @@ export default function generateDFSAnswers(questions, steps, moments, edges) {
                 ]));
                 break;
 
-            // ✅ 6. valid DFS traversals
-            case 6:
-                const allValidTraversals = step.result?.allTraversals || [];
-
-                const { correctAnswer, allOptions } =
-                    generateDFSQuizOptions(allValidTraversals);
-
-                answer = correctAnswer;
-                options = shuffle(uniqueOptions([allOptions]));
-                break;
-
-            // ✅ 7. backtracking
             case 7:
                 if (moment.discovered.length === 0) {
                     answer = `Backtrack from ${moment.node}`;
@@ -206,12 +193,6 @@ export default function generateDFSAnswers(questions, steps, moments, edges) {
                         "Terminate DFS"
                     ];
                 }
-                break;
-
-            // ✅ 8. structural change
-            case 8:
-                answer = "Depends on neighbour order";
-                options = null;
                 break;
         }
 

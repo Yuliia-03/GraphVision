@@ -62,20 +62,13 @@ export const mstQuestionTemplatesPrims = [
         text: "If edge {edge} had a smaller weight, how might it affect the MST?",
         hint: "Prim’s always prefers smaller edges. A lighter edge could be chosen earlier and change the MST structure."
     },
-
-    {
-        id: 10,
-        type: "valid_mst",
-        text: "Which of the following sets of edges form a valid MST?",
-        hint: "A valid MST must connect all nodes, contain exactly n-1 edges, and have no cycles."
-    }
 ];
 
 export const mstQuestionTemplatesKruskal = [
     {
         id: 11,
         type: "next_edge_selection",
-        text: "Current edges sorted by weight: {queue}. Which edge will Kruskal's algorithm consider next?",
+        text: "Current edges sorted by weight: \n{queue} \nWhich edge will Kruskal's algorithm consider next?",
         hint: "Kruskal always picks the smallest-weight edge not yet processed."
     },
     {

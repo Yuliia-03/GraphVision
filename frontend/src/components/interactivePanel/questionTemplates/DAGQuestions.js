@@ -1,7 +1,6 @@
-// ========================================
+
 // DAG + Topological Sort Question Templates
 // (Context-based, state-driven)
-// ========================================
 
 export const dagTemplates = [
 
@@ -9,7 +8,7 @@ export const dagTemplates = [
         id: 1,
         type: "next_node",
         text: "Current node: {node}. Visited: {visited}. Assuming we visit nodes in an ascendic order, which node will DFS visit next?",
-        hint: "DFS selects an unvisited neighbour of the current node."
+        hint: "Recursive DFS selects an unvisited neighbour of the current node."
     },
 
     {
@@ -22,7 +21,7 @@ export const dagTemplates = [
     {
         id: 3,
         type: "visited_update",
-        text: "Visited nodes: {visited}. After DFS visits the next node, what will the visited set be?",
+        text: "Visited nodes: {visited}. After recursive DFS visits the next node, what will the visited set be?",
         hint: "Each visited node is immediately added to the visited set."
     },
 
@@ -30,14 +29,14 @@ export const dagTemplates = [
         id: 10,
         type: "valid_next_nodes",
         text: "Current node: {node}. Visited: {visited}. Which of the following nodes can be visited next?",
-        hint: "Only neighbours of {node} that are NOT in {visited} can be chosen."
+        hint: "Only neighbours of {node} that are NOT in visited yet can be chosen."
     },
 
 
     {
         id: 4,
         type: "backtrack_action",
-        text: "Current node: {node}. Recursion stack: {recStack}. Visited nodes: {visited}. What happens next?",
+        text: "Current node: {node}. Visited nodes: {visited}. What happens next?",
         hint: "DFS backtracks by popping the current node from the recursion stack."
     },
 
@@ -71,7 +70,7 @@ export const topoTemplates = [
   },
   {
     id: 9,
-    text: "Topo list after we vivited the last node is {topoOrder}. What will be the final order?",
+    text: "Topo list after we visited the last node is {topoOrder}. What will be the final order?",
     hint: "Reverse the list."
   }
   

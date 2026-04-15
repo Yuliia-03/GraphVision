@@ -1,123 +1,97 @@
 export const sccTemplates = [
 
-    // ========================
-    // FIRST DFS (finish order)
-    // ========================
-
+    //  dfs (discover flow)
     {
         id: 1,
-        type: "finish_order_update",
-        text: "DFS just finished exploring from {node}. Current finish order: {finishOrder}. What will it be after adding {node}?",
-        hint: "A node is added to the finish order AFTER all its reachable nodes are explored."
+        type: "next_node",
+        phase: "firstDFS",
+        allowedMomentType: "discover",
+        text: "Current node: {node}. Visited: {visited}. Assuming we visit nodes in an ascendic order, which node will DFS visit next?",
+        hint: "DFS goes deeper before backtracking."
     },
 
     {
         id: 2,
-        type: "first_dfs_next",
-        text: "Current node: {node}. Visited: {visited}. Which node will DFS visit next?",
-        hint: "DFS continues to an unvisited neighbour if one exists."
+        type: "rec_stack_push",
+        phase: "firstDFS",
+        allowedMomentType: "discover",
+        text: "Current recursion stack: {recStack}. We already visited nodes {visitedBefore}. After the next DFS step, what will the recursion stack look like?",
+        hint: "DFS pushes nodes when going deeper"
     },
 
     {
         id: 3,
-        type: "stack_behavior_first",
-        text: "Current stack: {inStack}. After processing node {node}, what will the stack look like?",
-        hint: "DFS pops the current node, then pushes any unvisited neighbours."
+        type: "visited_update",
+        phase: "firstDFS",
+        allowedMomentType: "discover",
+        text: "Current node: {node}. Visited nodes: {visited}. Recursion stack: {recStackAfter}. After recursive DFS perform next step, what will the visited set be?",
+        hint: "Visited updates immediately when node is discovered."
     },
 
     {
         id: 4,
-        type: "visited_first_dfs",
-        text: "Visited nodes: {visited}. After the next step, what will the visited set be?",
-        hint: "Nodes are marked visited as soon as they are discovered."
+        type: "backtrack_action",
+        phase: "firstDFS",
+        allowedMomentType: "backtrack",
+        text: "Node {node} has no unvisited neighbours. What happens next?",
+        hint: "DFS backtracks and pushes node to finish stack."
     },
-
-    {
-        id: 5,
-        type: "finish_order_reason",
-        text: "Why is node {node} added to the finish order now?",
-        hint: "Because DFS has fully explored all paths starting from this node."
-    },
-
-    // ========================
-    // TRANSPOSITION
-    // ========================
 
     {
         id: 6,
-        type: "transpose_effect",
-        text: "The graph is transposed. What changes about the edges?",
-        hint: "All edges are reversed."
+        type: "edges_explored",
+        phase: "firstDFS",
+        allowedMomentType: "discover",
+        text: "From node {node}, which edges lead to NEW nodes?",
+        hint: "Only edges to unvisited nodes matter."
     },
+    // transpose phase
 
     {
         id: 7,
-        type: "transpose_purpose",
-        text: "Why do we transpose the graph before the second DFS?",
-        hint: "This allows DFS to collect strongly connected components correctly."
-    },
-
-    // ========================
-    // SECOND DFS (components)
-    // ========================
-
-    {
-        id: 8,
-        type: "second_dfs_start",
-        text: "We start DFS from node {node} (based on finish order). Why this node?",
-        hint: "Nodes are processed in decreasing finish time."
-    },
-
-    {
-        id: 9,
-        type: "component_growth",
-        text: "Current component: {component}. After visiting neighbours of {node}, which nodes will be added?",
-        hint: "Only reachable nodes in the transposed graph that are not yet visited."
-    },
-
-    {
-        id: 10,
-        type: "second_stack_behavior",
-        text: "Current stack: {inStack}. After processing node {node}, what will the stack contain?",
-        hint: "Similar to DFS: pop current, push unvisited neighbours."
+        type: "transpose_reason",
+        phase: "transpose",
+        text: "Why transpose the graph in Kosaraju's algorithm?",
+        hint: "To process SCCs in finish order."
     },
 
     {
         id: 11,
-        type: "component_completion",
-        text: "DFS finished from node {node}. What strongly connected component was found?",
-        hint: "All nodes reached in this DFS form one SCC."
+        type: "secondDFS_next",
+        text: "Visited nodes: {visitedBefore}. Finish order: {finOrder} According to the finishing order, which node will start the next DFS?",
+        hint: "Pick the next unvisited node from the top of the finishing stack."
     },
+    // component completion
 
     {
-        id: 12,
-        type: "visited_second_dfs",
-        text: "Visited nodes so far: {visited}. Which nodes will be marked visited after this step?",
-        hint: "All nodes discovered in this DFS become visited."
+        id: 10,
+        type: "component_complete",
+        phase: "componentFound",
+        text: "Component {component} is complete. What does it represent?",
+        hint: "A strongly connected component."
     },
-
-    // ========================
-    // FINAL RESULT
-    // ========================
 
     {
         id: 13,
-        type: "final_components",
-        text: "The algorithm produced components: {components}. Are these valid SCCs?",
-        hint: "Each SCC must be mutually reachable."
-    },
-
-    {
-        id: 14,
-        type: "component_order",
-        text: "In what order are SCCs discovered and why?",
-        hint: "They follow decreasing finish times from the first DFS."
+        type: "scc_property",
+        phase: "componentFound",
+        text: "Nodes in {component} are mutually reachable. What does this imply?",
+        hint: "They form an SCC."
     },
 
     {
         id: 15,
-        type: "structural_change",
-        text: "If we add an edge between two SCCs, how could the result change?",
-        hint: "It might merge two SCCs into one if a cycle is formed."
+        type: "finished",
+        phase: "finished",
+        text: "All SCCs found: {sccs}. What does the algorithm return?",
+        hint: "Partition of graph into SCCs."
+    },
+    {
+        id: 17,
+        type: "backtrack_action",
+        phase: "firstDFS",
+        allowedMomentType: "backtrack",
+        text: "Current node: {node}. Visited nodes: {visited}. Recursion stack: {recStack}. What happens next?",
+        hint: "DFS pops the current node when returning."
     }
 ];

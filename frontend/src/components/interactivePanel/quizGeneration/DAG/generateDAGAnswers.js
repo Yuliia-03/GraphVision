@@ -26,6 +26,7 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
 
             case 1: {
                 answer = next && next.type != "backtrack" ? next.currentNode : `No further nodes to explore from ${m.currentNode}`;
+                answer = next.type != "cycleDetected"? answer : "Cycle detected, no further nodes to explore"
 
                 const distractors = [
                     ...(m.recStack || []),
@@ -38,8 +39,8 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
                     distractors[0],
                     distractors[1],
                     `No further nodes to explore from ${m.currentNode}`,
+                    "Cycle detected, no further nodes to explore",
                     ...edges.filter(e=> e.data.source == m.currentNode).map(e=> e.data.target),
-                    ///...prev.neighbours
                 ]));
 
                 break;
@@ -47,11 +48,13 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
 
             case 2: {
                 answer = next?.recStack || [];
-
+                const neighbours = edges.filter(e=> e.data.source == m.currentNode).map(e=> e.data.target)
+                console.log(neighbours)
                 options = shuffle(unique([
                     answer,
                     m.recStack,               
-                    (m.recStack || []).slice(1), 
+                    [...new Set((m.recStack || []).slice(1))], 
+                    [...neighbours],
                     []                           
                 ]));
 
@@ -59,14 +62,16 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
             }
             case 3: {
                 answer = next?.visited || [];
+                answer = next.type != "cycleDetected"? answer : "Cycle detected, no further nodes to explore"
+
 
                 const neighbours = edges.filter(e=> e.data.source == m.currentNode).map(e=> e.data.target)
-
+                console.log(neighbours)
                 options = shuffle(unique([
                     answer,
-                    m.visited,
-                    (m.visited || []).slice(0, -1),
-                    [...m.visited, ...neighbours],
+                    [...new Set(m.visited)],
+                    [...new Set((m.visited || []).slice(0, -1))],
+                    [...new Set(m.visited.concat(neighbours))],
                     []
                 ]));
 
@@ -77,16 +82,18 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
                 const visitedSet = new Set(m.visited || []);
 
                 answer = neighbours.filter(n => !visitedSet.has(n));
+                answer = next.type != "cycleDetected"? answer : "Cycle detected, no further nodes to explore"
                 const distractor1 = answer ? edges.filter(e => e.data.source == answer[0]).map(e=> e.data.target) : []
 
                 options = shuffle(unique([
                     answer,
-                    neighbours,
+                    [...new Set(neighbours ?? [])],
                     [],
-                    m.visited,
-                    [answer[0]] ?? [],
-                    distractor1,
-                    [...answer, ...distractor1]
+                    [...new Set(m.visited ?? [])],
+                    [...new Set(m.visited.slice(0, -1)?? [])],
+                    [...new Set(m.visited.slice(0, -2)?? [])],
+                    [...new Set(distractor1 ?? [])],
+                    [...new Set(answer, distractor1?? [])]
                 ]));
 
                 break;
@@ -95,7 +102,11 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
             case 4: {
                 answer = `Backtrack: pop node ${m.currentNode} from the recursion stack`;
                 if (next) {
+                    if (next.currentNode) {
                     answer += ` and continue with node ${next.currentNode}`
+                    } else {
+                        answer += ` and terminate, since the stack is empty`
+                    }
                 }
 
                 options = [
@@ -124,12 +135,14 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
                 break;
             }
             case 6: {
-                answer = next?.topoOrder || [];
+                answer = m.topoOrder || [];
 
                 options = shuffle(unique([
                     answer,
-                    m.topoOrder,
-                    (m.topoOrder || []).concat([m.currentNode]),
+                    [...m.currentNode, ...answer.slice(0, -1)],
+                    [...new Set(next?.topoOrder || [])],
+                    [...new Set((m.topoOrder || []).concat([m.currentNode]))],
+                    answer.slice(0, -1),
                     []
                 ]));
 
@@ -160,7 +173,10 @@ export default function generateDAGAnswers(questions, steps, moments, edges) {
                 ];
                 answer = distractors[0]
                 options = [
-                    distractors
+                    distractors[0],
+                    distractors[1],
+                    distractors[2],
+                    distractors[3]
                 ];
 
                 break;

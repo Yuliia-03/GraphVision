@@ -1,38 +1,4 @@
 
-function generateBFSQuizOptions(allTraversals) {
-    const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
-
-    const correctOption = shuffle(allTraversals).slice(0, 3);
-    const distractors = [];
-
-    while (distractors.length < 3) {
-        // Pick 2–3 sequences from valid ones
-        const option = shuffle(allTraversals).slice(0, 3).map(seq => [...seq]);
-
-        // Introduce an invalid sequence randomly
-        const randIndex = Math.floor(Math.random() * option.length);
-        const lastNode = option[randIndex][option[randIndex].length - 1];
-        
-        // Swap two nodes to break BFS validity
-        const newSeq = [...option[randIndex]];
-        if (newSeq.length > 1) {
-            [newSeq[0], newSeq[newSeq.length - 1]] = [newSeq[newSeq.length - 1], newSeq[0]];
-            option[randIndex] = newSeq;
-        }
-
-        distractors.push(option);
-    }
-
-    
-    const options = shuffle([correctOption, ...distractors]);
-
-    return {correctAnswer: correctOption,
-            allOptions: options
-    }
-}
-
-
-
 export default function generateBFSAnswers(questions, steps, moments, edges) {
 
     const shuffle = (arr) =>
@@ -64,7 +30,7 @@ export default function generateBFSAnswers(questions, steps, moments, edges) {
             ? [...moment.queueAfter]
             : []
 
-        let distractor1, distractor2, distractor3
+        let distractor1, distractor2, distractor3, distractor4
 
         switch(q.id){
 
@@ -91,8 +57,8 @@ export default function generateBFSAnswers(questions, steps, moments, edges) {
                 distractor1 = moment.visitedBefore; 
                 distractor2 = [...answer].slice(1); 
                 distractor3 = [...answer, moment.node]; 
-
-                options = shuffle(uniqueOptions([answer, distractor1, distractor2, distractor3]));
+                distractor4 = [...moment.allNeighbours]
+                options = shuffle(uniqueOptions([answer, distractor1, distractor2, distractor3, distractor4]));
                 break;
 
             case 3: // next_action
@@ -157,19 +123,6 @@ export default function generateBFSAnswers(questions, steps, moments, edges) {
 
                 options = shuffle(uniqueOptions([answer, distractor1, distractor2, distractor3]));
                 break;
-            case 6: // valid_traversal
-                
-                const allValidTraversals = step.result?.allTraversals || [];
-
-                const {correctAnswer, allOptions} = generateBFSQuizOptions(allValidTraversals);
-                answer = correctAnswer
-                options = shuffle(uniqueOptions([allOptions]));
-                break;
-
-            case 7: 
-                answer = "Depends on BFS level structure"
-                options = null
-                break
         }
 
         return {

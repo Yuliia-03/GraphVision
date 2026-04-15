@@ -8,11 +8,10 @@ export default function generateMSTQuestions(steps, moments, algorithm = "prims"
         ? mstQuestionTemplatesKruskal
         : mstQuestionTemplatesPrims;
 
-    // ONLY Kruskal mapping fixed
     const momentToIds = algorithm === "kruskals" ? {
-        edgeConsidered: [11],     // next edge
-        edgeAdded: [13, 14],      // MST growth
-        edgeSkipped: [12, 15],    // cycle reasoning
+        edgeConsidered: [11], 
+        edgeAdded: [13, 14],    
+        edgeSkipped: [12, 15], 
         mstCompleted: [16]
     } : {
         queueUpdated: [3, 1, 2],
@@ -21,10 +20,9 @@ export default function generateMSTQuestions(steps, moments, algorithm = "prims"
         mstCompleted: [10]
     };
 
-    const usedOnceIds = new Set(); // (used only by Prim’s 7/8/9)
+    const usedOnceIds = new Set(); 
     let lastId = null;
 
-    // filter valid moments
     const validMoments = moments
         .map((m, i) => ({ ...m, index: i }))
         .filter(m => (momentToIds[m.type] || []).length > 0);
@@ -44,7 +42,7 @@ export default function generateMSTQuestions(steps, moments, algorithm = "prims"
 
     for (let i = 0; i < LIMIT; i++) {
 
-        // ✅ pick moment (round-robin by type)
+        // pick moment (round-robin by type)
         let attempts = 0;
         let m = null;
 
@@ -68,7 +66,6 @@ export default function generateMSTQuestions(steps, moments, algorithm = "prims"
         const possibleIds = momentToIds[m.type];
         if (!possibleIds || possibleIds.length === 0) continue;
 
-        // ID selection
         let validIds = possibleIds.filter(id => {
             if (id === lastId) return false;
 
@@ -77,30 +74,24 @@ export default function generateMSTQuestions(steps, moments, algorithm = "prims"
             }
 
             if (algorithm !== "kruskals" && id === 9) {
-                // too early → skip
                 if (!m.mstTree || m.mstTree.length < 2) return false;
             }
 
             return true;
         });
-
-        // EXTRA Kruskal anti-spam logic
         if (algorithm === "kruskals") {
 
-            // avoid repeating same idea in edgeAdded
             if (m.type === "edgeAdded") {
                 if (lastId === 13) validIds = validIds.filter(id => id !== 13);
                 if (lastId === 14) validIds = validIds.filter(id => id !== 14);
             }
 
-            // avoid repeating same idea in edgeSkipped
             if (m.type === "edgeSkipped") {
                 if (lastId === 12) validIds = validIds.filter(id => id !== 12);
                 if (lastId === 15) validIds = validIds.filter(id => id !== 15);
             }
         }
 
-        // fallback
         if (validIds.length === 0) {
             validIds = possibleIds;
         }
@@ -111,24 +102,25 @@ export default function generateMSTQuestions(steps, moments, algorithm = "prims"
 
         let text = template.text;
         let hint = template.hint;
+        const totalNodes = moments[moments.length - 1]?.connectedNodes?.length || 0;
+
 
         const data = {
             node: m.node,
             edge: m.edge,
             queue: m.queue,
-            n: m.nodesCount
+            n: totalNodes
         };
 
-        // replace placeholders (no [object Object])
+        
         Object.entries(data).forEach(([k, v]) => {
             if (k === "queue") return;
 
-            if (Array.isArray(v)) v = v.join(",");
+            if (Array.isArray(v)) v = v.join(", ");
             text = text.replaceAll(`{${k}}`, v ?? "");
             hint = hint?.replaceAll(`{${k}}`, v ?? "");
         });
 
-        // queue handling
         if (m.queue) {
             const queueIds = [...m.queue].map(e => e.id || `${e.from}-${e.to}`);
             const queueStr = queueIds.join(",");
@@ -153,7 +145,6 @@ export default function generateMSTQuestions(steps, moments, algorithm = "prims"
             momentIndex: m.index
         });
 
-        // Prim’s tracker (unchanged)
         if (algorithm !== "kruskals" && [7, 8, 9].includes(id)) {
             usedOnceIds.add(id);
         }

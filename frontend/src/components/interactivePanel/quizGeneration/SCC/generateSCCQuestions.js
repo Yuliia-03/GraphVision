@@ -1,187 +1,161 @@
 import { sccTemplates } from "../../questionTemplates/SCCQuestions";
 
+function getSCCPhase(steps, m) {
+    if (m.action === "reverse edges") return "transpose";
+    return steps[m.stepIndex]?.phase || "firstDFS";
+}
+
+// template compatibility rules
+function isTemplateValid(templateId, m) {
+  const type = m.type;
+
+  switch (templateId) {
+
+        case 1:
+        case 2:
+            return type === "discover" && m.visited?.length > 1 ;
+        case 3:
+        case 6:
+        return type === "discover";
+        case 4:
+        return type === "backtrack";
+        case 7:
+        return true;
+        case 8:
+        case 9:
+        case 11:
+            return m.phase === "secondDFS" && (!m.stackBefore || m.stackBefore.length === 0);
+        case 16:
+        return true;
+        case 10:
+        case 13:
+        return true;
+        case 15:
+        return true;
+
+        default:
+        return true;
+    }
+}
+
+// phase - template map
+const sccQuestionMap = {
+    firstDFS: [1, 2, 3, 4, 17],
+    transpose: [7],
+    secondDFS: [1, 3, 8, 11, 16],
+    componentFound: [10, 13],
+    finished: [15]
+};
+
 export default function generateSCCQuestions(steps, moments) {
 
     const questions = [];
+    const LIMIT = Math.floor(steps.length / 4) + 1;
 
-    // ========================
-    // CONFIG
-    // ========================
-    const MAX_QUESTIONS = 22;
-    const TARGET_RATIO = 0.25;
-    const MIN_GAP = 4;
+    let lastId = null;
 
-    let lastQuestionStep = -Infinity;
+    const validMoments = moments
+        .map((m, i) => ({
+        ...m,
+        index: i,
+        phase: getSCCPhase(steps, m)
+        }))
+        .filter(m => sccQuestionMap[m.phase]);
 
-    const template = (id) =>
-        sccTemplates.find(q => q.id === id);
+    if (!validMoments.length) return [];
 
-    const lastPicked = {
-        first: null,
-        second: null
-    };
+    // group by phase
+    const momentsByType = {};
+    validMoments.forEach(m => {
+        if (!momentsByType[m.phase]) momentsByType[m.phase] = [];
+        momentsByType[m.phase].push(m);
+    });
 
-    const pick = (arr, phase) => {
-        let candidates = arr;
+    const types = Object.keys(momentsByType);
+    let typeIndex = 0;
 
-        if (lastPicked[phase] !== null) {
-            candidates = arr.filter(q => q !== lastPicked[phase]);
+
+    for (let i = 0; i < LIMIT; i++) {
+
+        let attempts = 0;
+        let m = null;
+
+        while (attempts < types.length) {
+
+            const type = types[typeIndex % types.length];
+            const bucket = momentsByType[type];
+
+            if (bucket?.length) {
+                const rand = Math.floor(Math.random() * bucket.length);
+                m = bucket.splice(rand, 1)[0];
+                typeIndex++;
+                break;
+            }
+
+            typeIndex++;
+            attempts++;
         }
 
-        const choice = candidates[Math.floor(Math.random() * candidates.length)];
-        lastPicked[phase] = choice;
+        if (!m) continue;
 
-        return choice;
-    };
+        // filter template ids by phase + rules
+        let possibleIds = sccQuestionMap[m.phase] || [];
 
-    // ========================
-    // CONTROLLED BUILD
-    // ========================
-    const build = (stepIndex, id, data = {}, momentIndex = null, force = false) => {
+        possibleIds = possibleIds.filter(id => {
 
-        if (!force) {
-            if (questions.length >= MAX_QUESTIONS) return;
+            if (!isTemplateValid(id, m)) return false;
 
-            // spacing (avoid clustering)
-            if (stepIndex - lastQuestionStep < MIN_GAP) return;
+            // limit backtrack questions freqency
+            const backtrackIds = [4, 17];
 
-            // probabilistic filtering
-            if (Math.random() > TARGET_RATIO) return;
-        }
+            if (backtrackIds.includes(id) && m.type === "backtrack") {
+                return Math.random() < 0.3;
+            }
 
-        const t = template(id);
-        if (!t) return;
+            return true;
+        });
 
-        let text = t.text;
-        let hint = t.hint;
+        if (possibleIds.length === 0) continue;
+
+        let validIds = possibleIds.filter(id => id !== lastId);
+
+        if (!validIds.length) validIds = possibleIds;
+
+        const id = validIds[Math.floor(Math.random() * validIds.length)];
+        const template = sccTemplates.find(t => t.id === id);
+
+        if (!template) continue;
+
+        const data = {
+            node: m.node || m.current,
+            recStack: m.stackBefore || [],
+            visited: m.visited || m.visitedAfter,
+            component: m.component,
+            sccs: m.sccs,
+            visitedBefore: m.visited?.slice(0,-1),
+            recStackAfter: m.stackAfter || [],
+            finOrder : m.finishOrder || []
+        };
+
+        let text = template.text;
+        let hint = template.hint;
 
         Object.entries(data).forEach(([k, v]) => {
-            text = text.replaceAll(`{${k}}`, v);
-            if (hint) {
-                hint = hint.replaceAll(`{${k}}`, v);
-            }
+        if (Array.isArray(v)) v = v.join(", ");
+        text = text.replaceAll(`{${k}}`, v ?? "");
+        hint = hint?.replaceAll(`{${k}}`, v ?? "");
         });
 
         questions.push({
-            stepIndex,
+            stepIndex: m.stepIndex,
             id,
             text,
-            data,
             hint,
-            momentIndex
+            momentIndex: m.index,
+            phase: m.phase
         });
 
-        lastQuestionStep = stepIndex;
-    };
-
-    // ========================
-    // FIRST DFS
-    // ========================
-    const firstDFSIndices = steps
-        .map((s, i) => s.phase === "firstDFS" ? i : -1)
-        .filter(i => i !== -1);
-
-    firstDFSIndices.forEach((stepIndex, k) => {
-
-        const moment = moments[k];
-        if (!moment) return;
-
-        const node = moment.current || moment.node;
-        if (!node) return;
-
-        // BEFORE
-        build(stepIndex - 1, pick([2, 3, 4], "first"), {
-            node,
-            visited: moment.visited?.join(", "),
-            inStack: moment.inStack?.join(", "),
-            finishOrder: moment.finishOrder?.join(", ")
-        }, k);
-
-        // AFTER (finish)
-        if (steps[stepIndex]?.isFinal) {
-            build(stepIndex, pick([1, 5], "first"), {
-                node,
-                finishOrder: moment.finishOrder?.join(", ")
-            }, k);
-        }
-    });
-
-    // ========================
-    // TRANSPOSE
-    // ========================
-    const transposeIndex = steps.findIndex(s => s.phase === "transposition");
-
-    if (transposeIndex !== -1) {
-        build(transposeIndex, pick([6, 7], "first"));
-    }
-
-    // ========================
-    // SECOND DFS
-    // ========================
-    const secondDFSIndices = steps
-        .map((s, i) => s.phase === "secondDFS" ? i : -1)
-        .filter(i => i !== -1);
-
-    secondDFSIndices.forEach((stepIndex, k) => {
-
-        const moment = moments[k];
-        if (!moment) return;
-
-        const node = moment.current || moment.node;
-        if (!node) return;
-
-        // BEFORE
-        build(stepIndex - 1, pick([8, 10, 12], "second"), {
-            node,
-            visited: moment.visited?.join(", "),
-            inStack: moment.inStack?.join(", ")
-        }, k);
-
-        // AFTER (component formed)
-        if (steps[stepIndex]?.isFinal) {
-            build(stepIndex, pick([9, 11], "second"), {
-                node,
-                component: moment.result,
-                visited: moment.visited?.join(", ")
-            }, k);
-        }
-    });
-
-    // ========================
-    // FINAL RESULT
-    // ========================
-    const resultIndex = steps.findIndex(s => s.phase === "result");
-
-    if (resultIndex !== -1) {
-        const finalMoment = moments[moments.length - 1];
-
-        build(resultIndex, 13, {
-            components: finalMoment?.components
-                ?.map(c => c.join(", "))
-                .join(" | ")
-        });
-
-        build(resultIndex, 14);
-    }
-
-    // ========================
-    // FALLBACK (ensure enough questions)
-    // ========================
-    if (questions.length < 10) {
-
-        const importantSteps = steps
-            .map((s, i) => ({ s, i }))
-            .filter(x =>
-                x.s.isFinal ||
-                x.s.phase === "transposition" ||
-                x.s.phase === "result"
-            );
-
-        importantSteps.forEach(({ i }) => {
-            if (questions.length >= MAX_QUESTIONS) return;
-
-            build(i, 1, {}, null, true); // force add
-        });
+        lastId = id;
     }
 
     return questions;
