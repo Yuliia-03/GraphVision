@@ -6,7 +6,7 @@ import { captureDataPanel } from "./HTMLtoImage";
 function createHeadlessCy(nodes, edges, style, directed) {
     const container = document.createElement("div");
     container.style.position = "fixed";
-    container.style.left = "-9999px"; // 👈 prevent flicker
+    container.style.left = "-9999px";
     document.body.appendChild(container);
 
     const cy = cytoscape({
@@ -23,7 +23,6 @@ async function addImageFit(pdf, img, x, y, maxWidth) {
     const props = pdf.getImageProperties(img);
     const height = (props.height * maxWidth) / props.width;
 
-    // 👇 IMPORTANT: match format with toJpeg
     pdf.addImage(img, "JPEG", x, y, maxWidth, height);
 
     return height;
@@ -79,7 +78,7 @@ export async function exportAlgorithmPDF(
             algoDef.dataCss,
             i,
             {
-                algorithm: algoDef.id // 👈 REQUIRED
+                algorithm: algoDef.id 
             }
         );
 
@@ -90,18 +89,14 @@ export async function exportAlgorithmPDF(
         const dataHeight = (dh.height * columnWidth) / dh.width;
 
         const blockHeight = Math.max(graphHeight, dataHeight) + 15;
-
-        // 👉 page break
         if (y + blockHeight > pageHeight - margin) {
             pdf.addPage();
             y = 20;
         }
 
-        // 👉 title
         pdf.setFontSize(12);
         pdf.text(`Step ${i + 1}`, margin, y - 5);
 
-        // 👉 images
         await addImageFit(pdf, graphImg, margin, y, columnWidth);
         await addImageFit(
             pdf,

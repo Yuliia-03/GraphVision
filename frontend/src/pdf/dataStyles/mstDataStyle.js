@@ -35,14 +35,14 @@ const mstDataStyle = `
 
 
 .block {
-  margin-bottom: 0.5rem;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+    margin-bottom: 0.5rem;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
 }
 
 .block p {
-  margin: 4px 0;
+    margin: 4px 0;
 }
 
 .mst-data-panel .block.inline {
@@ -57,8 +57,8 @@ const mstDataStyle = `
 
 
 .node-list {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 `;
 

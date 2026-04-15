@@ -9,7 +9,7 @@ export async function captureDataPanel(
     step,
     cssText,
     stepIndex,
-    graphProps // 👈 NEW
+    graphProps 
 ) {
     const host = document.createElement("div");
     host.style.position = "fixed";
@@ -33,7 +33,7 @@ export async function captureDataPanel(
         root.render(
             createElement(
                 GraphProvider,
-                { algorithm: graphProps.algorithm }, // 👈 CRUCIAL
+                { algorithm: graphProps.algorithm }, 
                 createElement(Component, {
                     step,
                     key: stepIndex
@@ -44,25 +44,22 @@ export async function captureDataPanel(
 
     try {
         const img = await toJpeg(mount, {
-    backgroundColor: "#ffffff",
-    quality: 0.9,
-    pixelRatio: 2,
+            backgroundColor: "#ffffff",
+            quality: 0.9,
+            pixelRatio: 2,
+            skipFonts: true,
+            cacheBust: false,
+            includeQueryParams: false,
 
-    // 🔥 KEY FIXES
-    skipFonts: true,
-    cacheBust: false,
-    includeQueryParams: false,
+            filter: (node) => {
+                if (node.tagName === "LINK") return false;
 
-    // 🚀 HUGE: ignore external stylesheets
-    filter: (node) => {
-        // remove <link> (bootstrap)
-        if (node.tagName === "LINK") return false;
-
-        return true;
-    }
-});
+                return true;
+            }
+        });
 
         return img;
+        
     } finally {
         root.unmount();
         host.remove();
