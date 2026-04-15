@@ -34,6 +34,8 @@ export default function Toolbar() {
         logout(); 
         setIsAuth(false);
         setOpenMenu(false);
+        
+        navigate("/"); 
     };
 
     const goToSavedGraphs = () => {
