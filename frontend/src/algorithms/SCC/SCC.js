@@ -10,6 +10,7 @@ export default class SCCAlgorithm extends BaseAlgorithm{
 
         this.components = [];
         this.steps = [];
+        this.moments = [];
     }
 
     reverseEdges() {
@@ -38,7 +39,7 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                 const newSteps = dfs.run({
                     startNode: id,
                     task: "dfs"
-                }, "first-dfs");
+                }, visited, this.steps.length);
 
                 // this.addStep(`First DFS starting at ${id}`, { phase: "firstDFS-start" });
                 this.addStep(`First DFS starting at ${node.data.label}`, {
@@ -50,6 +51,8 @@ export default class SCCAlgorithm extends BaseAlgorithm{
                     phase: "firstDFS",
                     finishOrder: finishOrder
                 });
+
+                
 
                 newSteps.forEach(step => {
                     this.steps.push({
@@ -64,54 +67,70 @@ export default class SCCAlgorithm extends BaseAlgorithm{
 
                 this.steps[this.steps.length - 1].message = `No more reachable nodes strating from ${id}. Update finish time`;
                 this.steps[this.steps.length - 1].finishOrder = finishOrder;
+                 this.moments = [...this.moments, ...dfs.getMoments()];
+
             }
         }
-
         return finishOrder;
     }
 
     secondDFS(firstOrder, reversedEdges) {
-
-        // this.cy.json({ elements: { nodes, edges: reversedEdges } });
-
         const dfs = new DFSAlgorithm(this.nodes, reversedEdges, { directed: true });
         const visited = new Set();
         const components = [];
 
-        for (const node of firstOrder) {
+        for (let i = 0; i < firstOrder.length; i++) {
+
+            const node = firstOrder[i];
 
             if (!visited.has(node)) {
 
+                //  recompute before DFS
+                let remainingOrder = firstOrder.filter(n => !visited.has(n));
+
                 const newSteps = dfs.run({
                     startNode: node,
-                    task: "dfs"
-                }, "seconds-dfs");
+                    task: "dfs",
+                    finishOrder: firstOrder
+                }, visited, this.steps.length);
 
-                this.addStep(`Second DFS starting at ${dfs.getLabel(node)}`, 
-                { 
+                this.addStep(`Second DFS starting at ${dfs.getLabel(node)}`, { 
                     phase: "secondDFS-start",
                     visited: [...visited],
                     inStack: [],
                     neighbours: [],
                     phase: "secondDFS",
                     components: [...components],
-                    transposed: true
-                 });
+                    transposed: true,
+                    finishOrder: [...firstOrder],
+                    remainingOrder,
+                    currentStart: node
+                });
 
                 newSteps.forEach(step => {
                     this.steps.push({
                         ...step,
                         phase: "secondDFS",
                         transposed: true,
-                        components: [...components]
+                        components: [...components],
+                        finishOrder: [...firstOrder],
+                        remainingOrder,
+                        currentStart: node
                     });
                 });
                 const result = dfs.getResult();
                 result.forEach(n => visited.add(n));
                 components.push(result);
 
-                this.steps[this.steps.length - 1].message += `. New component ${dfs.mapLabels(result)}`;
+                remainingOrder = firstOrder.filter(n => !visited.has(n));
+
+                this.steps[this.steps.length - 1].message += 
+                    `. New component ${dfs.mapLabels(result)}`;
+
                 this.steps[this.steps.length - 1].components = [...components];
+                this.steps[this.steps.length - 1].remainingOrder = remainingOrder;
+
+                this.moments = [...this.moments, ...dfs.getMoments()];
             }
         }
 
@@ -120,6 +139,7 @@ export default class SCCAlgorithm extends BaseAlgorithm{
             message: "SCC result",
             components
         });
+
 
         return this.steps;
     }
@@ -131,11 +151,12 @@ export default class SCCAlgorithm extends BaseAlgorithm{
         const firstTraversal = this.firstDFS();
         const reversedEdges = this.reverseEdges();
         this.addStep('Transpose graph!', {phase: "transposition", edges: reversedEdges, transposed: true})
+        this.moments.push({action: "reverse edges", firstTraversal: firstTraversal, stepIndex: this.steps.length})
         this.components = this.secondDFS(firstTraversal, reversedEdges);
 
         return {
             steps: this.steps,
-            moments: this.components
+            moments: this.moments
         }
     }
 

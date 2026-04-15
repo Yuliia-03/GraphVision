@@ -25,7 +25,7 @@ export default class DAGAlgorithm extends BaseAlgorithm{
         this.moments.push({
             type,
             currentNode: data.currentNode ?? null,
-            recStack: [...this.recStack],
+            recStack: type == "backtrack" ? [...this.recStack]: [...this.recStack],
             visited: [...this.visited],
             topoOrder: [...this.topoOrder],
             neighbours: data.neighbours ?? null,

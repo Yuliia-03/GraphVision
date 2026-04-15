@@ -1,11 +1,10 @@
 import BFSAdapter from "../../components/graphPanel/visualizationLogic/algoRules/BFS/BFSAdapter"
-// import BFSAlgorithm from '../BFS'
 import BFSAlgorithm from '../BFS/bfsAlgorithm'
 import BFSDataVisualization from "../../components/controlsPanel/dataContainers/BFSData"
 import BFSControls from "../../components/controlsPanel/subtaskControls/BFS_Controls"
 import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"
 import  AlgoDataStyle  from "../../pdf/dataStyles/algorithmDataStyle"
-import BFSExample from "../../components/examples/BFSExample"
+// import BFSExample from "../../components/examples/BFSExample"
 import { bfsQuizConfig } from "../../components/interactivePanel/quizGeneration/BFS/BFSQuizConfig"
 
 export const BFSDefinition = { 
@@ -17,7 +16,7 @@ export const BFSDefinition = {
 
     DataPanel: BFSDataVisualization,
     AlgorithmControl: BFSControls,
-    ExampleContent: BFSExample,
+    // ExampleContent: BFSExample,
     QuizzConfig: bfsQuizConfig,
     style: bfsStyle,
     dataCss: AlgoDataStyle,

@@ -58,7 +58,6 @@ export default class BFSAlgorithm {
         return {
             steps: this.stepBuilder.steps,
             moments: runner.moments,
-            // quiz
         };
     }
 }

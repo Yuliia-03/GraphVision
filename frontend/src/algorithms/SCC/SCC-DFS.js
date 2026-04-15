@@ -12,6 +12,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
 
         this.current_edges = [];
         this.current_neighbours = [];
+        this.moments = [];
 
         this.dfs = [];
         this.paths = {};
@@ -25,11 +26,10 @@ export default class DFSAlgorithm extends BaseAlgorithm{
     mapLabels(arr) {
         return arr.map(id => this.idToLabel[id] || id)
     }
-    
 
-    _runDFS(source, phase, {
+    _runDFS(source, visited = [], {
         onInit = () => {},
-        onPop = () => {},
+        onBacktrack = () => {},
         onInspect = () => {},
         onDiscover = () => {},
         onEdges = () => {},
@@ -39,21 +39,30 @@ export default class DFSAlgorithm extends BaseAlgorithm{
         const graph = buildAdjacencyList(this.nodes, this.edges, this.directed);
 
         this.dfs = [];
+        this.visited = new Set(visited);
+        this.stack = [];
+        this.moments = [];
 
-        let shouldStop = false;
-        const stop = () => { shouldStop = true; };
+        const callStack = [];
 
-        this.stack.push(source);
-        this.visited.add(source);
+        const dfsVisit = (current) => {
 
-        onInit({ source });
-
-        while (this.stack.length > 0 && !shouldStop) {
+            this.current_edges = []
+            this.current_neighbours = [];
             
-            const current = this.stack.pop();
+
+            this.visited.add(current);
+
+            const moment = {
+                node: current,
+                stackBefore: [...callStack],
+                visitedBefore: [...this.visited],
+                discovered: [],
+                edgesLeadingToNew: [],
+                neighbours: []
+            };
 
             this.dfs.push(current);
-            onPop({ current });
 
             const neighbours = graph[current] || [];
             const neighborIds = neighbours.map(e => e.to);
@@ -62,40 +71,79 @@ export default class DFSAlgorithm extends BaseAlgorithm{
 
             for (const { to } of neighbours) {
 
-                if (shouldStop) break;
+                moment.neighbours.push(to);
 
                 const newEdge = `${current}-${to}`;
-                // if (phase == "first-dfs"){
-                    this.current_edges.push(newEdge);
-                // } else {
-                //     this.current_edges.push(`${to}-${current}`)
-                // }
+                this.current_edges.push(newEdge);
                 this.current_neighbours.push(to);
 
                 onEdges({ current, newEdge });
 
                 if (!this.visited.has(to)) {
+                    moment.discovered.push(to);
+                    moment.edgesLeadingToNew.push(newEdge);
 
-                    this.stack.push(to);
-                    this.visited.add(to);
+                    callStack.push(to);
+                    this.stack = [...callStack];
+
                     onDiscover({ current, to, stop });
-                }
-                
+
+                    dfsVisit(to); 
+                } 
             }
+            onBacktrack({current});
+            // add current to finish order
+
+            callStack.pop();
+            this.stack = [...callStack];
+
+            moment.stackAfter = [...callStack];
+            moment.visitedAfter = [...this.visited];
+
+            moment.stepIndex = this.steps.length + this.stepIndex;
+            moment.type = "backtrack"
+            moment.finishOrder = this.finishOrder || [],
+
+            this.moments.push(moment);
 
             this.current_edges = [];
             this.current_neighbours = [];
+        };
 
-        }
+
+        callStack.push(source);
+        this.stack = [...callStack];
+
+        onInit({ source });
+
+        dfsVisit(source);
+
         onReturn();
 
-        console.log(this.steps)
+        console.log(this.steps);
 
         return this.steps;
     }
 
-    dfsTraversal(source, phase) {
+    addMoment(extra = {}) {
+        this.moments.push({
+            node: extra.current,
+            visited: [...this.visited],
+            stackBefore: [...this.stack.slice(0,-1)],
+            stackAfter: [...this.stack],
+            edges: [...this.current_edges],
+            neighbours: [...this.current_neighbours],
+            stepIndex: this.steps.length + this.stepIndex,
+            finishOrder: this.finishOrder || [],
+            ...extra
+        });
+    }
+    
+
+
+    dfsTraversal(source, phase, step) {
         this.steps = [];
+        this.moments = [];
 
         this._runDFS(source, phase, {
             onInit: ({ source }) => {
@@ -104,10 +152,12 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                     inStack: [...this.stack],
                     visited: [...this.visited]
                 });
+                
             },
 
-            onPop: ({ current }) => {
-                this.addStep(`Pop ${this.getLabel(current)} from stack`, {
+
+            onBacktrack: ({ current }) => {
+                this.addStep(`No more uninspected nodes from ${this.getLabel(current)}`, {
                     current,
                     visited: [...this.visited],
                     inStack: [...this.stack],
@@ -115,13 +165,21 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                 });
             },
 
-            onInspect: ({ current }) => {
+            onInspect: ({ current, neighbours, neighborIds }) => {
                 this.addStep(`Inspect neighbours of ${this.getLabel(current)}`, {
                     current,
                     visited: [...this.visited],
-                    neighbours: [],
+                    neighbours: neighbours,
                     inStack: [...this.stack],
                 });
+                this.addMoment({
+                    type: "discover",
+                    current,
+                    stepIndex: this.steps.length + this.stepIndex,
+                    neighbours: neighborIds
+                    
+                });
+                
             },
 
             onDiscover: ({ current, to }) => {
@@ -132,6 +190,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                     neighbours: [...this.current_neighbours],
                     inStack: [...this.stack],
                 });
+
             },
 
             onEdges: ({ current, newEdge }) => {
@@ -142,6 +201,7 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                     neighbours: [...this.current_neighbours],
                     inStack: [...this.stack],
                 });
+                
             },
 
             onReturn: () => {
@@ -151,20 +211,28 @@ export default class DFSAlgorithm extends BaseAlgorithm{
                     result: this.dfs.join('->'),
                     isFinal: true,
                 });
+                
             }
         });
 
         return this.steps;
     }
     
-    run(params, phase) {
-        const { startNode, targetNode, task } = params;
-
+    run(params, phase, stepIndex) {
+        this.stepIndex = stepIndex
+        const { startNode, targetNode, task, finishOrder } = params;
+        if (finishOrder) {
+            this.finishOrder = finishOrder;
+        }
         return this.dfsTraversal(startNode, phase);
     }
 
     getResult() {
         return this.dfs;
+    }
+
+    getMoments() {
+        return this.moments
     }
 
 

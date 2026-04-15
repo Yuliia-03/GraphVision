@@ -44,10 +44,7 @@ export default class DFSRunner {
         let shouldStop = false;
         const stop = () => (shouldStop = true);
 
-        // init
         this.stack.push(source);
-
-        // if (externalVisited.has(source)) return;
 
         this.visited.add(source);
         console.log("dfs")
@@ -90,7 +87,6 @@ export default class DFSRunner {
 
                     this.visited.add(to);
 
-                    // track discoveries
                     moment.discovered.push(to);
                     moment.edgesLeadingToNew.push(edge);
 

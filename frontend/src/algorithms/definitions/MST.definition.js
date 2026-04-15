@@ -1,5 +1,4 @@
 import MSTAdapter from "../../components/graphPanel/visualizationLogic/algoRules/MST/MSTAdapter"
-// import MSTAlgorithm from "../MST/mstAlgorithm"
 import MSTAlgorithm from "../MST/MST"
 import MSTDataVisualization from "../../components/controlsPanel/dataContainers/MSTData"
 import MSTControls from "../../components/controlsPanel/subtaskControls/MST_Controls"

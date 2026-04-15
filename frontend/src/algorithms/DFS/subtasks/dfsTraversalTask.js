@@ -18,7 +18,6 @@ export class DFSTraversalTask {
 
         runner.on("discover", ({ current, to }) => {
             this.parent[to] = current;
-            // console.log(to, current)
         });
         runner.on("visited", ({ current, to }) => {
             this.parent[to] = current;

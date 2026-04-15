@@ -61,16 +61,6 @@ export default class MSTAlgorithm extends BaseAlgorithm{
         return this.idToLabel[id] || id;
     }
 
-    // const edgeIdsToLabels = (edges) => edges?.map(edge => {
-    //     if (typeof edge === "string" && edge.includes("-")) {
-    //         const [fromId, toId] = edge.split("-");
-    //         const fromLabel = idToLabel[fromId] ?? fromId;
-    //         const toLabel = idToLabel[toId] ?? toId;
-    //         return `${fromLabel}-${toLabel}`;
-    //     }
-    //     return edge;
-    // });
-
     kruskals() {
     const uf = new DisjointSet(this.nodes.map(n => n.data.id));
     this.inQueue = this.edges.sort((a, b) => a.data.weight - b.data.weight).map(e=> e.data);
