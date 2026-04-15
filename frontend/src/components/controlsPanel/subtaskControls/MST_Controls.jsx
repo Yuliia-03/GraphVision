@@ -12,7 +12,7 @@ export default function MSTControls({mode = "explore" }) {
     return (
         <div className="algo-controls">
             <div className="config-panel">
-                <h3 className="config-title">MST</h3>
+                <h3 className="config-title">Minimum Spanning Tree</h3>
 
                 <div className="config-row">
                     <SelectTask
