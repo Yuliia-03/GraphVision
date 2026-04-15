@@ -17,6 +17,7 @@ export default function GraphLoading({ fetchGraphs, onClose }) {
                 id: edge.data.id,
                 source: edge.data.source,
                 target: edge.data.target,
+                weight: edge.data.weight
             },
         }));
     };
