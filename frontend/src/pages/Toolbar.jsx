@@ -40,18 +40,29 @@ export default function Toolbar() {
     return (
         <>
             <header className={`toolbar ${theme}`}>
-            <div className="toolbar-left">
-                <a className="logo" href="/">AlgoViz</a>
-            </div>
+                <div className="toolbar-left">
+                    <a className="logo" href="/">AlgoViz</a>
+                </div>
 
-            <div className="toolbar-right" ref={menuRef}>
+                <div className="toolbar-right" ref={menuRef}>
 
-                <button
-                    className="theme-toggle-global"
-                    onClick={toggleTheme}
-                >
-                    {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
-                </button>
+                    <div className="theme-switch">
+                        <span className="theme-label">
+                            {theme === "dark" ? "Dark mode" : "Light mode"}
+                        </span>
+
+                        <input
+                            type="checkbox"
+                            id="theme-toggle"
+                            checked={theme === "dark"}
+                            onChange={toggleTheme}
+                        />
+
+                        <label htmlFor="theme-toggle" className="switch">
+                            <span className="theme-slider" />
+                        </label>
+                    </div>
+
                     {isAuth ? (
                         <div className="profile-wrapper">
                             <button onClick={goToSavedGraphs}>📊 Saved Graphs</button>
