@@ -15,16 +15,15 @@ export default function SCC_DataVisualization({ step }) {
     return (
         <div id="data-panel" className="bfs-data-panel">
 
-            {/* Action & Current Node */}
             <div className="block">
                 <p>Action: {step.message || ""}</p>
-                <p>Current: {getLabel(step.current) || ""}</p>
+                { step.current && <p>Current: {getLabel(step.current) || ""}</p>}
             </div>
 
             {/* Stack */}
             {step.inStack && (
                 <div className="block">
-                    <p>Stack</p>
+                    {step.phase === "firstDFS" ? <p>Stack</p> : <p>New component</p> }
                     <div className="node-list queue">
                         {mapLabels(step.inStack).map((node, i) => (
                             <span
@@ -58,6 +57,19 @@ export default function SCC_DataVisualization({ step }) {
                     <p>Finish time</p>
                     <div className="node-list visited">
                         {mapLabels(step.finishOrder).map(node => (
+                            <span key={node} className="node-chip visited">
+                                {node}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {step.phase === "secondDFS" && step.remainingOrder && (
+                <div className="block">
+                    <p>Remaining order</p>
+                    <div className="node-list visited">
+                        {mapLabels(step.remainingOrder).map(node => (
                             <span key={node} className="node-chip visited">
                                 {node}
                             </span>

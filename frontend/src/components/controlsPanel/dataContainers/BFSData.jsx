@@ -26,6 +26,7 @@ export default function BFSDataVisualization({step}) {
                     <div className="block">
                         <p>Queue</p>
                         <div className="node-list queue">
+                            {step.inQueue.length > 0 && <span>Front → </span>}
                             {mapLabels(step.inQueue).map((node, i) => (
                                 <span key={node}
                                     className={`node-chip ${i === 0 ? "front" : ""}`}>

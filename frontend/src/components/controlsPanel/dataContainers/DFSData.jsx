@@ -30,7 +30,9 @@ export default function DFSDataVisualization({step}) {
                                     className={`node-chip ${i == step.inStack.length - 1 ? "front" : ""}`}>
                                     {node}
                                 </span>
+                                
                             ))}
+                            {step.inStack.length > 0 && <span> ← Top </span>}
                         </div>
                     </div>
                     <div className="block">

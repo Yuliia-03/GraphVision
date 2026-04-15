@@ -12,7 +12,8 @@ export function ButtonPanel({params= {}, mode = "explore"}){
 
     const { nodes, edges, graphConfig, cyRef, algorithm, setNodes } = useGraph();
     const algoDef = AlgorithmDefinition[algorithm];
-const { theme } = useTheme();
+    const stopRef = useRef(false);
+    const { theme } = useTheme();
     const [steps, setSteps] = useState([]);
     const [stepIndex, setStepIndex] = useState(0);
     const visualizer = useRef(null);
@@ -24,6 +25,17 @@ const { theme } = useTheme();
     const isInteractive = mode === "interactive"
     const [questions, setQuestions] = useState([])
     const [activeQuestion, setActiveQuestion] = useState(null)
+
+    useEffect(() => {
+        reset();
+        if (!visualizer.current) {
+            visualizer.current = new AlgorithmVisualizer(
+                cyRef.current,
+                new algoDef.AdapterClass(),
+                algoDef.id
+            );
+        }
+    }, [theme]);
 
 
     useEffect(() => {
@@ -41,34 +53,40 @@ const { theme } = useTheme();
     }, [stepIndex, steps]);
 
     useEffect(() => {
-        if (!playing) return;
-        if (stepIndex >= steps.length) {
-            setPlaying(false);
-            reset();
-            return;
+    if (!playing) return;
+    if (stopRef.current) return;
+
+    if (stepIndex >= steps.length) {
+        setPlaying(false);
+        reset();
+        return;
+    }
+
+    const id = setTimeout(() => {
+
+        if (stopRef.current) return;
+
+        if (isInteractive) {
+            const q = questions.find(q => q.stepIndex === stepIndex);
+            if (q) {
+                setActiveQuestion(q);
+                return;
+            }
         }
 
-        const id = setTimeout(() => {
-            
-            if (isInteractive) {
-                const q = questions.find(q => q.stepIndex === stepIndex)
-                if(q){
-                    setActiveQuestion(q)
-                    return;
-                } 
+        setStepIndex(prev => {
+            if (prev >= steps.length - 1) {
+                setPlaying(false);
+                return prev;
             }
-            setStepIndex(prev => {
-                if (prev >= steps.length - 1) {
-                    setPlaying(false);
-                    return prev; // stay on last valid step
-                }
-                return prev + 1;
-            });
-        }, 800);
+            return prev + 1;
+        });
 
-        return () => clearTimeout(id);
+    }, 800);
 
-    }, [playing, stepIndex, steps, questions]);
+    return () => clearTimeout(id);
+
+}, [playing, stepIndex, steps, questions]);
 
     useEffect(() => {
         setSteps([]);
@@ -89,6 +107,7 @@ const { theme } = useTheme();
     }, [edges, graphConfig, algorithm, params.task]);
 
     const run = () => {
+        stopRef.current = false;
 
         if (!algoDef) {
             throw new Error(`Algorithm "${algorithm}" not registered`);
@@ -115,6 +134,8 @@ const { theme } = useTheme();
     }
 
     const reset = () => {
+        stopRef.current = true;
+        setPlaying(false);
         setActiveQuestion(null);
         setSteps([]);
         setStepIndex(0);
@@ -122,6 +143,7 @@ const { theme } = useTheme();
         if (isInteractive){
             setQuestions([]);
         }
+
         visualizer.current = null;
 
         if (!cyRef.current) return;
@@ -130,6 +152,7 @@ const { theme } = useTheme();
         cyRef.current.nodes().forEach(node => {
             node.classes("sandbox-node");
         });
+
         cyRef.current.edges().forEach(edge => {
             edge.classes("edge");
 
@@ -152,7 +175,6 @@ const { theme } = useTheme();
                 return;
             }
         }
-        //setStepIndex(i => Math.min(i + 1, steps.length - 1));
         setStepIndex(nextStep);
     }
     const prev = () => {
@@ -185,7 +207,6 @@ const { theme } = useTheme();
                         if (steps.length === 0 || stepIndex === steps.length-1) {
                             run(); 
                         } 
-                        //console.log(!steps);
                         setPlaying(p => !p)
                     }}
                     disabled={!canExecute}
@@ -202,7 +223,6 @@ const { theme } = useTheme();
                     <button onClick={prev} disabled={stepIndex === 0}>◀ Prev</button>
                 }
                 <button onClick={next} disabled={stepIndex === steps.length - 1 || steps.length == 0}>Next ▶</button>
-                {/* <button onClick={()=>exportAlgorithmPDF(cyRef, algoDef, steps)} disabled={steps.length == 0}>PDF</button> */}
                 {
                     !isInteractive &&
                     <button
@@ -226,6 +246,7 @@ const { theme } = useTheme();
             {activeQuestion && (
                 <QuizModal
                     question={activeQuestion}
+                    step={steps[stepIndex]} 
                     onAnswer={handleAnswer}
                     onClose={() => {
                         setActiveQuestion(null)

@@ -18,7 +18,6 @@ export default function SCC_Controls({mode = "explore" }) {
                         value={params.task}
                         onChange={task => update({ task })}
                         options={[
-                            // { value: "tarajan", label: "Tarjan's Algorithm" },
                             { value: "kosaraju", label: "Kosaraju's Algorithm" }
                         ]}
                     />

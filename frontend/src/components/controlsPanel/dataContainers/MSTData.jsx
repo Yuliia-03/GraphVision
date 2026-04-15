@@ -7,8 +7,6 @@ export default function MSTDataVisualization({step}) {
     const { nodes } = useGraph();
     
     const idToLabel = Object.fromEntries(nodes.map(n => [n.data.id, n.data.label]));
-    // const mapLabels = (arr) => arr.map(id => idToLabel[id] || id);
-    // const getLabel = (id) => idToLabel[id] || id;
     const edgeIdsToLabels = (edges) => edges?.map(edge => {
         if (typeof edge === "string" && edge.includes("-")) {
             const [fromId, toId] = edge.split("-");
