@@ -5,7 +5,7 @@ import BFSControls from "../../components/controlsPanel/subtaskControls/BFS_Cont
 import { bfsStyle } from "../../components/graphPanel/visualizationLogic/visualizationStyle/bfsStyle"
 import  AlgoDataStyle  from "../../pdf/dataStyles/algorithmDataStyle"
 // import BFSExample from "../../components/examples/BFSExample"
-import { bfsQuizConfig } from "../../components/interactivePanel/quizGeneration/BFS/BFSQuizConfig"
+import { bfsQuizConfig } from "../../components/interactivePanel/quizGeneration/BFS/bfsQuizConfig"
 
 export const BFSDefinition = { 
 
