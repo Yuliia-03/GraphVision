@@ -26,7 +26,7 @@ function App() {
             { <Route path="/top" element={<TOPPage />} />  }
             { <Route path="/dag" element={<DAGPage />} />  }
             { <Route path="/scc" element={<SCCPage />} />  }
-            { <Route path="/save_graph" element={<SavedGraphsPage />} />  }
+            { <Route path="/saved_graph" element={<SavedGraphsPage />} />  }
         </Routes>
         </div>
         </div>
